@@ -1,0 +1,31 @@
+:root {
+  /* Typography scale variables для документации Storybook */
+  --text-h1: 68px;
+  --text-h2: 52px;
+  --text-h3: 35px;
+  --text-h4: 20px;
+  --text-base: 15px;
+  
+  /* Font weights для документации */
+  --font-weight-normal: 300;
+  
+  /* Colors для документации (используют переменные из src/styles/theme.css) */
+  --background: var(--surface-primary-main, rgba(255, 255, 255, 1.00));
+  --foreground: var(--content-primary, rgba(0, 0, 0, 1.00));
+  --muted-foreground: rgba(0, 0, 0, 0.60);
+  
+  /* Border radius для документации */
+  --radius: 4px;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'ONY One', sans-serif;
+}
+
+
+html {
+  font-size: 15px;
+  font-family: 'ONY One', sans-serif;
+}

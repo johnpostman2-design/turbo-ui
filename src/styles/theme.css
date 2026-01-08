@@ -1,0 +1,99 @@
+/* CSS переменные из Figma дизайн-системы */
+
+@keyframes loading-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+:root {
+  /* Spacing Variables (из Figma) */
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  
+  /* Legacy spacing для совместимости */
+  --8: var(--spacing-8);
+  --12: var(--spacing-12);
+  --16: var(--spacing-16);
+
+  /* Colors - Content (из Figma: content/*) */
+  --content-invert: #ffffff;
+  --content-primary: #000000;
+  --content-disabled: #00000014; /* rgba(0, 0, 0, 0.08) */
+
+  /* Colors - Surface Primary Inverse (из Figma: surface/primary-invert/*) */
+  --surface-primary-invert-main: #000000;
+  --surface-primary-invert-hover: #00000099; /* rgba(0, 0, 0, 0.6) */
+  --surface-primary-invert-disabled: #0000000a; /* rgba(0, 0, 0, 0.04) */
+
+  /* Colors - Surface Primary (из Figma: surface/primary/*) */
+  --surface-primary-main: #ffffff;
+  --surface-primary-hover: #00000014; /* rgba(0, 0, 0, 0.08) */
+  --surface-primary-disabled: #0000000a; /* rgba(0, 0, 0, 0.04) */
+
+  /* Colors - Surface Secondary (из Figma: surface/secondary/*) */
+  --surface-secondary-disabled: #0000000a; /* rgba(0, 0, 0, 0.04) */
+
+  /* Colors - Border (из Figma: border/*) */
+  --border-secondary: #00000033; /* rgba(0, 0, 0, 0.2) */
+  --border-disabled: #0000000a; /* rgba(0, 0, 0, 0.04) */
+
+  /* Typography - Brand Family (из Figma: family/brand) */
+  --family-brand: 'ONY ONE', sans-serif;
+  
+  /* Typography - Weight (из Figma: weight/regular) */
+  --weight-regular: 400;
+  
+  /* Typography - Font Size (из Figma: font/size/p2) */
+  --font-size-p2: 17px;
+  
+  /* Typography - Line Height (из Figma: font/line-height/p2) */
+  --font-line-height-p2: 24px;
+  
+  /* Typography - Letter Spacing (из Figma: typescale/lable large/tracking) */
+  --typescale-lable-large-tracking: 0;
+
+  /* Typography - Composite Variable Label/large (из Figma) */
+  /* Font(family: "family/brand", style: weight/regular, size: font/size/p2, 
+       weight: 400, lineHeight: font/line-height/p2, 
+       letterSpacing: typescale/lable large/tracking) */
+  --label-large-family: var(--family-brand);
+  --label-large-weight: var(--weight-regular);
+  --label-large-size: var(--font-size-p2);
+  --label-large-line-height: var(--font-line-height-p2);
+  --label-large-letter-spacing: var(--typescale-lable-large-tracking);
+
+  /* Border Radius */
+  --radius: 4px;
+
+  /* Legacy variables для совместимости */
+  --background: var(--surface-primary-main);
+  --foreground: var(--content-primary);
+  --primary: var(--surface-primary-invert-main);
+  --primary-foreground: var(--content-invert);
+  --muted: var(--surface-primary-invert-disabled);
+  --muted-foreground: rgba(0, 0, 0, 0.60);
+  --border: var(--border-secondary);
+  --text-label: var(--font-size-p2);
+}
+
+/* Loading animation для Button компонента - вращение иконки */
+@keyframes loading-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-loading-spin {
+  animation: loading-spin 1s linear infinite;
+}
+
