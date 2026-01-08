@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChartIcon as ChartIconComponent } from '../../components/icons/ChartIcon';
 import { LoadingIcon as LoadingIconComponent } from '../../components/icons/LoadingIcon';
+import './button.css';
 
 interface ButtonProps {
   type?: "primary" | "secondary" | "text" | "backless";

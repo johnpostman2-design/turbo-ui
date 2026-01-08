@@ -1,0 +1,32 @@
+# Button
+
+Компонент кнопки из дизайн-системы с иконками графиков и четырьмя вариантами стилизации: Primary, Secondary, Text, Backless.
+
+## Импорт
+
+```tsx
+import { Button } from 'src/ui/button/Button';
+```
+
+## Использование
+
+```tsx
+<Button type="primary">Button</Button>
+```
+
+## Пропсы
+
+| Проп | Тип | По умолчанию | Описание |
+|------|-----|-------------|----------|
+| type | `"primary" \| "secondary" \| "text" \| "backless"` | `"primary"` | Тип стиля кнопки |
+| state | `"default" \| "hover" \| "disabled" \| "loading"` | `"default"` | Состояние кнопки |
+| size | `"small" \| "medium" \| "large"` | `"medium"` | Размер кнопки |
+| iconL | `boolean` | `true` | Показывать ли иконку слева |
+| iconR | `boolean` | `true` | Показывать ли иконку справа |
+| text | `boolean` | `true` | Показывать ли текст |
+| iconL2 | `React.ReactNode \| null` | `null` | Кастомная иконка слева |
+| iconR2 | `React.ReactNode \| null` | `null` | Кастомная иконка справа |
+| children | `React.ReactNode` | `"Button"` | Текст или содержимое кнопки |
+| onClick | `() => void` | `undefined` | Обработчик клика |
+| className | `string` | `undefined` | Дополнительные CSS классы |
+

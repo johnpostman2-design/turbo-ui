@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '../app/components/Button';
-import { ExampleBlock } from '../components/ExampleBlock';
+import { Button } from './Button';
+import { ExampleBlock } from '../../components/ExampleBlock';
 import { ChevronDown } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -412,6 +412,31 @@ const ButtonDocsPage = () => {
       }}>
         <h1 id="button-title">Button</h1>
       
+      {/* Кнопки Figma и GitHub */}
+      <div style={{ 
+        display: 'flex',
+        gap: '0.5rem',
+        marginBottom: '1.5rem',
+        alignItems: 'center'
+      }}>
+        <Button 
+          type="backless" 
+          iconL={false}
+          iconR={false}
+          onClick={() => window.open('https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo--UI-Demo?node-id=1-8&t=qY6qqTxdmKFUKcCU-11', '_blank', 'noopener,noreferrer')}
+        >
+          Figma
+        </Button>
+        <Button 
+          type="backless" 
+          iconL={false}
+          iconR={false}
+          onClick={() => window.open('https://github.com/johnpostman2-design/turbo-ui/tree/main/src/ui/button', '_blank', 'noopener,noreferrer')}
+        >
+          GitHub
+        </Button>
+      </div>
+      
       <p style={{ 
         marginBottom: '2rem',
         fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
@@ -462,7 +487,7 @@ const ButtonDocsPage = () => {
             PreTag="div"
             useInlineStyles={true}
           >
-            {`import { Button } from 'turbo-ui';`}
+            {`import { Button } from 'src/ui/button/Button';`}
           </SyntaxHighlighter>
         </div>
       </div>
@@ -470,7 +495,9 @@ const ButtonDocsPage = () => {
       {/* Секция Пример Primary кнопки */}
       <div style={{ marginBottom: '3rem' }}>
         <ExampleBlock
-          code={`<Button type="primary">Button</Button>`}
+          code={`import { Button } from 'src/ui/button/Button';
+
+<Button type="primary">Button</Button>`}
         >
           <div style={{ 
             display: 'flex',
@@ -551,7 +578,9 @@ const ButtonDocsPage = () => {
           }}>Backless — кнопка без фона (только обводка)</li>
         </ul>
         <ExampleBlock
-          code={`<Button type="primary">Primary</Button>
+          code={`import { Button } from 'src/ui/button/Button';
+
+<Button type="primary">Primary</Button>
 <Button type="secondary">Secondary</Button>
 <Button type="text">Text</Button>
 <Button type="backless">Backless</Button>`}
@@ -592,7 +621,10 @@ const ButtonDocsPage = () => {
           Кнопки доступны в трех размерах: Small (32px), Medium (40px), Large (56px). Нажмите на кнопку, чтобы увидеть состояние загрузки.
         </p>
         <ExampleBlock
-          code={`const [isLoadingSmall, setIsLoadingSmall] = useState(false);
+          code={`import { useState } from 'react';
+import { Button } from 'src/ui/button/Button';
+
+const [isLoadingSmall, setIsLoadingSmall] = useState(false);
 const [isLoadingMedium, setIsLoadingMedium] = useState(false);
 const [isLoadingLarge, setIsLoadingLarge] = useState(false);
 
@@ -656,7 +688,9 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
           Primary кнопка поддерживает различные комбинации иконок
         </p>
         <ExampleBlock
-          code={`<Button type="primary">С обеими</Button>
+          code={`import { Button } from 'src/ui/button/Button';
+
+<Button type="primary">С обеими</Button>
 <Button type="primary" iconR={false}>Только левая</Button>
 <Button type="primary" iconL={false}>Только правая</Button>
 <Button type="primary" iconL={false} iconR={false}>Без иконок</Button>`}
@@ -697,7 +731,10 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
           При нажатии на любую кнопку все кнопки переходят в состояние loading с анимацией вращающейся иконки. Поддерживаются различные варианты: только иконка, иконка слева + текст, текст + иконка справа, иконка + текст + иконка.
         </p>
         <ExampleBlock
-          code={`const [isLoading, setIsLoading] = useState(false);
+          code={`import { useState } from 'react';
+import { Button } from 'src/ui/button/Button';
+
+const [isLoading, setIsLoading] = useState(false);
 
 const handleButtonClick = () => {
   setIsLoading(true);
@@ -766,7 +803,9 @@ const handleButtonClick = () => {
           Кнопки с атрибутом disabled теряют 50% непрозрачности и не реагируют на клики
         </p>
         <ExampleBlock
-          code={`<Button type="primary" state="disabled">Primary</Button>
+          code={`import { Button } from 'src/ui/button/Button';
+
+<Button type="primary" state="disabled">Primary</Button>
 <Button type="secondary" state="disabled">Secondary</Button>
 <Button type="text" state="disabled">Text</Button>
 <Button type="backless" state="disabled">Backless</Button>`}
