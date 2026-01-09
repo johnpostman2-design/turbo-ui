@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChartIcon as ChartIconComponent } from '../../components/icons/ChartIcon';
 import { LoadingIcon as LoadingIconComponent } from '../../components/icons/LoadingIcon';
+import { getButtonSizeConfig, colors, typography, button } from '../../tokens';
 import './button.css';
 
 interface ButtonProps {
@@ -35,35 +36,8 @@ export function Button({
   const isText = type === "text";
   const isBackless = type === "backless";
   
-  // Размеры из Figma
-  const sizeConfig = {
-    small: { 
-      height: '32px', 
-      paddingX: 'var(--12, 12px)', 
-      paddingY: 'var(--8, 8px)', 
-      iconSize: 16, 
-      fontSize: '14px', 
-      lineHeight: '16px' 
-    },
-    medium: { 
-      height: '40px', 
-      paddingX: 'var(--12, 12px)', 
-      paddingY: 'var(--8, 8px)', 
-      iconSize: 24, 
-      fontSize: 'var(--font-size-p2, 17px)', 
-      lineHeight: 'var(--font-line-height-p2, 24px)' 
-    },
-    large: { 
-      height: '56px', 
-      paddingX: 'var(--16, 16px)', 
-      paddingY: 'var(--12, 12px)', 
-      iconSize: 32, 
-      fontSize: '20px', 
-      lineHeight: '32px' 
-    }
-  };
-  
-  const config = sizeConfig[size];
+  // Размеры из токенов
+  const config = getButtonSizeConfig(size);
 
   const [isHovered, setIsHovered] = React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -98,9 +72,9 @@ export function Button({
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
-      borderRadius: 'var(--radius, 4px)',
+      borderRadius: button.borderRadius,
       cursor: effectiveState === "disabled" ? 'not-allowed' : 'pointer',
-      transition: 'background-color 0.2s ease',
+      transition: button.transition,
       boxSizing: 'border-box',
     };
 
@@ -119,65 +93,65 @@ export function Button({
       }
       // Gap зависит от того, есть ли текст и иконки
       if (!text && !iconL && !iconR) {
-        base.gap = '0px';
+        base.gap = button.gapEmpty;
       } else {
-        base.gap = 'var(--8, 8px)';
+        base.gap = button.gap;
       }
     } else {
-      // Для обычных кнопок: gap из переменных из FIGMA_VARIABLES_ANALYSIS.md
-      base.gap = 'var(--8, 8px)';
+      // Для обычных кнопок: gap из токенов
+      base.gap = button.gap;
     }
 
     if (isPrimary) {
       // Primary кнопки не имеют border
       base.border = 'none';
       if (effectiveState === "default") {
-        base.backgroundColor = 'var(--surface-primary-invert-main)';
+        base.backgroundColor = colors.surface.primaryInvert.main;
       } else if (effectiveState === "hover") {
-        base.backgroundColor = 'var(--surface-primary-invert-hover)';
+        base.backgroundColor = colors.surface.primaryInvert.hover;
       } else if (effectiveState === "disabled") {
-        base.backgroundColor = 'var(--surface-primary-invert-disabled)';
+        base.backgroundColor = colors.surface.primaryInvert.disabled;
       } else if (effectiveState === "loading") {
-        base.backgroundColor = 'var(--surface-primary-invert-main)';
+        base.backgroundColor = colors.surface.primaryInvert.main;
       }
     } else if (isSecondary) {
       if (effectiveState === "default") {
-        base.backgroundColor = 'var(--surface-primary-main)';
-        base.border = '1px solid var(--border-secondary)';
+        base.backgroundColor = colors.surface.primary.main;
+        base.border = `1px solid ${colors.border.secondary}`;
       } else if (effectiveState === "hover") {
-        base.backgroundColor = 'var(--surface-primary-hover)';
-        base.border = '1px solid var(--border-secondary)';
+        base.backgroundColor = colors.surface.primary.hover;
+        base.border = `1px solid ${colors.border.secondary}`;
       } else if (effectiveState === "disabled") {
-        base.backgroundColor = 'var(--surface-secondary-disabled)';
-        base.border = '1px solid var(--border-disabled)';
+        base.backgroundColor = colors.surface.secondary.disabled;
+        base.border = `1px solid ${colors.border.disabled}`;
       } else if (effectiveState === "loading") {
-        base.backgroundColor = 'var(--surface-primary-main)';
-        base.border = '1px solid var(--border-secondary)';
+        base.backgroundColor = colors.surface.primary.main;
+        base.border = `1px solid ${colors.border.secondary}`;
       }
     } else if (isText) {
       // Text кнопки - белый фон без border
       base.border = 'none';
       if (effectiveState === "default") {
-        base.backgroundColor = 'var(--surface-primary-main)';
+        base.backgroundColor = colors.surface.primary.main;
       } else if (effectiveState === "hover") {
-        base.backgroundColor = 'var(--surface-primary-hover)';
+        base.backgroundColor = colors.surface.primary.hover;
       } else if (effectiveState === "disabled") {
-        base.backgroundColor = 'var(--surface-secondary-disabled)';
+        base.backgroundColor = colors.surface.secondary.disabled;
       } else if (effectiveState === "loading") {
-        base.backgroundColor = 'var(--surface-primary-main)';
+        base.backgroundColor = colors.surface.primary.main;
       }
     } else if (isBackless) {
       // Backless кнопки - только border, прозрачный фон
       base.backgroundColor = 'transparent';
       if (effectiveState === "default") {
-        base.border = '1px solid var(--border-secondary)';
+        base.border = `1px solid ${colors.border.secondary}`;
       } else if (effectiveState === "hover") {
-        base.backgroundColor = 'var(--surface-primary-hover)';
-        base.border = '1px solid var(--border-secondary)';
+        base.backgroundColor = colors.surface.primary.hover;
+        base.border = `1px solid ${colors.border.secondary}`;
       } else if (effectiveState === "disabled") {
-        base.border = '1px solid var(--border-disabled)';
+        base.border = `1px solid ${colors.border.disabled}`;
       } else if (effectiveState === "loading") {
-        base.border = '1px solid var(--border-secondary)';
+        base.border = `1px solid ${colors.border.secondary}`;
       }
     }
 
@@ -186,33 +160,33 @@ export function Button({
 
   const getTextStyle = (): React.CSSProperties => {
     const base: React.CSSProperties = {
-      fontFamily: 'var(--family-brand)',
-      fontWeight: 'var(--weight-regular, normal)',
+      fontFamily: typography.family.brand,
+      fontWeight: typography.weight.regular,
       fontSize: config.fontSize,
       lineHeight: config.lineHeight,
-      letterSpacing: 'var(--typescale-lable-large-tracking)',
+      letterSpacing: typography.letterSpacing.labelLarge,
       position: 'relative',
       flexShrink: 0,
       whiteSpace: 'nowrap',
     };
 
     if (effectiveState === "disabled") {
-      base.color = 'var(--content-disabled)';
+      base.color = colors.content.disabled;
     } else if (isPrimary) {
-      base.color = 'var(--content-invert)';
+      base.color = colors.content.invert;
     } else {
       // Secondary, Text, Backless - все используют primary цвет текста
-      base.color = 'var(--content-primary)';
+      base.color = colors.content.primary;
     }
 
     return base;
   };
 
   const getIconStroke = () => {
-    if (effectiveState === "disabled") return "var(--content-disabled)";
-    if (isPrimary) return "var(--content-invert)";
+    if (effectiveState === "disabled") return colors.content.disabled;
+    if (isPrimary) return colors.content.invert;
     // Secondary, Text, Backless - все используют primary цвет иконки
-    return "var(--content-primary)";
+    return colors.content.primary;
   };
 
   const showDefaultOrHover = (effectiveState === "default" || effectiveState === "hover");
