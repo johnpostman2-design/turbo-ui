@@ -10,8 +10,7 @@ src/
 │   └── button/            # Button component
 │       ├── Button.tsx
 │       ├── button.css
-│       ├── Button.stories.tsx
-│       └── README.mdx
+│       └── Button.stories.tsx
 ├── tokens/                # Design tokens — Single Source of Truth
 │   ├── tokens.json
 │   ├── tokens.ts

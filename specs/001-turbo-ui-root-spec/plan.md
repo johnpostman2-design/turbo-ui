@@ -55,8 +55,7 @@ src/
 ├── ui/button/           # Button component
 │   ├── Button.tsx
 │   ├── button.css
-│   ├── Button.stories.tsx
-│   └── README.mdx
+│   └── Button.stories.tsx
 ├── tokens/
 │   ├── tokens.json      # Single Source of Truth
 │   ├── tokens.ts        # Runtime API для токенов
