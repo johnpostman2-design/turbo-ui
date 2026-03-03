@@ -130,7 +130,7 @@ if (typeof document !== 'undefined') {
     .sbdocs-p p,
     .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
     .sbdocs-content span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]),
-    .sbdocs-content div:not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *),
+    .sbdocs-content div:not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label),
     .sbdocs-wrapper p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
     .sbdocs-wrapper span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]),
     .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
@@ -141,6 +141,16 @@ if (typeof document !== 'undefined') {
       line-height: 1.5 !important;
       color: #000000 !important;
       margin-top: 0 !important; /* Убираем верхний margin (было 16px по умолчанию) */
+    }
+    
+    /* Стили для заголовков в карточках цветов */
+    .color-swatch-label {
+      font-family: 'ONY ONE', sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      color: #9F9F9F !important;
+      line-height: 16px !important;
+      margin-bottom: 2.67px !important;
     }
     
     /* Защита текста внутри кнопок от глобальных стилей */

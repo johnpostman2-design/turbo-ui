@@ -1,9 +1,12 @@
 {
   "name": "turbo-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "gen:theme": "node scripts/gen-theme-css.cjs",
+    "prebuild": "npm run gen:theme",
+    "prebuild-storybook": "npm run gen:theme",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

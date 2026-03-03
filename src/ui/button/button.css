@@ -1,4 +1,99 @@
-/* Button component styles */
-/* Styles are currently defined inline in the component */
-/* This file is reserved for future CSS additions if needed */
+/* Button: стили только через CSS-переменные из theme-vars (tokens.json). */
 
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  transition: var(--button-transition);
+}
+
+/* Size: подставляются переменные из theme-vars */
+.btn--small {
+  min-height: var(--button-small-height);
+  height: var(--button-small-height);
+  padding: var(--button-small-padding-y) var(--button-small-padding-x);
+  gap: var(--button-gap);
+}
+.btn--small .btn__text {
+  font-size: var(--button-small-font-size);
+  line-height: var(--button-small-line-height);
+}
+
+.btn--medium {
+  min-height: var(--button-medium-height);
+  height: var(--button-medium-height);
+  padding: var(--button-medium-padding-y) var(--button-medium-padding-x);
+  gap: var(--button-gap);
+}
+.btn--medium .btn__text {
+  font-size: var(--button-medium-font-size);
+  line-height: var(--button-medium-line-height);
+}
+
+.btn--large {
+  min-height: var(--button-large-height);
+  height: var(--button-large-height);
+  padding: var(--button-large-padding-y) var(--button-large-padding-x);
+  gap: var(--button-gap);
+}
+.btn--large .btn__text {
+  font-size: var(--button-large-font-size);
+  line-height: var(--button-large-line-height);
+}
+
+.btn--gap-empty { gap: var(--button-gap-empty); }
+
+/* Base layout */
+.btn__text {
+  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-family: var(--family-brand), sans-serif;
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--typescale-lable-large-tracking);
+}
+
+/* Type: primary */
+.btn--primary {
+  border-radius: var(--button-border-radius);
+  background-color: var(--surface-primary-invert-main);
+  color: var(--content-invert);
+}
+.btn--primary:hover:not(:disabled) { background-color: var(--surface-primary-invert-hover); }
+.btn--primary:disabled { background-color: var(--surface-primary-invert-disabled); color: var(--content-disabled); }
+
+/* Type: secondary */
+.btn--secondary {
+  border-radius: var(--button-border-radius);
+  background-color: var(--surface-primary-main);
+  border: 1px solid var(--border-secondary);
+  color: var(--content-primary);
+}
+.btn--secondary:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
+.btn--secondary:disabled { background-color: var(--surface-secondary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+
+/* Type: text */
+.btn--text {
+  border-radius: var(--button-border-radius);
+  background-color: var(--surface-primary-main);
+  color: var(--content-primary);
+}
+.btn--text:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
+.btn--text:disabled { background-color: var(--surface-secondary-disabled); color: var(--content-disabled); }
+
+/* Type: backless */
+.btn--backless {
+  border-radius: var(--button-border-radius);
+  background-color: transparent;
+  border: 1px solid var(--border-secondary);
+  color: var(--content-primary);
+}
+.btn--backless:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
+.btn--backless:disabled { border-color: var(--border-disabled); color: var(--content-disabled); }
+
+/* Loading: фиксированная ширина только при заданной переменной (layout, не дизайн) */
+.btn--loading { width: var(--btn-width, auto); }
