@@ -1,9 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Icon, iconNames } from '../components/icons';
-import { LoadingIcon } from '../components/icons/LoadingIcon';
-import { ChartIcon } from '../components/icons/ChartIcon';
-import { CloudIcon } from '../components/icons/CloudIcon';
 
 const meta: Meta<typeof Icon> = {
   title: 'Components/Icons',
@@ -133,52 +130,4 @@ export const Default: Story = {
     color: 'currentColor',
     state: 'default',
   },
-};
-
-export const LegacyIcons: Story = {
-  render: () => (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-        gap: '2rem',
-        padding: '2rem',
-      }}
-    >
-      {[
-        { name: 'Chart', component: <ChartIcon stroke="#000" size={24} /> },
-        { name: 'Cloud', component: <CloudIcon stroke="#000" size={24} /> },
-        { name: 'Loading', component: <LoadingIcon stroke="#000" size={24} /> },
-      ].map(({ name, component }) => (
-        <div
-          key={name}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1rem',
-            padding: '1.5rem',
-            border: '1px solid var(--border-tertiary, #e0e0e0)',
-            borderRadius: '8px',
-            background: '#fff',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 64,
-              height: 64,
-              background: 'var(--surface-secondary, #f5f5f5)',
-              borderRadius: 8,
-            }}
-          >
-            {component}
-          </div>
-          <span style={{ fontFamily: 'var(--family-brand)', fontSize: 14 }}>{name}</span>
-        </div>
-      ))}
-    </div>
-  ),
 };
