@@ -6,8 +6,8 @@
   /* Заголовки Docs = типы из проекта */
   --text-h1: var(--typescale-display-large-size);
   --text-h1-height: var(--typescale-display-large-height);
-  --text-h2: var(--typescale-headline-large-size);
-  --text-h2-height: var(--typescale-headline-large-height);
+  --text-h2: var(--typescale-title-large-size);
+  --text-h2-height: var(--typescale-title-large-height);
   --text-h3: var(--typescale-title-large-size);
   --text-h3-height: var(--typescale-title-large-height);
   --text-h4: var(--typescale-body-large-size);

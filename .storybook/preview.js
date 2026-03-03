@@ -105,24 +105,24 @@ if (typeof document !== 'undefined') {
       font-size: var(--text-h2) !important;
       line-height: var(--text-h2-height) !important;
       margin-top: var(--spacing-32) !important;
-      margin-bottom: var(--spacing-4) !important;
+      margin-bottom: calc(1.5 * var(--spacing-4)) !important;
     }
     
     .sbdocs-h3, .sbdocs-content h3 {
       font-size: var(--text-h3) !important;
       line-height: var(--text-h3-height) !important;
       margin-top: var(--spacing-24) !important;
-      margin-bottom: var(--spacing-12) !important;
+      margin-bottom: calc(1.5 * var(--spacing-12)) !important;
     }
     
     .sbdocs-h4, .sbdocs-content h4 {
       font-size: var(--text-h4) !important;
       line-height: var(--text-h4-height) !important;
       margin-top: var(--spacing-16) !important;
-      margin-bottom: var(--spacing-8) !important;
+      margin-bottom: calc(1.5 * var(--spacing-8)) !important;
     }
     
-    /* Параграфы и все текстовые элементы в Docs (исключая кнопки и код с подсветкой) */
+    /* Параграфы и описательный текст в Docs — Label/small */
     .sbdocs-p,
     .sbdocs-p p,
     .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
@@ -133,11 +133,28 @@ if (typeof document !== 'undefined') {
     .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
     .docs-story span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell) {
       font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
-      font-size: var(--text-base) !important;
-      line-height: var(--text-base-height) !important;
-      font-weight: var(--weight-regular) !important;
+      font-size: var(--typescale-lable-small-size) !important;
+      line-height: var(--typescale-lable-small-height) !important;
+      font-weight: var(--typescale-lable-small-weight) !important;
       color: var(--content-primary) !important;
       margin-top: 0 !important;
+    }
+    
+    /* Списки в Docs — Label/small */
+    .sbdocs-content ul,
+    .sbdocs-content ol,
+    .sbdocs-content li,
+    .sbdocs-wrapper ul,
+    .sbdocs-wrapper ol,
+    .sbdocs-wrapper li,
+    .docs-story ul,
+    .docs-story ol,
+    .docs-story li {
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--typescale-lable-small-size) !important;
+      line-height: var(--typescale-lable-small-height) !important;
+      font-weight: var(--typescale-lable-small-weight) !important;
+      color: var(--content-primary) !important;
     }
     
     /* Пилюли типографики: caption-medium, content-tertiary */
@@ -229,6 +246,17 @@ if (typeof document !== 'undefined') {
     /* Показываем меню документации всегда */
     .button-docs-menu {
       display: block !important;
+    }
+    
+    /* Оглавление справа — Label/small */
+    .button-docs-menu,
+    .button-docs-menu a,
+    .button-docs-menu li {
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--typescale-lable-small-size) !important;
+      line-height: var(--typescale-lable-small-height) !important;
+      font-weight: var(--typescale-lable-small-weight) !important;
+      color: var(--content-primary) !important;
     }
   `;
   document.head.appendChild(style);
