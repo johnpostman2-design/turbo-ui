@@ -1,6 +1,5 @@
 import React from 'react';
-import { ChartIcon as ChartIconComponent } from '../../components/icons/ChartIcon';
-import { LoadingIcon as LoadingIconComponent } from '../../components/icons/LoadingIcon';
+import { Icon } from '../../components/icons/Icon';
 import { getButtonSizeConfig, colors } from '../../tokens';
 import { clsx } from 'clsx';
 import './button.css';
@@ -101,32 +100,42 @@ export function Button({
     >
       {showDefaultOrHover && (
         <>
-          {iconL && (iconL2 ?? <ChartIconComponent stroke={getIconStroke()} disabled={false} size={config.iconSize} />)}
+          {iconL && (iconL2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="default" />)}
           {text && <span className="btn__text">{children}</span>}
-          {iconR && (iconR2 ?? <ChartIconComponent stroke={getIconStroke()} disabled={false} size={config.iconSize} />)}
+          {iconR && (iconR2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="default" />)}
         </>
       )}
       {showLoading && (
         loadingHasTextOrRightIcon ? (
           <>
-            {iconL && <LoadingIconComponent key="loading-l" stroke={getLoadingIconStroke()} size={config.iconSize} />}
+            {iconL && (
+              <span key="loading-l" className="btn__loading-spinner animate-loading-spin">
+                <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
+              </span>
+            )}
             {text && <span key="loading-text" className="btn__text">{children}</span>}
             {iconR && iconL && (
               <span key="loading-right-icon" className="btn__loading-right">
-                {iconR2 ?? <ChartIconComponent stroke={getLoadingIconStroke()} disabled={false} size={config.iconSize} />}
+                {iconR2 ?? <Icon name="chart" color={getLoadingIconStroke()} size={config.iconSize} state="default" />}
               </span>
             )}
-            {iconR && !iconL && <LoadingIconComponent key="loading-r" stroke={getLoadingIconStroke()} size={config.iconSize} />}
+            {iconR && !iconL && (
+              <span key="loading-r" className="btn__loading-spinner animate-loading-spin">
+                <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
+              </span>
+            )}
           </>
         ) : (
-          <LoadingIconComponent stroke={getLoadingIconStroke()} size={config.iconSize} />
+          <span className="btn__loading-spinner animate-loading-spin">
+            <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
+          </span>
         )
       )}
       {showDisabled && (
         <>
-          {iconL && (iconL2 ?? <ChartIconComponent stroke={getIconStroke()} disabled size={config.iconSize} />)}
+          {iconL && (iconL2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
           {text && <span className="btn__text">{children}</span>}
-          {iconR && (iconR2 ?? <ChartIconComponent stroke={getIconStroke()} disabled size={config.iconSize} />)}
+          {iconR && (iconR2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
         </>
       )}
     </button>
