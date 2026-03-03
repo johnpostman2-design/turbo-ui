@@ -175,19 +175,6 @@ export const ColorsDisplay: React.FC = () => {
       >
         Colors
       </h1>
-      <h2
-        style={{
-          fontFamily: getVar('family-brand'),
-          fontSize: getVar('typescale-title-large-size'),
-          lineHeight: getVar('typescale-title-large-height'),
-          fontWeight: getVar('weight-regular'),
-          color: getVar('content-primary'),
-          marginBottom: getVar('spacing-24'),
-          marginTop: getVar('spacing-32'),
-        }}
-      >
-        Tokens
-      </h2>
       <ColorSubgroup title="Surface" tokens={tokensByType.surface} />
       <ColorSubgroup title="Content" tokens={tokensByType.content} />
       <ColorSubgroup title="Border" tokens={tokensByType.border} />
