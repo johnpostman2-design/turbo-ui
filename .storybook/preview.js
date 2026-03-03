@@ -44,10 +44,10 @@ export default preview;
 if (typeof document !== 'undefined') {
   const style = document.createElement('style');
   style.innerHTML = `
-    /* Основные контейнеры */
+    /* Основные контейнеры — типографика из токенов проекта */
     .sbdocs-wrapper,
     .sbdocs-content {
-      font-family: 'ONY ONE', sans-serif !important;
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
       background: var(--background) !important;
       color: var(--foreground) !important;
     }
@@ -79,7 +79,7 @@ if (typeof document !== 'undefined') {
       }
     }
     
-    /* Заголовки */
+    /* Заголовки Docs — Display/Headline/Title/Body из токенов */
     .sbdocs-h1,
     .sbdocs-h2,
     .sbdocs-h3,
@@ -88,69 +88,93 @@ if (typeof document !== 'undefined') {
     .sbdocs-content h2,
     .sbdocs-content h3,
     .sbdocs-content h4 {
-      font-family: 'ONY ONE', sans-serif !important;
-      color: #000000 !important;
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+      color: var(--content-primary) !important;
       text-decoration: none !important;
       border-bottom: none !important;
+      font-weight: var(--weight-regular) !important;
     }
     
-    .sbdocs-h1 {
+    .sbdocs-h1, .sbdocs-content h1 {
       font-size: var(--text-h1) !important;
-      font-weight: var(--font-weight-normal) !important;
-      line-height: 1.5 !important;
-      margin-bottom: 1.5rem !important;
+      line-height: var(--text-h1-height) !important;
+      margin-bottom: var(--spacing-24) !important;
     }
     
-    .sbdocs-h2 {
+    .sbdocs-h2, .sbdocs-content h2 {
       font-size: var(--text-h2) !important;
-      font-weight: var(--font-weight-normal) !important;
-      line-height: 1.5 !important;
-      margin-top: 2rem !important;
-      margin-bottom: 0.25rem !important; /* 4px вместо 10px (0.67rem) */
+      line-height: var(--text-h2-height) !important;
+      margin-top: var(--spacing-32) !important;
+      margin-bottom: var(--spacing-4) !important;
     }
     
-    .sbdocs-h3 {
+    .sbdocs-h3, .sbdocs-content h3 {
       font-size: var(--text-h3) !important;
-      font-weight: var(--font-weight-normal) !important;
-      line-height: 1.5 !important;
-      margin-top: 1.5rem !important;
-      margin-bottom: 0.75rem !important;
+      line-height: var(--text-h3-height) !important;
+      margin-top: var(--spacing-24) !important;
+      margin-bottom: var(--spacing-12) !important;
     }
     
-    .sbdocs-h4 {
+    .sbdocs-h4, .sbdocs-content h4 {
       font-size: var(--text-h4) !important;
-      font-weight: var(--font-weight-normal) !important;
-      line-height: 1.5 !important;
-      margin-top: 1rem !important;
-      margin-bottom: 0.5rem !important;
+      line-height: var(--text-h4-height) !important;
+      margin-top: var(--spacing-16) !important;
+      margin-bottom: var(--spacing-8) !important;
     }
     
     /* Параграфы и все текстовые элементы в Docs (исключая кнопки и код с подсветкой) */
     .sbdocs-p,
     .sbdocs-p p,
     .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
-    .sbdocs-content span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]),
-    .sbdocs-content div:not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label),
+    .sbdocs-content span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell),
+    .sbdocs-content div:not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label):not(.typography-sample-text):not(.colors-table-header):not(.colors-table-row),
     .sbdocs-wrapper p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
-    .sbdocs-wrapper span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]),
+    .sbdocs-wrapper span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell),
     .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *),
-    .docs-story span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]) {
-      font-family: 'ONY ONE', sans-serif !important;
+    .docs-story span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell) {
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--text-base) !important;
-      font-weight: var(--font-weight-normal) !important;
-      line-height: 1.5 !important;
-      color: #000000 !important;
-      margin-top: 0 !important; /* Убираем верхний margin (было 16px по умолчанию) */
+      line-height: var(--text-base-height) !important;
+      font-weight: var(--weight-regular) !important;
+      color: var(--content-primary) !important;
+      margin-top: 0 !important;
+    }
+    
+    /* Пилюли типографики: caption-medium, content-tertiary */
+    .typography-pill {
+      font-family: var(--family-brand) !important;
+      font-size: var(--typescale-caption-medium-size) !important;
+      line-height: var(--typescale-caption-medium-height) !important;
+      color: var(--content-tertiary) !important;
+      font-weight: var(--weight-regular) !important;
+    }
+    
+    /* Таблица Colors: шапка — content-tertiary, строки — content-primary (ID для приоритета над глобальными стилями) */
+    #colors-docs-root .colors-table-header-cell,
+    #colors-docs-root .colors-table-header span {
+      color: var(--content-tertiary) !important;
+      font-family: var(--family-brand) !important;
+      font-size: var(--typescale-lable-small-size) !important;
+      line-height: var(--typescale-lable-small-height) !important;
+      font-weight: var(--weight-regular) !important;
+    }
+    #colors-docs-root .colors-table-row-cell,
+    #colors-docs-root .colors-table-row span {
+      color: var(--content-primary) !important;
+      font-family: var(--family-brand) !important;
+      font-size: var(--typescale-lable-small-size) !important;
+      line-height: var(--typescale-lable-small-height) !important;
+      font-weight: var(--weight-regular) !important;
     }
     
     /* Стили для заголовков в карточках цветов */
     .color-swatch-label {
-      font-family: 'ONY ONE', sans-serif !important;
-      font-size: 12px !important;
-      font-weight: 700 !important;
-      color: #9F9F9F !important;
-      line-height: 16px !important;
-      margin-bottom: 2.67px !important;
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--typescale-caption-medium-size) !important;
+      line-height: var(--typescale-caption-medium-height) !important;
+      font-weight: var(--weight-regular) !important;
+      color: var(--content-tertiary) !important;
+      margin-bottom: var(--spacing-4) !important;
     }
     
     /* Защита текста внутри кнопок от глобальных стилей */

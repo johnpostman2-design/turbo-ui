@@ -1,31 +1,42 @@
+/**
+ * Типографика и цвета Storybook Docs — только из токенов проекта (theme-vars.css).
+ * Загружается после theme.css, поэтому переменные --typescale-* уже доступны.
+ */
 :root {
-  /* Typography scale variables для документации Storybook */
-  --text-h1: 68px;
-  --text-h2: 52px;
-  --text-h3: 35px;
-  --text-h4: 20px;
-  --text-base: 15px;
-  
-  /* Font weights для документации */
-  --font-weight-normal: 300;
-  
-  /* Colors для документации (используют переменные из src/styles/theme.css) */
-  --background: var(--surface-primary-main, rgba(255, 255, 255, 1.00));
-  --foreground: var(--content-primary, rgba(0, 0, 0, 1.00));
-  --muted-foreground: rgba(0, 0, 0, 0.60);
-  
-  /* Border radius для документации */
-  --radius: 4px;
+  /* Заголовки Docs = типы из проекта */
+  --text-h1: var(--typescale-display-large-size);
+  --text-h1-height: var(--typescale-display-large-height);
+  --text-h2: var(--typescale-headline-large-size);
+  --text-h2-height: var(--typescale-headline-large-height);
+  --text-h3: var(--typescale-title-large-size);
+  --text-h3-height: var(--typescale-title-large-height);
+  --text-h4: var(--typescale-body-large-size);
+  --text-h4-height: var(--typescale-body-large-height);
+
+  /* Основной текст Docs = Body/large */
+  --text-base: var(--typescale-body-large-size);
+  --text-base-height: var(--typescale-body-large-height);
+
+  /* Начертание = из токенов */
+  --font-weight-normal: var(--weight-regular);
+
+  /* Фон и текст = семантика из theme.css */
+  --background: var(--surface-primary-main);
+  --foreground: var(--content-primary);
+  --muted-foreground: var(--content-secondary);
+  --radius: var(--round-s);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: 'ONY One', sans-serif;
+  font-family: var(--family-brand), 'ONY One', sans-serif;
+  font-size: var(--text-base);
+  line-height: var(--text-base-height);
+  font-weight: var(--font-weight-normal);
 }
 
-
 html {
-  font-size: 15px;
-  font-family: 'ONY One', sans-serif;
+  font-size: 16px;
+  font-family: var(--family-brand), 'ONY One', sans-serif;
 }
