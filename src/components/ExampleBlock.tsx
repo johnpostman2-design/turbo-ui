@@ -25,12 +25,15 @@ interface ExampleBlockProps {
   children: React.ReactNode;
   code: string;
   title?: string;
+  /** Чтобы контент превью не обрезался (например, кнопки с иконкой справа в loading) */
+  previewOverflow?: 'visible' | 'hidden';
 }
 
 export const ExampleBlock: React.FC<ExampleBlockProps> = ({ 
   children, 
   code,
-  title 
+  title,
+  previewOverflow = 'hidden'
 }) => {
   const [isCodeOpen, setIsCodeOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -59,7 +62,7 @@ export const ExampleBlock: React.FC<ExampleBlockProps> = ({
       <div style={{
         border: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))',
         borderRadius: 'calc(var(--radius, 4px) + 2px)',
-        overflow: 'hidden'
+        overflow: previewOverflow
       }}>
         {/* Превью компонента */}
         <div style={{

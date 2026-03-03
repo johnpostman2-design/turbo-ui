@@ -6,7 +6,7 @@ import { clsx } from 'clsx';
 import './button.css';
 
 interface ButtonProps {
-  type?: 'primary' | 'secondary' | 'text' | 'backless';
+  type?: 'primary' | 'secondary' | 'text' | 'backless' | 'success' | 'danger' | 'caution';
   state?: 'default' | 'hover' | 'disabled' | 'loading';
   size?: 'small' | 'medium' | 'large';
   iconL?: boolean;
@@ -35,11 +35,11 @@ export function Button({
   const config = getButtonSizeConfig(size);
   const [isHovered, setIsHovered] = React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const [buttonWidth, setButtonWidth] = React.useState<number | null>(null);
+  const widthWhenDefaultRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
-    if (buttonRef.current && (state === 'default' || state === 'hover')) {
-      setButtonWidth(buttonRef.current.offsetWidth);
+    if ((state === 'default' || state === 'hover') && buttonRef.current) {
+      widthWhenDefaultRef.current = buttonRef.current.offsetWidth;
     }
   }, [state, children, iconL, iconR, text]);
 
@@ -56,12 +56,22 @@ export function Button({
   const getIconStroke = () => {
     if (effectiveState === 'disabled') return colors.content.disabled;
     if (type === 'primary') return colors.content.invert;
+    if (type === 'success') return colors.content.success;
+    if (type === 'danger') return colors.content.error;
+    if (type === 'caution') return colors.content.caution;
     return colors.content.primary;
+  };
+
+  /** Цвет иконки загрузки: наследует disabled-стиль типа; если у типа нет disabled — default */
+  const getLoadingIconStroke = () => {
+    return colors.content.disabled;
   };
 
   const showDefaultOrHover = effectiveState === 'default' || effectiveState === 'hover';
   const showLoading = effectiveState === 'loading';
   const showDisabled = effectiveState === 'disabled';
+
+  const loadingHasTextOrRightIcon = text && (iconL || iconR);
 
   const buttonClassName = clsx(
     'btn',
@@ -72,8 +82,8 @@ export function Button({
     className
   );
 
-  const inlineVars = isLoading && buttonWidth != null
-    ? { ['--btn-width' as string]: `${buttonWidth}px` }
+  const loadingStyle = isLoading && widthWhenDefaultRef.current != null
+    ? { ['--btn-width' as string]: `${widthWhenDefaultRef.current}px` }
     : undefined;
 
   return (
@@ -83,7 +93,7 @@ export function Button({
       onClick={onClick}
       disabled={isDisabled}
       className={buttonClassName}
-      style={inlineVars}
+      style={loadingStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       aria-disabled={isDisabled}
@@ -97,29 +107,20 @@ export function Button({
         </>
       )}
       {showLoading && (
-        <>
-          {iconL && !text && !iconR && <LoadingIconComponent stroke={getIconStroke()} size={config.iconSize} />}
-          {!iconL && !text && !iconR && <LoadingIconComponent stroke={getIconStroke()} size={config.iconSize} />}
-          {iconL && text && !iconR && (
-            <>
-              <LoadingIconComponent stroke={getIconStroke()} size={config.iconSize} />
-              <span className="btn__text">{children}</span>
-            </>
-          )}
-          {!iconL && text && iconR && (
-            <>
-              <span className="btn__text">{children}</span>
-              <LoadingIconComponent stroke={getIconStroke()} size={config.iconSize} />
-            </>
-          )}
-          {iconL && text && iconR && (
-            <>
-              <LoadingIconComponent stroke={getIconStroke()} size={config.iconSize} />
-              <span className="btn__text">{children}</span>
-              {iconR2 ?? <ChartIconComponent stroke={getIconStroke()} disabled={false} size={config.iconSize} />}
-            </>
-          )}
-        </>
+        loadingHasTextOrRightIcon ? (
+          <>
+            {iconL && <LoadingIconComponent key="loading-l" stroke={getLoadingIconStroke()} size={config.iconSize} />}
+            {text && <span key="loading-text" className="btn__text">{children}</span>}
+            {iconR && iconL && (
+              <span key="loading-right-icon" className="btn__loading-right">
+                {iconR2 ?? <ChartIconComponent stroke={getLoadingIconStroke()} disabled={false} size={config.iconSize} />}
+              </span>
+            )}
+            {iconR && !iconL && <LoadingIconComponent key="loading-r" stroke={getLoadingIconStroke()} size={config.iconSize} />}
+          </>
+        ) : (
+          <LoadingIconComponent stroke={getLoadingIconStroke()} size={config.iconSize} />
+        )
       )}
       {showDisabled && (
         <>

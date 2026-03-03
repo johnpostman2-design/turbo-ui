@@ -4,13 +4,13 @@
 
 ## Компонент
 
-`Button` — кнопка с вариантами типа (primary, secondary, text, backless), состоянием (default, hover, disabled, loading) и размером (small, medium, large). Поддерживает иконки слева/справа и текст. Стили — только через классы и CSS-переменные из tokens.
+`Button` — кнопка с вариантами типа (primary, secondary, text, backless, success, danger, caution), состоянием (default, hover, disabled, loading) и размером (small, medium, large). Поддерживает иконки слева/справа и текст. Стили — только через классы и CSS-переменные из tokens.
 
 ## Props (актуально после стабилизации)
 
 | Prop      | Type                    | Default     | Description |
 |-----------|-------------------------|-------------|-------------|
-| type      | `'primary' \| 'secondary' \| 'text' \| 'backless'` | `'primary'` | Визуальный вариант кнопки |
+| type      | `'primary' \| 'secondary' \| 'text' \| 'backless' \| 'success' \| 'danger' \| 'caution'` | `'primary'` | Визуальный вариант кнопки (success/danger/caution — семантические по Figma) |
 | state     | `'default' \| 'hover' \| 'disabled' \| 'loading'`   | `'default'` | Контролируемое состояние (hover обычно выводится из UX) |
 | size      | `'small' \| 'medium' \| 'large'`                    | `'medium'`  | Размер (высота, padding, типографика из tokens) |
 | iconL     | boolean                 | `true`      | Показывать иконку слева |

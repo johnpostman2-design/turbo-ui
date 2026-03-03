@@ -95,5 +95,42 @@
 .btn--backless:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
 .btn--backless:disabled { border-color: var(--border-disabled); color: var(--content-disabled); }
 
-/* Loading: фиксированная ширина только при заданной переменной (layout, не дизайн) */
-.btn--loading { width: var(--btn-width, auto); }
+/* Type: success (по Figma, токены из tokens.json) */
+.btn--success {
+  border-radius: var(--button-border-radius);
+  background-color: var(--surface-success-main);
+  border: 1px solid var(--content-success);
+  color: var(--content-success);
+}
+.btn--success:hover:not(:disabled) { background-color: var(--surface-success-hover); }
+.btn--success:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+
+/* Type: danger (по Figma, токены surface-error / content-error) */
+.btn--danger {
+  border-radius: var(--button-border-radius);
+  background-color: var(--surface-error-main);
+  border: 1px solid var(--content-error);
+  color: var(--content-error);
+}
+.btn--danger:hover:not(:disabled) { background-color: var(--surface-error-hover); }
+.btn--danger:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+
+/* Type: caution (по Figma, токены surface-caution / content-caution) */
+.btn--caution {
+  border-radius: var(--button-border-radius);
+  background-color: var(--surface-caution-main);
+  border: 1px solid var(--content-caution);
+  color: var(--content-caution);
+}
+.btn--caution:hover:not(:disabled) { background-color: var(--surface-caution-hover); }
+.btn--caution:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+
+/* Loading: ширина не меняется (задаётся через --btn-width из JS при необходимости) */
+.btn--loading {
+  width: var(--btn-width, auto);
+  min-width: var(--btn-width, auto);
+}
+.btn__loading-right {
+  display: inline-flex;
+  flex-shrink: 0;
+}

@@ -13,69 +13,45 @@ const CollapsiblePropsList = () => {
   const props = [
     {
       name: 'type',
-      type: '"primary" | "secondary" | "text" | "backless"',
-      description: 'Тип стиля кнопки. Primary — основное действие (черный фон), Secondary — второстепенное действие (белый фон с обводкой), Text — текстовая кнопка (белый фон без обводки), Backless — кнопка без фона (только обводка).',
+      type: '"primary" | "secondary" | "text" | "backless" | "success" | "danger" | "caution"',
+      description: 'Визуальный вариант по макету Figma. Primary — основное действие. Secondary — второстепенное. Text — текстовая. Backless — без фона. Success, Danger, Caution — семантические варианты.',
       default: '"primary"'
     },
     {
       name: 'state',
       type: '"default" | "hover" | "disabled" | "loading"',
-      description: 'Состояние кнопки. Default — обычное, Hover — при наведении, Disabled — заблокирована, Loading — загрузка.',
+      description: 'Состояние. default — обычное, hover — при наведении, disabled — заблокирована, loading — показывается спиннер.',
       default: '"default"'
     },
     {
       name: 'size',
       type: '"small" | "medium" | "large"',
-      description: 'Размер кнопки. Small — 32px высота, Medium — 40px высота, Large — 56px высота.',
+      description: 'Высота кнопки: small 32px, medium 40px, large 56px.',
       default: '"medium"'
     },
     {
       name: 'iconL',
       type: 'boolean',
-      description: 'Показывать ли иконку слева от текста.',
+      description: 'Показывать иконку слева.',
       default: 'true'
     },
     {
       name: 'iconR',
       type: 'boolean',
-      description: 'Показывать ли иконку справа от текста.',
+      description: 'Показывать иконку справа.',
       default: 'true'
     },
     {
       name: 'text',
       type: 'boolean',
-      description: 'Показывать ли текст в кнопке.',
+      description: 'Показывать текст кнопки.',
       default: 'true'
-    },
-    {
-      name: 'iconL2',
-      type: 'React.ReactNode | null',
-      description: 'Кастомная иконка слева. Если не указана, используется иконка по умолчанию.',
-      default: 'null'
-    },
-    {
-      name: 'iconR2',
-      type: 'React.ReactNode | null',
-      description: 'Кастомная иконка справа. Если не указана, используется иконка по умолчанию.',
-      default: 'null'
-    },
-    {
-      name: 'children',
-      type: 'React.ReactNode',
-      description: 'Текст или содержимое кнопки.',
-      default: '"Button"'
-    },
-    {
-      name: 'onClick',
-      type: '() => void',
-      description: 'Обработчик клика по кнопке.',
-      default: 'undefined'
     },
     {
       name: 'className',
       type: 'string',
-      description: 'Дополнительные CSS классы для кнопки.',
-      default: 'undefined'
+      description: 'Дополнительные CSS-классы.',
+      default: '—'
     }
   ];
 
@@ -324,15 +300,13 @@ const ButtonDocsPage = () => {
     );
   };
 
-  // Интерактивные кнопки для состояния загрузки
+  // Интерактивные кнопки для состояния загрузки: при клике на любую все переходят в loading
   const InteractiveLoadingButtons = () => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleButtonClick = () => {
+    const handleClick = () => {
       setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
+      setTimeout(() => setIsLoading(false), 2000);
     };
 
     return (
@@ -348,15 +322,7 @@ const ButtonDocsPage = () => {
           iconL={true}
           text={false} 
           iconR={false}
-          onClick={handleButtonClick}
-        >
-          Удалить
-        </Button>
-        <Button 
-          type="primary" 
-          state={isLoading ? "loading" : "default"}
-          iconR={false}
-          onClick={handleButtonClick}
+          onClick={handleClick}
         >
           Удалить
         </Button>
@@ -364,14 +330,39 @@ const ButtonDocsPage = () => {
           type="primary" 
           state={isLoading ? "loading" : "default"}
           iconL={false}
-          onClick={handleButtonClick}
+          text={true}
+          iconR={false}
+          onClick={handleClick}
         >
           Удалить
         </Button>
         <Button 
           type="primary" 
           state={isLoading ? "loading" : "default"}
-          onClick={handleButtonClick}
+          iconL={true}
+          text={true}
+          iconR={false}
+          onClick={handleClick}
+        >
+          Удалить
+        </Button>
+        <Button 
+          type="primary" 
+          state={isLoading ? "loading" : "default"}
+          iconL={false}
+          text={true}
+          iconR={true}
+          onClick={handleClick}
+        >
+          Удалить
+        </Button>
+        <Button 
+          type="primary" 
+          state={isLoading ? "loading" : "default"}
+          iconL={true}
+          text={true}
+          iconR={true}
+          onClick={handleClick}
         >
           Удалить
         </Button>
@@ -443,7 +434,7 @@ const ButtonDocsPage = () => {
         fontSize: 'var(--text-base, 15px)',
         color: '#000000'
       }}>
-        Компонент кнопки из дизайн-системы с иконками графиков и четырьмя вариантами стилизации: Primary, Secondary, Text, Backless.
+        Кнопка запускает действие, сценарий или позволяет перейти на другую страницу.
       </p>
 
       {/* Секция Импорт */}
@@ -554,28 +545,49 @@ const ButtonDocsPage = () => {
             fontSize: 'var(--text-base, 15px)',
             lineHeight: '1.5',
             color: '#000000'
-          }}>Primary — кнопка основного действия (черный фон)</li>
+          }}>Primary — кнопка основного действия</li>
           <li style={{ 
             marginBottom: '0.5rem',
             fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
             fontSize: 'var(--text-base, 15px)',
             lineHeight: '1.5',
             color: '#000000'
-          }}>Secondary — кнопка второстепенного действия (белый фон с обводкой)</li>
+          }}>Secondary — кнопка второстепенного действия</li>
           <li style={{ 
             marginBottom: '0.5rem',
             fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
             fontSize: 'var(--text-base, 15px)',
             lineHeight: '1.5',
             color: '#000000'
-          }}>Text — текстовая кнопка (белый фон без обводки)</li>
+          }}>Text — текстовая кнопка</li>
           <li style={{ 
             marginBottom: '0.5rem',
             fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
             fontSize: 'var(--text-base, 15px)',
             lineHeight: '1.5',
             color: '#000000'
-          }}>Backless — кнопка без фона (только обводка)</li>
+          }}>Backless — кнопка без фона</li>
+          <li style={{ 
+            marginBottom: '0.5rem',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            fontSize: 'var(--text-base, 15px)',
+            lineHeight: '1.5',
+            color: '#000000'
+          }}>Success — семантический вариант для успешного действия</li>
+          <li style={{ 
+            marginBottom: '0.5rem',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            fontSize: 'var(--text-base, 15px)',
+            lineHeight: '1.5',
+            color: '#000000'
+          }}>Danger — семантический вариант для опасного или деструктивного действия</li>
+          <li style={{ 
+            marginBottom: '0.5rem',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            fontSize: 'var(--text-base, 15px)',
+            lineHeight: '1.5',
+            color: '#000000'
+          }}>Caution — семантический вариант для предупреждения</li>
         </ul>
         <ExampleBlock
           code={`import { Button } from 'src/ui/button/Button';
@@ -583,7 +595,10 @@ const ButtonDocsPage = () => {
 <Button type="primary">Primary</Button>
 <Button type="secondary">Secondary</Button>
 <Button type="text">Text</Button>
-<Button type="backless">Backless</Button>`}
+<Button type="backless">Backless</Button>
+<Button type="success">Success</Button>
+<Button type="danger">Danger</Button>
+<Button type="caution">Caution</Button>`}
         >
           <div style={{ 
             display: 'flex',
@@ -595,6 +610,9 @@ const ButtonDocsPage = () => {
             <Button type="secondary">Secondary</Button>
             <Button type="text">Text</Button>
             <Button type="backless">Backless</Button>
+            <Button type="success">Success</Button>
+            <Button type="danger">Danger</Button>
+            <Button type="caution">Caution</Button>
           </div>
         </ExampleBlock>
       </div>
@@ -728,54 +746,23 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
           fontSize: 'var(--text-base, 15px)',
           color: '#000000'
         }}>
-          При нажатии на любую кнопку все кнопки переходят в состояние loading с анимацией вращающейся иконки. Поддерживаются различные варианты: только иконка, иконка слева + текст, текст + иконка справа, иконка + текст + иконка.
+          При клике на любую кнопку все переходят в состояние загрузки. Ширина кнопок при загрузке не меняется. У варианта с двумя иконками и текстом правая иконка остаётся.
         </p>
         <ExampleBlock
           code={`import { useState } from 'react';
 import { Button } from 'src/ui/button/Button';
 
 const [isLoading, setIsLoading] = useState(false);
-
-const handleButtonClick = () => {
+const handleClick = () => {
   setIsLoading(true);
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 2000);
+  setTimeout(() => setIsLoading(false), 2000);
 };
 
-<Button 
-  type="primary" 
-  state={isLoading ? "loading" : "default"}
-  iconL={true}
-  text={false} 
-  iconR={false}
-  onClick={handleButtonClick}
->
-  Удалить
-</Button>
-<Button 
-  type="primary" 
-  state={isLoading ? "loading" : "default"}
-  iconR={false}
-  onClick={handleButtonClick}
->
-  Удалить
-</Button>
-<Button 
-  type="primary" 
-  state={isLoading ? "loading" : "default"}
-  iconL={false}
-  onClick={handleButtonClick}
->
-  Удалить
-</Button>
-<Button 
-  type="primary" 
-  state={isLoading ? "loading" : "default"}
-  onClick={handleButtonClick}
->
-  Удалить
-</Button>`}
+<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={true} text={false} iconR={false} onClick={handleClick}>Удалить</Button>
+<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={false} text={true} iconR={false} onClick={handleClick}>Удалить</Button>
+<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={true} text={true} iconR={false} onClick={handleClick}>Удалить</Button>
+<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={false} text={true} iconR={true} onClick={handleClick}>Удалить</Button>
+<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={true} text={true} iconR={true} onClick={handleClick}>Удалить</Button>`}
         >
           <InteractiveLoadingButtons />
         </ExampleBlock>
@@ -800,7 +787,7 @@ const handleButtonClick = () => {
           fontSize: 'var(--text-base, 15px)',
           color: '#000000'
         }}>
-          Кнопки с атрибутом disabled теряют 50% непрозрачности и не реагируют на клики
+          Проп disabled блокирует кнопку. Кнопка меняет цвет на серый и становится недоступна для нажатия.
         </p>
         <ExampleBlock
           code={`import { Button } from 'src/ui/button/Button';
@@ -1013,5 +1000,26 @@ export const Disabled: Story = {
     type: 'primary',
     state: 'disabled',
     children: 'Disabled Button',
+  },
+};
+
+export const Success: Story = {
+  args: {
+    type: 'success',
+    children: 'Success',
+  },
+};
+
+export const Danger: Story = {
+  args: {
+    type: 'danger',
+    children: 'Danger',
+  },
+};
+
+export const Caution: Story = {
+  args: {
+    type: 'caution',
+    children: 'Caution',
   },
 };
