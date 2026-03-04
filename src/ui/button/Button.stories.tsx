@@ -401,7 +401,7 @@ const ButtonDocsPage = () => {
         minWidth: 0,
         maxWidth: '100%'
       }}>
-        <h1 id="button-title">Button</h1>
+        <h1 id="button-title" style={{ marginBottom: 'var(--spacing-32)', marginTop: 0 }}>Button</h1>
       
       {/* Кнопки Figma и GitHub */}
       <div style={{ 

@@ -105,21 +105,21 @@ if (typeof document !== 'undefined') {
       font-size: var(--text-h2) !important;
       line-height: var(--text-h2-height) !important;
       margin-top: var(--spacing-32) !important;
-      margin-bottom: calc(1.5 * var(--spacing-4)) !important;
+      margin-bottom: calc(3 * var(--spacing-4)) !important;
     }
     
     .sbdocs-h3, .sbdocs-content h3 {
       font-size: var(--text-h3) !important;
       line-height: var(--text-h3-height) !important;
       margin-top: var(--spacing-24) !important;
-      margin-bottom: calc(1.5 * var(--spacing-12)) !important;
+      margin-bottom: calc(3 * var(--spacing-12)) !important;
     }
     
     .sbdocs-h4, .sbdocs-content h4 {
       font-size: var(--text-h4) !important;
       line-height: var(--text-h4-height) !important;
       margin-top: var(--spacing-16) !important;
-      margin-bottom: calc(1.5 * var(--spacing-8)) !important;
+      margin-bottom: calc(3 * var(--spacing-8)) !important;
     }
     
     /* Параграфы и описательный текст в Docs — Label/small */
