@@ -2,9 +2,9 @@ import React from 'react';
 import { Icon } from '../../components/icons/Icon';
 import { getButtonSizeConfig, colors } from '../../tokens';
 import { clsx } from 'clsx';
-import './button.css';
+import styles from './button.module.css';
 
-interface ButtonProps {
+export interface ButtonProps {
   type?: 'primary' | 'secondary' | 'text' | 'backless' | 'success' | 'danger' | 'caution';
   state?: 'default' | 'hover' | 'disabled' | 'loading';
   size?: 'small' | 'medium' | 'large';
@@ -17,6 +17,22 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
 }
+
+const typeToClass: Record<NonNullable<ButtonProps['type']>, string> = {
+  primary: styles.typePrimary,
+  secondary: styles.typeSecondary,
+  text: styles.typeText,
+  backless: styles.typeBackless,
+  success: styles.typeSuccess,
+  danger: styles.typeDanger,
+  caution: styles.typeCaution,
+};
+
+const sizeToClass: Record<NonNullable<ButtonProps['size']>, string> = {
+  small: styles.sizeSmall,
+  medium: styles.sizeMedium,
+  large: styles.sizeLarge,
+};
 
 export function Button({
   type = 'primary',
@@ -73,11 +89,11 @@ export function Button({
   const loadingHasTextOrRightIcon = text && (iconL || iconR);
 
   const buttonClassName = clsx(
-    'btn',
-    `btn--${type}`,
-    `btn--${size}`,
-    isLoading && 'btn--loading',
-    gapEmpty && 'btn--gap-empty',
+    styles.root,
+    typeToClass[type],
+    sizeToClass[size],
+    isLoading && styles.loading,
+    gapEmpty && styles.gapEmpty,
     className
   );
 
@@ -101,7 +117,7 @@ export function Button({
       {showDefaultOrHover && (
         <>
           {iconL && (iconL2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="default" />)}
-          {text && <span className="btn__text">{children}</span>}
+          {text && <span className={styles.text}>{children}</span>}
           {iconR && (iconR2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="default" />)}
         </>
       )}
@@ -109,24 +125,24 @@ export function Button({
         loadingHasTextOrRightIcon ? (
           <>
             {iconL && (
-              <span key="loading-l" className="btn__loading-spinner animate-loading-spin">
+              <span key="loading-l" className={styles.loadingSpinner}>
                 <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
               </span>
             )}
-            {text && <span key="loading-text" className="btn__text">{children}</span>}
+            {text && <span key="loading-text" className={styles.text}>{children}</span>}
             {iconR && iconL && (
-              <span key="loading-right-icon" className="btn__loading-right">
+              <span key="loading-right-icon" className={styles.loadingRight}>
                 {iconR2 ?? <Icon name="chart" color={getLoadingIconStroke()} size={config.iconSize} state="default" />}
               </span>
             )}
             {iconR && !iconL && (
-              <span key="loading-r" className="btn__loading-spinner animate-loading-spin">
+              <span key="loading-r" className={styles.loadingSpinner}>
                 <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
               </span>
             )}
           </>
         ) : (
-          <span className="btn__loading-spinner animate-loading-spin">
+          <span className={styles.loadingSpinner}>
             <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
           </span>
         )
@@ -134,7 +150,7 @@ export function Button({
       {showDisabled && (
         <>
           {iconL && (iconL2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
-          {text && <span className="btn__text">{children}</span>}
+          {text && <span className={styles.text}>{children}</span>}
           {iconR && (iconR2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
         </>
       )}

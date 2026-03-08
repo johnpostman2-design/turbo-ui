@@ -9,8 +9,12 @@ src/
 ├── ui/                    # Компоненты библиотеки Turbo UI (публичный API)
 │   └── button/            # Button component
 │       ├── Button.tsx
-│       ├── button.css
+│       ├── button.module.css   # CSS Modules — изоляция от проекта
+│       ├── index.ts            # Экспорт для turbo-ui/button
 │       └── Button.stories.tsx
+├── provider/              # Провайдер темы (переопределение токенов)
+│   ├── TurboUIProvider.tsx
+│   └── index.ts
 ├── tokens/                # Design tokens — Single Source of Truth
 │   ├── tokens.json
 │   ├── tokens.ts
@@ -29,6 +33,12 @@ src/
 ```
 
 **Правило разделения**: В публичный API Turbo UI входят только компоненты из `src/ui/`. Директория `src/components/` — внутренние вспомогательные компоненты (иконки, декораторы для Storybook); их не экспортируют как часть библиотеки.
+
+**Стили (изоляция классов)**: Стили компонентов в `src/ui/` — только CSS Modules (`*.module.css`). Классы не попадают в глобальную область; при подключении библиотеки конфликтов имён с проектом нет.
+
+**Переопределение темы**: Оберните приложение (или часть дерева) в `<TurboUIProvider theme={{ '--content-primary': '#333', '--surface-primary-main': '#f5f5f5' }}>…</TurboUIProvider>`. Значения из `theme` применяются поверх дефолтных из tokens.json. Импорт: `import { TurboUIProvider } from 'turbo-ui/provider'` (или из `src/provider` до публикации пакета).
+
+**Подключение по частям и tree-shaking**: Используйте подпути при импорте (`import { Button } from 'turbo-ui/button'`, `import { TurboUIProvider } from 'turbo-ui/provider'`), чтобы в бандл потребителя не попадали неиспользуемые компоненты. В `package.json` заданы `exports` и `sideEffects: false`.
 
 ## Цель
 
@@ -65,3 +75,17 @@ src/
 - [research.md](./research.md) — решения по объёму и подходу.
 - [contracts/button.md](./contracts/button.md) — публичный API Button.
 - tasks.md — создаётся через `/speckit.tasks`.
+
+## Библиотечная архитектура: список изменений
+
+Цель: чистая библиотечная сборка, изоляция классов, подключение по частям, tree-shaking, только используемые иконки.
+
+1. Стили компонентов — CSS Modules (`button.module.css`); классы изолированы.  
+2. Соглашение об изоляции — в quickstart.  
+3. Добавлен `src/provider/` (TurboUIProvider) для переопределения theme/tokens.  
+4. В `src/ui/` только токены, hardcoded не найдены.  
+5. Модульные exports: `package.json` (exports, main, module, sideEffects), `vite.config.lib.js`, точки входа `src/index.ts`, `src/ui/button/index.ts`, `src/provider/index.ts`.  
+6. Tree-shaking: подпути `turbo-ui/button`, `turbo-ui/provider`.  
+7–8. Иконки: ленивая загрузка по имени в `iconRegistry.ts`, асинхронный контент в `Icon.tsx`.  
+9. Button на новой архитектуре (CSS Modules, токены, ленивые иконки); визуал без изменений.  
+10. Итоговая структура и список — в quickstart и tasks.md.

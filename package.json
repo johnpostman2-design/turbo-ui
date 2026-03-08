@@ -9,10 +9,19 @@
     "prebuild-storybook": "npm run gen:theme",
     "dev": "vite",
     "build": "vite build",
+    "build:lib": "vite build -c vite.config.lib.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "exports": {
+    ".": "./dist/index.js",
+    "./button": "./dist/ui/button.js",
+    "./provider": "./dist/provider.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "sideEffects": false,
   "dependencies": {
     "@types/react-syntax-highlighter": "^15.5.13",
     "react": "^18.3.1",

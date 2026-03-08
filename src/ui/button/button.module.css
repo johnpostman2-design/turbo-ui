@@ -1,6 +1,6 @@
-/* Button: стили только через CSS-переменные из theme-vars (tokens.json). */
+/* Button: стили только через CSS-переменные из theme-vars (tokens.json). CSS Modules — изоляция имён классов. */
 
-.btn {
+.root {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,43 +12,43 @@
 }
 
 /* Size: подставляются переменные из theme-vars */
-.btn--small {
+.sizeSmall {
   min-height: var(--button-small-height);
   height: var(--button-small-height);
   padding: var(--button-small-padding-y) var(--button-small-padding-x);
   gap: var(--button-gap);
 }
-.btn--small .btn__text {
+.sizeSmall .text {
   font-size: var(--button-small-font-size);
   line-height: var(--button-small-line-height);
 }
 
-.btn--medium {
+.sizeMedium {
   min-height: var(--button-medium-height);
   height: var(--button-medium-height);
   padding: var(--button-medium-padding-y) var(--button-medium-padding-x);
   gap: var(--button-gap);
 }
-.btn--medium .btn__text {
+.sizeMedium .text {
   font-size: var(--button-medium-font-size);
   line-height: var(--button-medium-line-height);
 }
 
-.btn--large {
+.sizeLarge {
   min-height: var(--button-large-height);
   height: var(--button-large-height);
   padding: var(--button-large-padding-y) var(--button-large-padding-x);
   gap: var(--button-gap);
 }
-.btn--large .btn__text {
+.sizeLarge .text {
   font-size: var(--button-large-font-size);
   line-height: var(--button-large-line-height);
 }
 
-.btn--gap-empty { gap: var(--button-gap-empty); }
+.gapEmpty { gap: var(--button-gap-empty); }
 
 /* Base layout */
-.btn__text {
+.text {
   position: relative;
   flex-shrink: 0;
   white-space: nowrap;
@@ -58,82 +58,87 @@
 }
 
 /* Type: primary */
-.btn--primary {
+.typePrimary {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-primary-invert-main);
   color: var(--content-invert);
 }
-.btn--primary:hover:not(:disabled) { background-color: var(--surface-primary-invert-hover); }
-.btn--primary:disabled { background-color: var(--surface-primary-invert-disabled); color: var(--content-disabled); }
+.typePrimary:hover:not(:disabled) { background-color: var(--surface-primary-invert-hover); }
+.typePrimary:disabled { background-color: var(--surface-primary-invert-disabled); color: var(--content-disabled); }
 
 /* Type: secondary */
-.btn--secondary {
+.typeSecondary {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-primary-main);
   border: 1px solid var(--border-secondary);
   color: var(--content-primary);
 }
-.btn--secondary:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
-.btn--secondary:disabled { background-color: var(--surface-secondary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeSecondary:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
+.typeSecondary:disabled { background-color: var(--surface-secondary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
 
 /* Type: text */
-.btn--text {
+.typeText {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-primary-main);
   color: var(--content-primary);
 }
-.btn--text:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
-.btn--text:disabled { background-color: var(--surface-secondary-disabled); color: var(--content-disabled); }
+.typeText:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
+.typeText:disabled { background-color: var(--surface-secondary-disabled); color: var(--content-disabled); }
 
 /* Type: backless */
-.btn--backless {
+.typeBackless {
   border-radius: var(--button-border-radius);
   background-color: transparent;
   border: 1px solid var(--border-secondary);
   color: var(--content-primary);
 }
-.btn--backless:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
-.btn--backless:disabled { border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeBackless:hover:not(:disabled) { background-color: var(--surface-primary-hover); }
+.typeBackless:disabled { border-color: var(--border-disabled); color: var(--content-disabled); }
 
-/* Type: success (по Figma, токены из tokens.json) */
-.btn--success {
+/* Type: success */
+.typeSuccess {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-success-main);
   border: 1px solid var(--content-success);
   color: var(--content-success);
 }
-.btn--success:hover:not(:disabled) { background-color: var(--surface-success-hover); }
-.btn--success:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeSuccess:hover:not(:disabled) { background-color: var(--surface-success-hover); }
+.typeSuccess:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
 
-/* Type: danger (по Figma, токены surface-error / content-error) */
-.btn--danger {
+/* Type: danger */
+.typeDanger {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-error-main);
   border: 1px solid var(--content-error);
   color: var(--content-error);
 }
-.btn--danger:hover:not(:disabled) { background-color: var(--surface-error-hover); }
-.btn--danger:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeDanger:hover:not(:disabled) { background-color: var(--surface-error-hover); }
+.typeDanger:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
 
-/* Type: caution (по Figma, токены surface-caution / content-caution) */
-.btn--caution {
+/* Type: caution */
+.typeCaution {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-caution-main);
   border: 1px solid var(--content-caution);
   color: var(--content-caution);
 }
-.btn--caution:hover:not(:disabled) { background-color: var(--surface-caution-hover); }
-.btn--caution:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeCaution:hover:not(:disabled) { background-color: var(--surface-caution-hover); }
+.typeCaution:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
 
-/* Loading: ширина не меняется (задаётся через --btn-width из JS при необходимости) */
-.btn--loading {
+/* Loading */
+.loading {
   width: var(--btn-width, auto);
   min-width: var(--btn-width, auto);
 }
-.btn__loading-right {
+.loadingRight {
   display: inline-flex;
   flex-shrink: 0;
 }
-.btn__loading-spinner {
+@keyframes loadingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.loadingSpinner {
   display: inline-flex;
+  animation: loadingSpin 1s linear infinite;
 }

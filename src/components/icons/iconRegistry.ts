@@ -1,6 +1,7 @@
 /**
  * Регистр иконок из папки icons (корень проекта).
- * Имя иконки — первая часть имени файла до запятой или точка: plus, chart, check, kebab и т.д.
+ * Ленивая загрузка: в bundle попадают только запрошенные по имени иконки.
+ * Имя иконки — первая часть имени файла до запятой: plus, chart, check, kebab и т.д.
  */
 
 function getViewBox(svg: string): string {
@@ -25,29 +26,30 @@ function fileNameToName(filePath: string): string {
   return first || noExt || 'icon';
 }
 
-type IconContent = { viewBox: string; content: string };
-
-const cache: Record<string, IconContent> = {};
+export type IconContent = { viewBox: string; content: string };
 
 const modules = import.meta.glob<string>('../../../icons/*.svg', {
   query: '?raw',
   import: 'default',
-  eager: true,
 });
 
-for (const [path, raw] of Object.entries(modules)) {
-  const name = fileNameToName(path);
-  if (typeof raw === 'string') {
-    cache[name] = {
-      viewBox: getViewBox(raw),
-      content: getInnerContent(raw),
-    };
-  }
+const nameToPath: Record<string, string> = {};
+for (const path of Object.keys(modules)) {
+  const name = fileNameToName(path).toLowerCase();
+  if (!nameToPath[name]) nameToPath[name] = path;
 }
+export const iconNames = Object.keys(nameToPath).sort();
 
-export const iconNames = Object.keys(cache).sort();
-
-export function getIconContent(name: string): IconContent | null {
+export async function getIconContent(name: string): Promise<IconContent | null> {
   const key = name.toLowerCase();
-  return cache[key] ?? cache[name] ?? null;
+  const path = nameToPath[key] ?? nameToPath[name];
+  if (!path) return null;
+  const loader = modules[path];
+  if (typeof loader !== 'function') return null;
+  const raw = await loader();
+  if (typeof raw !== 'string') return null;
+  return {
+    viewBox: getViewBox(raw),
+    content: getInnerContent(raw),
+  };
 }

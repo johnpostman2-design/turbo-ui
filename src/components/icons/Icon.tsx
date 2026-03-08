@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getIconContent } from './iconRegistry';
 import { clsx } from 'clsx';
 
@@ -33,8 +33,22 @@ export function Icon({
   children,
   ariaLabel,
 }: IconProps) {
+  const [content, setContent] = useState<{ viewBox: string; content: string } | null>(null);
+
+  useEffect(() => {
+    if (!name) {
+      setContent(null);
+      return;
+    }
+    let cancelled = false;
+    getIconContent(name).then((loaded) => {
+      if (!cancelled && loaded) setContent(loaded);
+    });
+    return () => { cancelled = true; };
+  }, [name]);
+
   const opacity = state === 'disabled' ? 0.08 : 1;
-  const content = name ? getIconContent(name) : null;
+  const resolvedContent = content ?? null;
 
   return (
     <span
@@ -45,13 +59,13 @@ export function Icon({
     >
       <svg
         className="block size-full max-w-none"
-        viewBox={content?.viewBox ?? viewBox}
+        viewBox={resolvedContent?.viewBox ?? viewBox}
         fill="none"
         style={{ color, opacity }}
         aria-hidden={!ariaLabel}
       >
-        {content ? (
-          <g dangerouslySetInnerHTML={{ __html: content.content }} />
+        {resolvedContent ? (
+          <g dangerouslySetInnerHTML={{ __html: resolvedContent.content }} />
         ) : (
           children
         )}

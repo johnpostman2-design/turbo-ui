@@ -1,104 +1,89 @@
-# Tasks: Turbo UI Stabilization
+# Tasks: Библиотечная архитектура Turbo UI
 
-**Input**: [plan.md](./plan.md), [spec.md](./spec.md), [research.md](./research.md), [contracts/](./contracts/), [quickstart.md](./quickstart.md)  
-**Prerequisites**: plan.md, spec.md
+**Input**: [plan.md](./plan.md), [spec.md](./spec.md).  
+**Context**: Нужно привести Turbo UI к более правильной библиотечной архитектуре.
 
-**Organization**: Задачи сгруппированы по блокам плана стабилизации (SA1–SA6). Порядок выполнения учитывает зависимости: Audit → Tokens → Button → Storybook; Clean Code и Versioning могут идти параллельно или после.
+**Ограничения**: не добавлять новые фичи; не менять визуальный дизайн Button; не усложнять архитектуру без необходимости; фокус только на чистой библиотечной сборке.
 
-## Format: `[ID] [P?] [SA?] Description`
+**Organization**: Задачи упорядочены по зависимостям. Выполнять по порядку; где помечено [P], можно выполнять параллельно в рамках фазы.
 
-- **[P]**: Можно выполнять параллельно (другие файлы, нет зависимостей от незавершённых задач)
-- **[SA]**: Блок стабилизации (SA1 Architecture Audit, SA2 Token Enforcement, SA3 Button, SA4 Storybook, SA5 Clean Code, SA6 Versioning)
+## Format: `[ID] [P?] Description`
+
+- **[P]**: можно выполнять параллельно (другие файлы, нет зависимостей от незавершённых задач)
 - В описании указаны конкретные пути к файлам
 
 ---
 
-## Phase 1: Setup
+## Phase 1: Стили и изоляция классов
 
-**Purpose**: Фиксация структуры и точки входа для стабилизации
+**Purpose**: Переход на CSS Modules и устранение риска конфликтов имён классов с внешним проектом.
 
-- [x] T001 [SA1] Зафиксировать текущую структуру папок в specs/001-turbo-ui-root-spec/quickstart.md или в корневом README.md (дерево src/, назначение директорий)
-- [x] T002 [P] [SA1] Задокументировать правило разделения: библиотечные компоненты (src/ui/) vs вспомогательные (src/components/) в specs/001-turbo-ui-root-spec/quickstart.md или README.md
+**Independent Test**: Стили компонентов в `.module.css`; классы не конфликтуют с глобальными именами при подключении библиотеки в другой проект.
 
----
-
-## Phase 2: Architecture Audit [SA1]
-
-**Goal**: Формализовать архитектуру, выявить дубли и мёртвый код.  
-**Independent Test**: Документ с перечнем дублей и решений; список файлов/папок для удаления или правок.
-
-- [x] T003 [SA1] Выявить дублирование токенов: составить список (tokens.json vs src/styles/theme.css vs константы в коде) с путями и записать в specs/001-turbo-ui-root-spec/research.md или plan.md
-- [x] T004 [SA1] Проверить src/ui/, src/components/, src/stories/, src/styles/ на мёртвые ветки кода и неиспользуемые файлы; зафиксировать результат и удалить dead code в соответствующих файлах
-- [x] T005 [SA1] Дополнить отчёт по аудиту в research.md или quickstart.md (несоответствия и принятые решения)
+- [x] T001 Перевести стили компонентов с global CSS на CSS Modules: переименовать `src/ui/button/button.css` в `src/ui/button/button.module.css`, заменить глобальные селекторы на классы из `import styles from './button.module.css'`, обновить `src/ui/button/Button.tsx` (className через styles.root и т.д.)
+- [x] T002 [P] Убрать риск конфликтов классов с внешним проектом: убедиться, что все стили компонентов Turbo UI изолированы через CSS Modules (никаких глобальных классов в `src/ui/**/*.module.css` для публичного API); при необходимости добавить соглашение об именовании в specs/001-turbo-ui-root-spec/quickstart.md
 
 ---
 
-## Phase 3: Token Enforcement [SA2]
+## Phase 2: Theme / Design Tokens Provider
 
-**Goal**: Single Source of Truth — tokens.json; нет hardcoded и inline styles в компонентах Turbo UI.  
-**Independent Test**: theme.css не содержит hex/rgba для дизайн-решений; Button без style={...} для дизайна; линт/ручная проверка не находит нарушений.
+**Purpose**: Возможность переопределения темы и токенов при подключении библиотеки в проект.
 
-- [x] T006 [SA2] Реализовать получение CSS-переменных из tokens.json для theme.css (скрипт генерации или импорт при сборке) и переписать src/styles/theme.css так, чтобы цвета, spacing, типографика брались только из tokens
-- [x] T007 [SA2] Удалить все hardcoded hex/rgba/px для дизайн-решений из src/styles/theme.css; оставить только ссылки на токены или сгенерированные переменные
-- [x] T008 [SA2] Проверить src/ui/button/Button.tsx и остальные компоненты в src/ui/ на hardcoded цвета, отступы, размеры шрифтов, radius; заменить на токены (tokens.ts / tokens.json) в соответствующих файлах
-- [x] T009 [SA2] Устранить inline styles в src/ui/button/Button.tsx: перенести стили в src/ui/button/button.css с классами и CSS-переменными из токенов; убрать вызовы getContainerStyle()/getTextStyle() и атрибут style для дизайн-решений
-- [x] T010 [P] [SA2] Проверить src/stories/ и foundations на использование только токенов (без своих hardcoded цветов/spacing); исправить при необходимости в src/stories/Foundations/*.tsx и компонентных stories
+**Independent Test**: В тестовом приложении или Storybook обёртка TurboUIProvider с кастомными токенами меняет внешний вид компонентов без правки кода библиотеки.
+
+- [x] T003 Создать `src/provider/TurboUIProvider.tsx` (или `src/TurboUIProvider.tsx`): React-контекст и компонент-обёртка, принимающие опциональные theme/tokens (CSS-переменные или объект для инжекта в :root); провайдер применяет переданные значения поверх дефолтных из tokens.json; документировать использование в quickstart.md или README
 
 ---
 
-## Phase 4: Component Hardening — Button [SA3]
+## Phase 3: Проверка токенов
 
-**Goal**: Нормализованный API Button, a11y, контракт в contracts/; без inline styles.  
-**Independent Test**: Button соответствует contracts/button.md; доступен с клавиатуры; в Storybook все варианты отображаются.
+**Purpose**: Компоненты используют только tokens, без hardcoded значений.
 
-- [x] T011 [SA3] Нормализовать props в src/ui/button/Button.tsx: рассмотреть iconStart/iconEnd (ReactNode) вместо iconL/iconR/iconL2/iconR2; явные default; обновить specs/001-turbo-ui-root-spec/contracts/button.md
-- [x] T012 [SA3] Добавить accessibility в src/ui/button/Button.tsx: focus, keyboard, aria-disabled/aria-busy/aria-label где нужно
-- [x] T013 [P] [SA3] Упростить ветвления и логику в src/ui/button/Button.tsx (state/type); вынести константы в токены где возможно
-- [x] T014 [SA3] Убедиться, что все комбинации type × state × size покрыты в src/ui/button/Button.stories.tsx и документированы в contracts/button.md
+**Independent Test**: Поиск по коду (hex, rgb, px для цветов/отступов/шрифтов в компонентах ui/) не находит нарушений; линт или скрипт при необходимости.
+
+- [x] T004 [P] Проверить компоненты на использование только tokens: пройтись по `src/ui/**/*.tsx` и `src/ui/**/*.module.css` (после T001), заменить все hardcoded цвета, spacing, размеры шрифтов, radius на ссылки на токены (var(--token-name) или через theme); зафиксировать результат в specs/001-turbo-ui-root-spec/research.md при необходимости
 
 ---
 
-## Phase 5: Storybook Alignment [SA4]
+## Phase 4: Модульные exports и tree-shaking
 
-**Goal**: Полная документация API и все варианты Button; демо только на токенах.  
-**Independent Test**: Storybook собирается; в Docs описание всех props; все варианты кнопки есть в stories.
+**Purpose**: Библиотеку можно подключать по частям; при использовании только Button в bundle не попадают лишние компоненты и код.
 
-- [x] T015 [SA4] Документировать все props Button в src/ui/button/Button.stories.tsx и/или README.mdx (описание, типы, default)
-- [x] T016 [SA4] Добавить в src/ui/button/Button.stories.tsx все варианты Button (type, state, size, с иконками/без текста)
-- [x] T017 [P] [SA4] Проверить src/stories/Foundations/Colors.stories.tsx и Typography.stories.tsx на использование токенов; при необходимости привести к ссылкам на tokens
+**Independent Test**: Сборка библиотеки (vite build в lib-режиме или аналог); потребитель импортирует только `import { Button } from 'turbo-ui/button'` (или аналог) — в бандле потребителя нет кода других компонентов; проверка размера бандла.
 
----
-
-## Phase 6: Performance & Clean Code [SA5]
-
-**Goal**: Нет dead code, debug-логов, закомментированных блоков; при необходимости — снижение re-render.  
-**Independent Test**: Линтер не находит мёртвый код; в production-коде нет console.* и заглушек.
-
-- [x] T018 [P] [SA5] Удалить dead code и неиспользуемые импорты в src/ui/button/Button.tsx, src/tokens/, src/components/, src/stories/ (в scope стабилизации)
-- [x] T019 [P] [SA5] Удалить debug-логи (console.*) и закомментированные блоки «на потом» в src/
-- [x] T020 [SA5] Проверить src/ui/button/Button.tsx на лишние re-render (объекты в render); при необходимости применить useMemo/стабильные ссылки
-- [x] T021 [SA5] Упростить API-логику в src/ui/button/Button.tsx без изменения визуального поведения (по результатам T013)
+- [x] T005 Настроить модульные exports: добавить/обновить точки входа в `package.json` (exports: { ".": ..., "./button": ..., "./provider": ... } или единый entry с subpath exports); настроить сборку библиотеки в `vite.config.js` (lib.entry, форматы); экспортировать Button из `src/ui/button/index.ts`, провайдер из `src/provider/index.ts` (или выбранной структуры); обновить `src/index.ts` при наличии
+- [x] T006 Проверить tree-shaking: собрать потребительское приложение, импортирующее только Button (и минимально провайдер/токены); убедиться, что неиспользуемые компоненты и модули не попадают в bundle (анализ бандла через rollup-plugin-visualizer или вывод Vite); при необходимости поправить sideEffects в package.json и структуру экспортов
 
 ---
 
-## Phase 7: Versioning Setup [SA6]
+## Phase 5: Иконки
 
-**Goal**: Версия в package.json, дисциплина релизов, при необходимости CHANGELOG.  
-**Independent Test**: package.json содержит осмысленную версию; в quickstart или CONTRIBUTING описано, как решать MAJOR.MINOR.PATCH.
+**Purpose**: В bundle попадают только реально используемые иконки; загрузка всех иконок скопом убрана.
 
-- [x] T022 [SA6] Установить текущую версию в package.json по semantic versioning (0.1.0 или 1.0.0 после стабилизации)
-- [x] T023 [SA6] Описать дисциплину релизов (кто решает MAJOR.MINOR.PATCH, теги в git) в specs/001-turbo-ui-root-spec/quickstart.md или CONTRIBUTING.md в корне
-- [x] T024 [P] [SA6] Создать CHANGELOG.md в корне; первый entry — стабилизация (формат Keep a Changelog или аналог)
+**Independent Test**: Импорт одной иконки (например, только для Button) не тянет все SVG; бандл не содержит неиспользуемые иконки.
+
+- [x] T007 Убрать загрузку всех иконок скопом: убрать или переписать `eager: true` в `src/components/icons/iconRegistry.ts` (или эквивалент); перейти на ленивую загрузку по имени (dynamic import по запросу) или на явный импорт иконок в компонентах
+- [x] T008 Переписать icon architecture: обеспечить, чтобы в bundle попадали только реально используемые icons — например, регистр как map name → lazy loader, или отдельные файлы иконок с именованными экспортами и импорт в Button только нужных; обновить `src/components/icons/Icon.tsx` и использование в `src/ui/button/Button.tsx`; обновить `src/components/icons/index.ts` и при необходимости stories
 
 ---
 
-## Phase 8: Polish & Validation
+## Phase 6: Button как эталонный компонент
 
-**Purpose**: Финальные проверки и кросс-блоковые правки
+**Purpose**: Button пересобран на новой архитектуре (CSS Modules, токены, провайдер, иконки) и остаётся эталоном без изменения визуального дизайна.
 
-- [x] T025 Запустить сборку (npm run build) и Storybook (npm run build-storybook); убедиться, что ошибок нет
-- [x] T026 Пройти чеклист из specs/001-turbo-ui-root-spec/quickstart.md (проверки перед мержем); зафиксировать результат
-- [x] T027 Обновить specs/001-turbo-ui-root-spec/checklists/requirements.md при необходимости после стабилизации
+**Independent Test**: Button в Storybook выглядит и ведёт себя как до рефакторинга; сборка библиотеки и потребителя проходят; нет лишних зависимостей в bundle.
+
+- [x] T009 Пересобрать Button как эталонный компонент на новой архитектуре: использовать только CSS Modules (T001), токены (T004), при необходимости TurboUIProvider для темы (T003), новую icon architecture (T007–T008); не менять визуальный дизайн; обновить `src/ui/button/Button.tsx` и `src/ui/button/button.module.css`; убедиться, что Storybook и документация Button остаются актуальными
+
+---
+
+## Phase 7: Итоговая структура и список изменений
+
+**Purpose**: Зафиксировать итоговую структуру проекта и перечень изменений для ревью и документации.
+
+**Independent Test**: Документ с деревом структуры и списком изменений по файлам/модулям.
+
+- [x] T010 Показать итоговую структуру проекта и список изменений: обновить specs/001-turbo-ui-root-spec/quickstart.md (или отдельный LIBRARY_ARCHITECTURE.md) — актуальное дерево src/ (ui/, provider/, components/icons, tokens, styles); краткий список изменений по пунктам 1–9 (какие файлы добавлены/удалены/изменены); при необходимости обновить plan.md и README с инструкцией по подключению библиотеки по частям и использованию TurboUIProvider
 
 ---
 
@@ -106,53 +91,51 @@
 
 ### Phase Dependencies
 
-- **Phase 1 (Setup)**: Можно начинать сразу
-- **Phase 2 (Architecture Audit)**: После Phase 1; блокирует осмысленное выполнение Phase 3 (нужен список дублей)
-- **Phase 3 (Token Enforcement)**: После Phase 2; блокирует Phase 4 (Button без inline styles зависит от theme.css и button.css на токенах)
-- **Phase 4 (Button Hardening)**: После Phase 3 (стили уже в CSS)
-- **Phase 5 (Storybook)**: После Phase 4 (стабильный API Button)
-- **Phase 6 (Clean Code)**: Можно частично параллельно с Phase 4–5 (другие файлы)
-- **Phase 7 (Versioning)**: Можно параллельно с Phase 5–6 или в конце
-- **Phase 8 (Polish)**: После завершения нужных фаз стабилизации
+- **Phase 1 (Стили и изоляция)**: можно начинать сразу
+- **Phase 2 (TurboUIProvider)**: после Phase 1 (опционально можно параллельно, если провайдер не трогает стили компонентов)
+- **Phase 3 (Проверка токенов)**: после Phase 1 (актуальные файлы — module.css и tsx)
+- **Phase 4 (Exports и tree-shaking)**: после Phase 1–3 (стабильные компоненты и токены)
+- **Phase 5 (Иконки)**: можно после Phase 1; желательно до Phase 6
+- **Phase 6 (Button эталон)**: после Phase 1–5
+- **Phase 7 (Документация)**: после Phase 6
 
 ### Recommended Order
 
-1. T001–T002 → T003–T005 (Audit)  
-2. T006–T010 (Token Enforcement)  
-3. T011–T014 (Button)  
-4. T015–T017 (Storybook)  
-5. T018–T021 (Clean Code) параллельно или после 4  
-6. T022–T024 (Versioning)  
-7. T025–T027 (Polish)
+1. T001 → T002 (CSS Modules и изоляция)
+2. T003 (TurboUIProvider)
+3. T004 (аудит токенов)
+4. T005 → T006 (exports и tree-shaking)
+5. T007 → T008 (иконки)
+6. T009 (Button на новой архитектуре)
+7. T010 (структура и список изменений)
 
 ### Parallel Opportunities
 
-- T002 можно выполнять параллельно с T001  
-- T010, T013, T017, T018, T019, T024 помечены [P] — при отсутствии зависимостей по файлам можно выполнять параллельно с другими задачами своей фазы
+- T002 можно выполнять сразу после T001 (та же фаза)
+- T004 помечен [P] — после Phase 1 можно выполнять параллельно с T003
 
 ---
 
 ## Implementation Strategy
 
-### MVP (минимальная стабилизация)
+### MVP (минимальная библиотечная архитектура)
 
-1. Phase 1 + Phase 2 (Setup + Audit)  
-2. Phase 3 (Token Enforcement) — обязательно theme.css и Button без inline styles  
-3. Phase 4 (Button: API + a11y)  
-4. Phase 7 (Versioning: версия в package.json)  
-5. Phase 8 (сборка + quickstart checklist)  
+1. Phase 1 (T001–T002) — CSS Modules
+2. Phase 2 (T003) — TurboUIProvider
+3. Phase 3 (T004) — только токены в компонентах
+4. Phase 6 (T009) — Button на новой архитектуре (с текущими иконками при необходимости отложить T007–T008)
+5. Phase 7 (T010) — структура и список изменений
 
-Остановиться и проверить: сборка и Storybook работают; конституция соблюдена по токенам и Button.
+Остановиться и проверить: сборка и Storybook работают; Button без визуальных изменений; провайдер позволяет переопределять тему.
 
-### Полная стабилизация
+### Полный объём
 
-Выполнить все фазы по порядку; Phase 6 и 7 можно частично совмещать с Phase 4–5. В конце — Phase 8 и проход quickstart.md.
+Выполнить все фазы по порядку T001–T010; затем финальная сборка и проверка tree-shaking и размера бандла.
 
 ---
 
 ## Notes
 
-- Задачи с [P] — разные файлы, без конфликтов по зависимостям
-- [SA] привязывает задачу к блоку плана для трассировки
-- После каждой фазы можно делать коммит и проверять сборку
-- Не добавлять новые компоненты; только стабилизация текущей системы
+- Не добавлять новые фичи; не менять визуальный дизайн Button
+- Фокус только на чистой библиотечной сборке и изоляции
+- После каждой фазы рекомендуется коммит и проверка сборки/Storybook
