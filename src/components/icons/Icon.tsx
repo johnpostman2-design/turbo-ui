@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getIconContent } from './iconRegistry';
 import { clsx } from 'clsx';
+import styles from './icon.module.css';
 
 export type IconState = 'default' | 'disabled';
 
@@ -47,21 +48,21 @@ export function Icon({
     return () => { cancelled = true; };
   }, [name]);
 
-  const opacity = state === 'disabled' ? 0.08 : 1;
   const resolvedContent = content ?? null;
+  const isDisabled = state === 'disabled';
 
   return (
     <span
-      className={clsx('inline-flex shrink-0 overflow-clip', className)}
+      className={clsx(styles.root, className)}
       style={{ width: size, height: size }}
       role={ariaLabel ? 'img' : undefined}
       aria-label={ariaLabel}
     >
       <svg
-        className="block size-full max-w-none"
+        className={clsx(styles.svg, isDisabled && styles.svgDisabled)}
         viewBox={resolvedContent?.viewBox ?? viewBox}
         fill="none"
-        style={{ color, opacity }}
+        style={{ color }}
         aria-hidden={!ariaLabel}
       >
         {resolvedContent ? (

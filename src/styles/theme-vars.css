@@ -38,6 +38,7 @@
   --surface-primary-disabled: #0000000a;
   --content-invert: #ffffff;
   --content-disabled: #00000014;
+  --icon-disabled-opacity: 0.08;
   --surface-primary-invert-main: #000000;
   --surface-primary-invert-hover: #00000099;
   --surface-primary-invert-disabled: #0000000a;
@@ -133,7 +134,7 @@
   --typescale-caption-medium-font: ONY ONE;
 
   /* button */
-  --button-border-radius: 4px;
+  --button-border-radius: 8px;
   --button-gap: 8px;
   --button-gap-empty: 0px;
   --button-transition: background-color 0.2s ease;
@@ -151,7 +152,7 @@
   --button-medium-line-height: 24px;
   --button-large-height: 56px;
   --button-large-padding-x: 16px;
-  --button-large-padding-y: 12px;
+  --button-large-padding-y: 8px;
   --button-large-icon-size: 32px;
   --button-large-font-size: 20px;
   --button-large-line-height: 32px;
