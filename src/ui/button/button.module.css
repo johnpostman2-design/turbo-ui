@@ -99,31 +99,28 @@
 .typeSuccess {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-success-main);
-  border: 1px solid var(--content-success);
   color: var(--content-success);
 }
 .typeSuccess:hover:not(:disabled) { background-color: var(--surface-success-hover); }
-.typeSuccess:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeSuccess:disabled { background-color: var(--surface-primary-disabled); color: var(--content-disabled); }
 
 /* Type: danger */
 .typeDanger {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-error-main);
-  border: 1px solid var(--content-error);
   color: var(--content-error);
 }
 .typeDanger:hover:not(:disabled) { background-color: var(--surface-error-hover); }
-.typeDanger:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeDanger:disabled { background-color: var(--surface-primary-disabled); color: var(--content-disabled); }
 
 /* Type: caution */
 .typeCaution {
   border-radius: var(--button-border-radius);
   background-color: var(--surface-caution-main);
-  border: 1px solid var(--content-caution);
   color: var(--content-caution);
 }
 .typeCaution:hover:not(:disabled) { background-color: var(--surface-caution-hover); }
-.typeCaution:disabled { background-color: var(--surface-primary-disabled); border-color: var(--border-disabled); color: var(--content-disabled); }
+.typeCaution:disabled { background-color: var(--surface-primary-disabled); color: var(--content-disabled); }
 
 /* Loading */
 .loading {
