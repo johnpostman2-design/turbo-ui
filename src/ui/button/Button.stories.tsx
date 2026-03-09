@@ -48,6 +48,18 @@ const CollapsiblePropsList = () => {
       default: 'true'
     },
     {
+      name: 'iconL2',
+      type: 'ReactNode | null',
+      description: 'Кастомная иконка слева (переопределяет встроенную). Для своих иконок без конфликта с Turbo UI передавайте сюда узел и при необходимости отключите встроенные через iconL={false}.',
+      default: 'null'
+    },
+    {
+      name: 'iconR2',
+      type: 'ReactNode | null',
+      description: 'Кастомная иконка справа (переопределяет встроенную).',
+      default: 'null'
+    },
+    {
       name: 'className',
       type: 'string',
       description: 'Дополнительные CSS-классы.',
@@ -221,6 +233,15 @@ const CollapsiblePropsList = () => {
               ))}
             </tbody>
           </table>
+          <p style={{
+            marginTop: '1rem',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            fontSize: 'var(--text-base, 15px)',
+            lineHeight: '1.5',
+            color: 'var(--foreground)'
+          }}>
+            Компонент реализован через <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>forwardRef</code>: можно передавать <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>ref</code> для доступа к DOM-элементу. Все нативные атрибуты <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;button&gt;</code> поддерживаются и пробрасываются на элемент: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>id</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>data-testid</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>autoFocus</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>tabIndex</code> и т.д.
+          </p>
         </div>
       )}
     </div>
@@ -384,6 +405,23 @@ const ButtonDocsPage = () => {
     }
   };
 
+  const RefAndAttrsExample = () => {
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+    return (
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button
+          ref={buttonRef}
+          data-testid="submit-btn"
+          aria-label="Отправить форму"
+          type="primary"
+          onClick={() => buttonRef.current?.focus()}
+        >
+          Отправить
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <>
     <div style={{
@@ -437,6 +475,46 @@ const ButtonDocsPage = () => {
         Кнопка запускает действие, сценарий или позволяет перейти на другую страницу.
       </p>
 
+      {/* Секция Подключение в проекте */}
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 
+          id="setup"
+          style={{ 
+            marginBottom: '0.25rem',
+            textDecoration: 'none',
+            borderBottom: 'none',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            color: '#000000'
+          }}>
+          Подключение в проекте
+        </h2>
+        <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Установите пакет и один раз подключите стили в приложении (например, в корневом файле). Затем импортируйте компонент по подпути для tree-shaking.
+        </p>
+        <div style={{ borderRadius: '8px', overflow: 'hidden', width: '100%', boxSizing: 'border-box', marginBottom: '1rem' }}>
+          <SyntaxHighlighter
+            language="tsx"
+            style={oneLight}
+            customStyle={{ margin: 0, padding: '1rem', fontSize: '0.875rem', lineHeight: '1.6', borderRadius: 0, background: '#f5f5f5' }}
+            codeTagProps={{ style: { fontFamily: 'monospace' } }}
+            PreTag="div"
+            useInlineStyles={true}
+          >
+            {`// 1) Подключите стили один раз (theme — полная тема, theme-vars — только переменные)
+import 'turbo-ui/styles/theme';
+
+// 2) Импорт компонента
+import { Button } from 'turbo-ui/button';
+
+// 3) Использование
+<Button type="primary">Текст</Button>`}
+          </SyntaxHighlighter>
+        </div>
+        <p style={{ fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Подробнее: README и <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>specs/001-turbo-ui-root-spec/quickstart.md</code>.
+        </p>
+      </div>
+
       {/* Секция Импорт */}
       <div style={{ marginBottom: '3rem' }}>
         <h2 
@@ -478,7 +556,11 @@ const ButtonDocsPage = () => {
             PreTag="div"
             useInlineStyles={true}
           >
-            {`import { Button } from 'src/ui/button/Button';`}
+            {`// Потребитель пакета (рекомендуется)
+import { Button } from 'turbo-ui/button';
+
+// Локальная разработка внутри репозитория Turbo UI
+import { Button } from 'src/ui/button';`}
           </SyntaxHighlighter>
         </div>
       </div>
@@ -486,7 +568,7 @@ const ButtonDocsPage = () => {
       {/* Секция Пример Primary кнопки */}
       <div style={{ marginBottom: '3rem' }}>
         <ExampleBlock
-          code={`import { Button } from 'src/ui/button/Button';
+          code={`import { Button } from 'turbo-ui/button';
 
 <Button type="primary">Button</Button>`}
         >
@@ -514,6 +596,63 @@ const ButtonDocsPage = () => {
           Все пропсы
         </h2>
         <CollapsiblePropsList />
+      </div>
+
+      {/* Секция Интеграция: ref и нативные атрибуты */}
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 
+          id="integration"
+          style={{ 
+            marginBottom: '0.25rem',
+            textDecoration: 'none',
+            borderBottom: 'none',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            color: '#000000'
+          }}>
+          Интеграция: ref и нативные атрибуты
+        </h2>
+        <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Компонент поддерживает <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>ref</code> (forwardRef) и любые нативные атрибуты <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;button&gt;</code>: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>id</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>data-testid</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code> и т.д. — удобно для тестов и доступности.
+        </p>
+        <ExampleBlock
+          code={`const buttonRef = useRef<HTMLButtonElement>(null);
+
+<Button
+  ref={buttonRef}
+  data-testid="submit-btn"
+  aria-label="Отправить форму"
+  type="primary"
+  onClick={() => buttonRef.current?.focus()}
+>
+  Отправить
+</Button>`}
+        >
+          <RefAndAttrsExample />
+        </ExampleBlock>
+        <p style={{ marginTop: '1rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Свои иконки: передайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconL2</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconR2</code> и при необходимости отключите встроенные через <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconL=&#123;false&#125;</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconR=&#123;false&#125;</code>.
+        </p>
+      </div>
+
+      {/* Секция Тема и изоляция */}
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 
+          id="theme-scope"
+          style={{ 
+            marginBottom: '0.25rem',
+            textDecoration: 'none',
+            borderBottom: 'none',
+            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+            color: '#000000'
+          }}>
+          Тема и изоляция
+        </h2>
+        <p style={{ marginBottom: '0.5rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Переопределение токенов: оберните дерево в <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>TurboUIProvider</code> с пропом <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>theme</code>. Чтобы не трогать глобальные переменные проекта, задайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>scopeClassName</code> — токены применятся только внутри обёртки.
+        </p>
+        <p style={{ fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Подробнее: <a href="https://github.com/johnpostman2-design/turbo-ui#readme" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--content-brand, #228be7)' }}>README</a>, раздел «Интеграция без конфликтов» в <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>specs/001-turbo-ui-root-spec/quickstart.md</code>.
+        </p>
       </div>
 
       {/* Секция Варианты стилей */}
@@ -851,6 +990,21 @@ const handleClick = () => {
           </li>
           <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
             <a
+              href="#setup"
+              onClick={(e) => handleMenuClick(e, 'setup')}
+              style={{
+                color: '#000000',
+                textDecoration: 'none',
+                display: 'block',
+                transition: 'color 0.2s ease',
+                cursor: 'pointer'
+              }}
+            >
+              Подключение в проекте
+            </a>
+          </li>
+          <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
+            <a
               href="#all-props"
               onClick={(e) => handleMenuClick(e, 'all-props')}
               style={{
@@ -862,6 +1016,36 @@ const handleClick = () => {
               }}
             >
               Все пропсы
+            </a>
+          </li>
+          <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
+            <a
+              href="#integration"
+              onClick={(e) => handleMenuClick(e, 'integration')}
+              style={{
+                color: '#000000',
+                textDecoration: 'none',
+                display: 'block',
+                transition: 'color 0.2s ease',
+                cursor: 'pointer'
+              }}
+            >
+              Интеграция
+            </a>
+          </li>
+          <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
+            <a
+              href="#theme-scope"
+              onClick={(e) => handleMenuClick(e, 'theme-scope')}
+              style={{
+                color: '#000000',
+                textDecoration: 'none',
+                display: 'block',
+                transition: 'color 0.2s ease',
+                cursor: 'pointer'
+              }}
+            >
+              Тема и изоляция
             </a>
           </li>
           <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>

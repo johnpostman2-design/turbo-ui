@@ -134,8 +134,99 @@
 
 ---
 
+---
+
+## Phase 8: Button API для интеграции без конфликтов
+
+**Purpose**: Разработчик может передавать ref и нативные атрибуты на кнопку (формы, фокус, тесты, data-*, aria-*), не конфликтуя с дизайн-системой проекта.
+
+**Independent Test**: Button рендерит `<button>`, принимает ref через forwardRef; переданные id, data-testid, aria-label, autoFocus и др. попадают на DOM-элемент; существующие stories и сборка проходят.
+
+- [x] T011 Реализовать forwardRef для Button: обернуть экспорт в `React.forwardRef<HTMLButtonElement, ButtonProps>`, пробросить ref на внутренний `<button>` в `src/ui/button/Button.tsx`; обновить тип экспорта при необходимости в `src/ui/button/index.ts`
+- [x] T012 Расширить Button пропсами нативного button: в `ButtonProps` добавить деструктуризацию с исключением уже используемых пропсов (onClick, disabled, className и т.д.) и передать `...rest` на `<button>` в `src/ui/button/Button.tsx`; документировать в `specs/001-turbo-ui-root-spec/contracts/button.md` (id, data-*, aria-label, autoFocus, tabIndex)
+
+---
+
+## Phase 9: Scoped theme и провайдер
+
+**Purpose**: Использование Turbo UI в одной обёртке без переопределения глобальных переменных дизайн-системы проекта.
+
+**Independent Test**: В Storybook или тестовом приложении обёртка с классом (например `.turbo-ui-scope`) применяет только свои токены; глобальные :root проекта не меняются.
+
+- [x] T013 Добавить опциональный scopeClassName в TurboUIProvider: в `src/provider/TurboUIProvider.tsx` добавить проп `scopeClassName?: string`, применять его к корневому div вместе с style (theme); при отсутствии theme по-прежнему возвращать `<>{children}</>`
+- [x] T014 [P] Добавить в документацию пример scoped-темы: в README.md или `specs/001-turbo-ui-root-spec/quickstart.md` раздел «Интеграция без конфликтов» — пример обёртки с классом и переопределением только токенов Turbo UI внутри неё (CSS или TurboUIProvider с scopeClassName)
+
+---
+
+## Phase 10: Документация и экспорт стилей
+
+**Purpose**: Разработчик знает, какие стили подключать и какие CSS-переменные переопределять; стили библиотеки можно подключить явно.
+
+**Independent Test**: README содержит инструкцию по подключению theme/стилей; в package.json экспортированы нужные CSS-файлы; список переменных Button доступен в контракте или README.
+
+- [x] T015 Добавить экспорт стилей в package.json: в `exports` добавить пути к theme.css и при необходимости theme-vars.css (например `"./styles/theme": "./dist/styles/theme.css"`); при сборке библиотеки копировать или включать стили в dist; уточнить `sideEffects` для CSS в `package.json`
+- [x] T016 [P] Описать подключение стилей в README: в README.md раздел «Подключение» — какие файлы импортировать (theme.css и/или theme-vars.css, нужен ли global.css), один раз на приложение; ссылка на экспорт из п. T015
+- [x] T017 [P] Добавить список CSS-переменных для Button: в `specs/001-turbo-ui-root-spec/contracts/button.md` (или README) раздел «CSS variables used» — перечень всех --button-*, --surface-*, --content-*, --border-*, шрифтов и т.д., используемых в `src/ui/button/button.module.css`, чтобы разработчик мог переопределить только их в своей обёртке
+
+---
+
+## Phase 11: Polish — иконки и минимальный CSS
+
+**Purpose**: Понятно, как использовать свои иконки и не тянуть лишние глобальные стили.
+
+**Independent Test**: В контракте/README описан способ отключения встроенных иконок и использования iconL2/iconR2; описан вариант «только переменные» без глобальных сбросов.
+
+- [x] T018 [P] Документировать использование своих иконок: в `specs/001-turbo-ui-root-spec/contracts/button.md` (или README) описать: кнопка по умолчанию использует иконки Turbo UI (play, loading); для интеграции без конфликтов — передавать iconL2/iconR2 и отключать встроенные через iconL={false}/iconR={false}
+- [x] T019 [P] Описать опцию минимального CSS: в README или quickstart — при необходимости подключить только переменные (theme-vars.css) без глобальных сбросов из global.css, если у проекта свои нормалайз/ресет; указать, какие файлы обязательны для Button
+
+---
+
+## Dependencies (Phase 8–11)
+
+### Phase Dependencies (новые фазы)
+
+- **Phase 8 (Button API)**: можно начинать после Phase 6 (не зависит от 9–11)
+- **Phase 9 (Scoped theme)**: можно после Phase 2 (TurboUIProvider уже есть)
+- **Phase 10 (Документация и экспорт стилей)**: можно параллельно с 8–9; T015 может потребовать настройки сборки lib
+- **Phase 11 (Polish)**: после Phase 10 (документация уже есть)
+
+### Recommended Order (T011–T019)
+
+1. T011 → T012 (forwardRef и rest-пропсы)
+2. T013 → T014 (scopeClassName и пример scoped)
+3. T015 → T016, T017 (экспорт стилей, README, список переменных) — T016 и T017 [P]
+4. T018, T019 (документация иконок и минимального CSS) — оба [P]
+
+### Parallel Opportunities
+
+- T014, T016, T017 можно выполнять параллельно после T013 и T015
+- T018 и T019 можно выполнять параллельно после Phase 10
+
+---
+
 ## Notes
 
 - Не добавлять новые фичи; не менять визуальный дизайн Button
 - Фокус только на чистой библиотечной сборке и изоляции
 - После каждой фазы рекомендуется коммит и проверка сборки/Storybook
+- Phase 8–11: задачи из рекомендаций «идеальный Button для интеграции без конфликтов с дизайн-системой проекта»
+
+---
+
+## Phase 12: Storybook — документация для стороннего разработчика
+
+**Purpose**: Сторонний разработчик понимает, как подключить Button в свой проект, передать ref/aria/data-*, использовать свои иконки и не конфликтовать с глобальной темой.
+
+**Independent Test**: В Storybook есть блок подключения в проекте (импорт из turbo-ui/button, стили); примеры с ref и нативными атрибутами; описание пропсов включает iconL2/iconR2 и ref; при необходимости — краткая секция про тему и изоляцию.
+
+- [x] T020 Добавить в Button Docs блок «Подключение в проекте» и исправить путь импорта: в `src/ui/button/Button.stories.tsx` (ButtonDocsPage) добавить секцию «Подключение в проекте» — импорт компонента `import { Button } from 'turbo-ui/button'`, однократное подключение стилей `import 'turbo-ui/styles/theme'` или `import 'turbo-ui/styles/theme-vars'`, мини-пример; в существующей секции «Импорт» показывать для потребителя пакета путь `turbo-ui/button` (при необходимости оставить вариант для локальной разработки отдельно)
+- [x] T021 Расширить описание пропсов в Storybook: в `src/ui/button/Button.stories.tsx` (CollapsiblePropsList или эквивалент) добавить пропсы iconL2, iconR2; добавить явное указание поддержки ref (forwardRef) и нативных атрибутов `<button>` (id, data-testid, aria-label, aria-describedby и т.д.) — в таблице или отдельной строкой под ней
+- [x] T022 Добавить story или подблок «Интеграция» в Button Docs: в `src/ui/button/Button.stories.tsx` пример использования с ref и data-testid (или aria-label), чтобы сторонний разработчик видел типичный сценарий для тестов/доступности; опционально пример своих иконок (iconL2, iconR={false})
+- [x] T023 [P] Добавить в Button Docs краткий подраздел «Тема и изоляция»: в `src/ui/button/Button.stories.tsx` одна секция — переопределение токенов через TurboUIProvider, изоляция через scopeClassName без переопределения глобальных переменных проекта; ссылка на README или quickstart для деталей
+
+---
+
+## Dependencies (Phase 12)
+
+- **Phase 12**: после Phase 10–11 (README и контракт уже содержат подключение и список переменных).
+- **Порядок**: T020 (подключение и путь) → T021 (пропсы) → T022 (story интеграции); T023 можно выполнять параллельно с T021 или T022.
