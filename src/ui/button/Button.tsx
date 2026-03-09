@@ -116,9 +116,9 @@ export function Button({
     >
       {showDefaultOrHover && (
         <>
-          {iconL && (iconL2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="default" />)}
+          {iconL && (iconL2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="default" />)}
           {text && <span className={styles.text}>{children}</span>}
-          {iconR && (iconR2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="default" />)}
+          {iconR && (iconR2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="default" />)}
         </>
       )}
       {showLoading && (
@@ -132,7 +132,7 @@ export function Button({
             {text && <span key="loading-text" className={styles.text}>{children}</span>}
             {iconR && iconL && (
               <span key="loading-right-icon" className={styles.loadingRight}>
-                {iconR2 ?? <Icon name="chart" color={getLoadingIconStroke()} size={config.iconSize} state="default" />}
+                {iconR2 ?? <Icon name="play" color={getLoadingIconStroke()} size={config.iconSize} state="default" />}
               </span>
             )}
             {iconR && !iconL && (
@@ -149,9 +149,9 @@ export function Button({
       )}
       {showDisabled && (
         <>
-          {iconL && (iconL2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
+          {iconL && (iconL2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
           {text && <span className={styles.text}>{children}</span>}
-          {iconR && (iconR2 ?? <Icon name="chart" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
+          {iconR && (iconR2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
         </>
       )}
     </button>
