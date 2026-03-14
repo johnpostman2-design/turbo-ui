@@ -831,18 +831,34 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
 <Button variant="primary">С обеими</Button>
 <Button variant="primary" endIcon={null}>Только левая</Button>
 <Button variant="primary" startIcon={null}>Только правая</Button>
-<Button variant="primary" startIcon={null} endIcon={null}>Без иконок</Button>`}
+<Button variant="primary" startIcon={null} endIcon={null}>Без иконок</Button>
+
+<Button variant="primary" text={false} endIcon={null} aria-label="Воспроизвести" />`}
         >
-          <div style={{ 
+          <div style={{
             display: 'flex',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            alignItems: 'center'
+            flexDirection: 'column',
+            gap: '1.5rem'
           }}>
-            <Button variant="primary">С обеими</Button>
-            <Button variant="primary" endIcon={null}>Только левая</Button>
-            <Button variant="primary" startIcon={null}>Только правая</Button>
-            <Button variant="primary" startIcon={null} endIcon={null}>Без иконок</Button>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '1rem',
+              alignItems: 'center'
+            }}>
+              <Button variant="primary">С обеими</Button>
+              <Button variant="primary" endIcon={null}>Только левая</Button>
+              <Button variant="primary" startIcon={null}>Только правая</Button>
+              <Button variant="primary" startIcon={null} endIcon={null}>Без иконок</Button>
+            </div>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '1rem',
+              alignItems: 'center'
+            }}>
+              <Button variant="primary" text={false} endIcon={null} aria-label="Воспроизвести" />
+            </div>
           </div>
         </ExampleBlock>
       </div>
