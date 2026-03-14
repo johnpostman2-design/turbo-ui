@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import dts from 'vite-plugin-dts';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,7 +8,15 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** Сборка Turbo UI как библиотеки (ESM). Подключение по частям: turbo-ui/button, turbo-ui/provider. */
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({
+      tsconfigPath: path.resolve(dirname, 'tsconfig.build.json'),
+      outDir: 'dist',
+      include: ['src/index.ts', 'src/ui/button/**/*.ts', 'src/ui/button/**/*.tsx', 'src/provider/**/*.tsx', 'src/tokens/**/*.ts'],
+      exclude: ['**/*.test.*', '**/*.stories.*'],
+    }),
+  ],
   build: {
     lib: {
       entry: {

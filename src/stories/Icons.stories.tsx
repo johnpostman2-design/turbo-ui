@@ -112,7 +112,7 @@ export const States: Story = {
 };
 
 export const Colors: Story = {
-  args: { name: 'check', size: 32 },
+  args: { name: 'check-done', size: 32 },
   render: (args) => (
     <div style={{ padding: '2rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
       <Icon {...args} color="var(--content-primary, #000)" />

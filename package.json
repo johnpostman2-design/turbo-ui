@@ -1,6 +1,5 @@
 {
   "name": "turbo-ui",
-  "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
@@ -9,26 +8,47 @@
     "prebuild-storybook": "npm run gen:theme",
     "dev": "vite",
     "build": "vite build",
-    "build:lib": "vite build -c vite.config.lib.js",
+    "build:lib": "vite build -c vite.config.lib.js && node scripts/copy-styles.cjs",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
-  },
-  "exports": {
-    ".": "./dist/index.js",
-    "./button": "./dist/ui/button.js",
-    "./provider": "./dist/provider.js"
+    "build-storybook": "storybook build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project unit"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "sideEffects": false,
-  "dependencies": {
-    "@types/react-syntax-highlighter": "^15.5.13",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-syntax-highlighter": "^16.1.0"
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./button": {
+      "types": "./dist/ui/button.d.ts",
+      "import": "./dist/ui/button.js"
+    },
+    "./provider": {
+      "types": "./dist/provider.d.ts",
+      "import": "./dist/provider.js"
+    },
+    "./styles/theme": "./dist/styles/theme.css",
+    "./styles/theme-vars": "./dist/styles/theme-vars.css",
+    "./styles/fonts": "./dist/styles/fonts.css"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "react-syntax-highlighter": "^16.1.0",
     "@chromatic-com/storybook": "^4.1.3",
     "@storybook/addon-a11y": "^10.1.8",
     "@storybook/addon-docs": "^10.1.8",
@@ -36,20 +56,27 @@
     "@storybook/addon-vitest": "^10.1.8",
     "@storybook/react-vite": "^10.1.8",
     "@tailwindcss/postcss": "^4.1.18",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/browser-playwright": "^4.0.15",
     "@vitest/coverage-v8": "^4.0.15",
     "autoprefixer": "^10.4.23",
     "clsx": "^2.1.1",
+    "jsdom": "^28.1.0",
     "lucide-react": "^0.562.0",
     "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "storybook": "^10.1.8",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
     "vite": "^7.2.7",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.15"
   }
 }
-

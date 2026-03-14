@@ -4,21 +4,33 @@ import { getButtonSizeConfig, colors } from '../../tokens';
 import { clsx } from 'clsx';
 import styles from './button.module.css';
 
-export interface ButtonProps {
-  type?: 'primary' | 'secondary' | 'text' | 'backless' | 'success' | 'danger' | 'caution';
+export type ButtonVariant = 'primary' | 'secondary' | 'text' | 'backless' | 'success' | 'danger' | 'caution';
+
+const NATIVE_BUTTON_TYPES = ['button', 'submit', 'reset'] as const;
+export type NativeButtonType = (typeof NATIVE_BUTTON_TYPES)[number];
+
+/** @deprecated Используйте variant. Если передан type со значением варианта (primary, secondary, …), трактуется как variant. */
+export type ButtonTypeDeprecated = ButtonVariant;
+
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  /** Нативный HTML type (button | submit | reset). По умолчанию "button". */
+  type?: NativeButtonType | ButtonTypeDeprecated;
+  /** Визуальный вариант кнопки */
+  variant?: ButtonVariant;
   state?: 'default' | 'hover' | 'disabled' | 'loading';
   size?: 'small' | 'medium' | 'large';
-  iconL?: boolean;
-  iconR?: boolean;
+  /** Слот слева: undefined = иконка play по умолчанию, null = не показывать, ReactNode = своя иконка */
+  startIcon?: React.ReactNode | null;
+  /** Слот справа: undefined = иконка play по умолчанию, null = не показывать, ReactNode = своя иконка */
+  endIcon?: React.ReactNode | null;
+  /** Показывать текст (children) */
   text?: boolean;
-  iconL2?: React.ReactNode | null;
-  iconR2?: React.ReactNode | null;
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
 }
 
-const typeToClass: Record<NonNullable<ButtonProps['type']>, string> = {
+const variantToClass: Record<ButtonVariant, string> = {
   primary: styles.typePrimary,
   secondary: styles.typeSecondary,
   text: styles.typeText,
@@ -34,126 +46,131 @@ const sizeToClass: Record<NonNullable<ButtonProps['size']>, string> = {
   large: styles.sizeLarge,
 };
 
-export function Button({
-  type = 'primary',
-  state = 'default',
-  size = 'medium',
-  iconL = true,
-  iconR = true,
-  text = true,
-  iconL2 = null,
-  iconR2 = null,
-  children = 'Button',
-  onClick,
-  className,
-}: ButtonProps) {
+function isNativeButtonType(t: unknown): t is NativeButtonType {
+  return typeof t === 'string' && NATIVE_BUTTON_TYPES.includes(t as NativeButtonType);
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    type: typeProp,
+    variant: variantProp,
+    state = 'default',
+    size = 'medium',
+    startIcon = undefined,
+    endIcon = undefined,
+    text = true,
+    children = 'Button',
+    onClick,
+    className,
+    ...rest
+  },
+  ref
+) {
+  const variant: ButtonVariant =
+    variantProp ?? (typeProp && !isNativeButtonType(typeProp) ? (typeProp as ButtonVariant) : 'primary');
+  const nativeType: NativeButtonType = isNativeButtonType(typeProp) ? typeProp : 'button';
+
   const config = getButtonSizeConfig(size);
-  const [isHovered, setIsHovered] = React.useState(false);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const widthWhenDefaultRef = React.useRef<number | null>(null);
+  const setRef = React.useCallback(
+    (el: HTMLButtonElement | null) => {
+      if (typeof ref === 'function') ref(el);
+      else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = el;
+    },
+    [ref]
+  );
 
-  React.useEffect(() => {
-    if ((state === 'default' || state === 'hover') && buttonRef.current) {
-      widthWhenDefaultRef.current = buttonRef.current.offsetWidth;
-    }
-  }, [state, children, iconL, iconR, text]);
+  const hasStart = startIcon !== null;
+  const hasEnd = endIcon !== null;
 
-  const handleMouseEnter = () => {
-    if (state === 'default') setIsHovered(true);
-  };
-  const handleMouseLeave = () => setIsHovered(false);
-
-  const effectiveState = isHovered && state === 'default' ? 'hover' : state;
+  const effectiveState = state;
   const isDisabled = state === 'disabled' || state === 'loading';
-  const isLoading = effectiveState === 'loading';
-  const gapEmpty = !text && !iconL && !iconR;
+  const isLoading = state === 'loading';
+  const gapEmpty = !text && !hasStart && !hasEnd;
 
   const getIconStroke = () => {
     if (effectiveState === 'disabled') return colors.content.disabled;
-    if (type === 'primary') return colors.content.invert;
-    if (type === 'success') return colors.content.success;
-    if (type === 'danger') return colors.content.error;
-    if (type === 'caution') return colors.content.caution;
+    if (variant === 'primary') return colors.content.invert;
+    if (variant === 'success') return colors.content.success;
+    if (variant === 'danger') return colors.content.error;
+    if (variant === 'caution') return colors.content.caution;
     return colors.content.primary;
   };
 
-  /** Цвет иконки загрузки: наследует disabled-стиль типа; если у типа нет disabled — default */
-  const getLoadingIconStroke = () => {
-    return colors.content.disabled;
-  };
+  const getLoadingIconStroke = () => colors.content.disabled;
 
   const showDefaultOrHover = effectiveState === 'default' || effectiveState === 'hover';
   const showLoading = effectiveState === 'loading';
   const showDisabled = effectiveState === 'disabled';
 
-  const loadingHasTextOrRightIcon = text && (iconL || iconR);
+  const loadingHasTextOrIcons = text || hasStart || hasEnd;
+
+  const defaultStartIcon = <Icon name="play" color={getIconStroke()} size={config.iconSize} state="default" />;
+  const defaultEndIcon = <Icon name="play" color={getIconStroke()} size={config.iconSize} state="default" />;
+  const defaultStartIconDisabled = <Icon name="play" color={getIconStroke()} size={config.iconSize} state="disabled" />;
+  const defaultEndIconDisabled = <Icon name="play" color={getIconStroke()} size={config.iconSize} state="disabled" />;
+  const loadingIcon = <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />;
+  const loadingPlaceholderEndIcon = <Icon name="play" color={getLoadingIconStroke()} size={config.iconSize} state="default" />;
 
   const buttonClassName = clsx(
     styles.root,
-    typeToClass[type],
+    variantToClass[variant],
     sizeToClass[size],
     isLoading && styles.loading,
     gapEmpty && styles.gapEmpty,
     className
   );
 
-  const loadingStyle = isLoading && widthWhenDefaultRef.current != null
-    ? { ['--btn-width' as string]: `${widthWhenDefaultRef.current}px` }
-    : undefined;
-
   return (
     <button
-      ref={buttonRef}
-      type="button"
+      {...rest}
+      ref={setRef}
+      type={nativeType}
       onClick={onClick}
       disabled={isDisabled}
       className={buttonClassName}
-      style={loadingStyle}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       aria-disabled={isDisabled}
       aria-busy={isLoading}
     >
       {showDefaultOrHover && (
         <>
-          {iconL && (iconL2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="default" />)}
+          {hasStart && (startIcon ?? defaultStartIcon)}
           {text && <span className={styles.text}>{children}</span>}
-          {iconR && (iconR2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="default" />)}
+          {hasEnd && (endIcon ?? defaultEndIcon)}
         </>
       )}
       {showLoading && (
-        loadingHasTextOrRightIcon ? (
+        loadingHasTextOrIcons ? (
           <>
-            {iconL && (
+            {hasStart && (
               <span key="loading-l" className={styles.loadingSpinner}>
-                <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
+                {loadingIcon}
               </span>
             )}
             {text && <span key="loading-text" className={styles.text}>{children}</span>}
-            {iconR && iconL && (
+            {hasEnd && hasStart && (
               <span key="loading-right-icon" className={styles.loadingRight}>
-                {iconR2 ?? <Icon name="play" color={getLoadingIconStroke()} size={config.iconSize} state="default" />}
+                {endIcon ?? loadingPlaceholderEndIcon}
               </span>
             )}
-            {iconR && !iconL && (
+            {hasEnd && !hasStart && (
               <span key="loading-r" className={styles.loadingSpinner}>
-                <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
+                {loadingIcon}
               </span>
             )}
           </>
         ) : (
           <span className={styles.loadingSpinner}>
-            <Icon name="loading" color={getLoadingIconStroke()} size={config.iconSize} />
+            {loadingIcon}
           </span>
         )
       )}
       {showDisabled && (
         <>
-          {iconL && (iconL2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
+          {hasStart && (startIcon ?? defaultStartIconDisabled)}
           {text && <span className={styles.text}>{children}</span>}
-          {iconR && (iconR2 ?? <Icon name="play" color={getIconStroke()} size={config.iconSize} state="disabled" />)}
+          {hasEnd && (endIcon ?? defaultEndIconDisabled)}
         </>
       )}
     </button>
   );
-}
+});

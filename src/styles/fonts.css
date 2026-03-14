@@ -1,19 +1,17 @@
-/* Font face declaration for ONY ONE Regular */
+/* Font face declaration for ONY ONE Regular. Путь относительный от dist/styles/fonts.css к dist/fonts/ */
 @font-face {
   font-family: 'ONY ONE';
-  src: url('/fonts/ONYOne-Regular.woff2') format('woff2');
+  src: url('../fonts/ONYOne-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* Apply ONY ONE font globally */
-*,
-*::before,
-*::after {
-  font-family: 'ONY ONE', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif !important;
+/* Шрифт применяется только внутри контейнера с классом .turbo-ui-root (или обёртки TurboUIProvider).
+   Не задаём глобальный * { font-family }, чтобы не ломать стили хост-приложения. */
+.turbo-ui-root,
+.turbo-ui-scope {
+  font-family: 'ONY ONE', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -1,232 +1,200 @@
-# Tasks: Библиотечная архитектура Turbo UI
+# Tasks: Publish-ready Turbo UI Refactor
 
-**Input**: [plan.md](./plan.md), [spec.md](./spec.md).  
-**Context**: Нужно привести Turbo UI к более правильной библиотечной архитектуре.
+**Input**: [plan.md](./plan.md), [spec.md](./spec.md), пользовательский запрос на полный refactor до publish-ready React UI library.
 
-**Ограничения**: не добавлять новые фичи; не менять визуальный дизайн Button; не усложнять архитектуру без необходимости; фокус только на чистой библиотечной сборке.
+**Ограничения**: Не менять визуальное поведение компонентов без крайней необходимости; не переписывать архитектуру с нуля; улучшать только инженерную часть (package, build, API, styles isolation, DX).
 
-**Organization**: Задачи упорядочены по зависимостям. Выполнять по порядку; где помечено [P], можно выполнять параллельно в рамках фазы.
-
-## Format: `[ID] [P?] Description`
+**Organization**: Задачи упорядочены по зависимостям. Формат: `- [ ] [ID] [P?] [S?] Описание с путём к файлу`.
 
 - **[P]**: можно выполнять параллельно (другие файлы, нет зависимостей от незавершённых задач)
-- В описании указаны конкретные пути к файлам
+- **[S1]–[S10]**: метка секции рефактора (1=package, 2=build, 3=Button API, … 10=tests)
 
 ---
 
-## Phase 1: Стили и изоляция классов
+## Phase 1: Package.json и публикация (S1)
 
-**Purpose**: Переход на CSS Modules и устранение риска конфликтов имён классов с внешним проектом.
+**Purpose**: Библиотека готова к публикации в npm: корректные exports, peerDependencies, files, sideEffects.
 
-**Independent Test**: Стили компонентов в `.module.css`; классы не конфликтуют с глобальными именами при подключении библиотеки в другой проект.
+**Independent Test**: `npm pack` создаёт tarball; в нём есть package.json с полными exports, main, module, types, files; react/react-dom в peerDependencies и devDependencies.
 
-- [x] T001 Перевести стили компонентов с global CSS на CSS Modules: переименовать `src/ui/button/button.css` в `src/ui/button/button.module.css`, заменить глобальные селекторы на классы из `import styles from './button.module.css'`, обновить `src/ui/button/Button.tsx` (className через styles.root и т.д.)
-- [x] T002 [P] Убрать риск конфликтов классов с внешним проектом: убедиться, что все стили компонентов Turbo UI изолированы через CSS Modules (никаких глобальных классов в `src/ui/**/*.module.css` для публичного API); при необходимости добавить соглашение об именовании в specs/001-turbo-ui-root-spec/quickstart.md
-
----
-
-## Phase 2: Theme / Design Tokens Provider
-
-**Purpose**: Возможность переопределения темы и токенов при подключении библиотеки в проект.
-
-**Independent Test**: В тестовом приложении или Storybook обёртка TurboUIProvider с кастомными токенами меняет внешний вид компонентов без правки кода библиотеки.
-
-- [x] T003 Создать `src/provider/TurboUIProvider.tsx` (или `src/TurboUIProvider.tsx`): React-контекст и компонент-обёртка, принимающие опциональные theme/tokens (CSS-переменные или объект для инжекта в :root); провайдер применяет переданные значения поверх дефолтных из tokens.json; документировать использование в quickstart.md или README
+- [x] T001 [S1] Убрать `"private": true` и перенести react/react-dom в peerDependencies в `package.json`, оставив их в devDependencies
+- [x] T002 [P] [S1] Добавить в `package.json` поля types, main, module (уже есть), убедиться что exports покрывают: ".", "./button", "./provider", "./styles/theme", "./styles/theme-vars", "./styles/fonts.css" с путями в dist
+- [x] T003 [S1] Добавить поле `files` в `package.json` (dist, при необходимости README) и настроить `sideEffects` так, чтобы CSS не tree-shakался (например `["**/*.css"]`) в `package.json`
 
 ---
 
-## Phase 3: Проверка токенов
+## Phase 2: Build library mode (S2)
 
-**Purpose**: Компоненты используют только tokens, без hardcoded значений.
+**Purpose**: Сборка библиотеки через Vite library mode с генерацией .d.ts, попаданием в dist JS, types, CSS theme, шрифты.
 
-**Independent Test**: Поиск по коду (hex, rgb, px для цветов/отступов/шрифтов в компонентах ui/) не находит нарушений; линт или скрипт при необходимости.
+**Independent Test**: После `npm run build:lib` в dist есть .js entrypoints, .d.ts (или types в package.json указывает на них), theme.css, theme-vars.css, fonts; библиотека успешно импортируется из другого проекта (`import { Button } from 'turbo-ui/button'`).
 
-- [x] T004 [P] Проверить компоненты на использование только tokens: пройтись по `src/ui/**/*.tsx` и `src/ui/**/*.module.css` (после T001), заменить все hardcoded цвета, spacing, размеры шрифтов, radius на ссылки на токены (var(--token-name) или через theme); зафиксировать результат в specs/001-turbo-ui-root-spec/research.md при необходимости
-
----
-
-## Phase 4: Модульные exports и tree-shaking
-
-**Purpose**: Библиотеку можно подключать по частям; при использовании только Button в bundle не попадают лишние компоненты и код.
-
-**Independent Test**: Сборка библиотеки (vite build в lib-режиме или аналог); потребитель импортирует только `import { Button } from 'turbo-ui/button'` (или аналог) — в бандле потребителя нет кода других компонентов; проверка размера бандла.
-
-- [x] T005 Настроить модульные exports: добавить/обновить точки входа в `package.json` (exports: { ".": ..., "./button": ..., "./provider": ... } или единый entry с subpath exports); настроить сборку библиотеки в `vite.config.js` (lib.entry, форматы); экспортировать Button из `src/ui/button/index.ts`, провайдер из `src/provider/index.ts` (или выбранной структуры); обновить `src/index.ts` при наличии
-- [x] T006 Проверить tree-shaking: собрать потребительское приложение, импортирующее только Button (и минимально провайдер/токены); убедиться, что неиспользуемые компоненты и модули не попадают в bundle (анализ бандла через rollup-plugin-visualizer или вывод Vite); при необходимости поправить sideEffects в package.json и структуру экспортов
+- [x] T004 [S2] Настроить генерацию .d.ts: добавить vite-plugin-dts (или tsc emitDeclarationOnly) в `vite.config.lib.js` и скрипт сборки так, чтобы в dist попадали типы для index, ui/button, provider
+- [x] T005 [S2] Обеспечить попадание в dist CSS theme-файлов и шрифтов: проверить/дополнить `scripts/copy-styles.cjs` и при необходимости конфиг Vite в `vite.config.lib.js` (assetFileNames, copyPublicDir или аналог) в корне проекта
+- [x] T006 [S2] Добавить экспорт `./styles/fonts.css` в `package.json` exports и убедиться, что файл копируется в dist при сборке (скрипт или Vite)
 
 ---
 
-## Phase 5: Иконки
+## Phase 3: Button API fix (S3)
 
-**Purpose**: В bundle попадают только реально используемые иконки; загрузка всех иконок скопом убрана.
+**Purpose**: Визуальный prop только variant; нативный HTML type (button|submit|reset) поддерживается; backward compatibility для type как deprecated alias variant; ButtonProps расширяет React.ButtonHTMLAttributes, forwardRef, полная поддержка aria/data/id/tabIndex/style/name/value/form.
 
-**Independent Test**: Импорт одной иконки (например, только для Button) не тянет все SVG; бандл не содержит неиспользуемые иконки.
+**Independent Test**: Button принимает type="submit", ref, data-testid, aria-label; при передаче type="primary" ведёт себя как variant="primary"; TypeScript типы корректны для onClick и rest.
 
-- [x] T007 Убрать загрузку всех иконок скопом: убрать или переписать `eager: true` в `src/components/icons/iconRegistry.ts` (или эквивалент); перейти на ленивую загрузку по имени (dynamic import по запросу) или на явный импорт иконок в компонентах
-- [x] T008 Переписать icon architecture: обеспечить, чтобы в bundle попадали только реально используемые icons — например, регистр как map name → lazy loader, или отдельные файлы иконок с именованными экспортами и импорт в Button только нужных; обновить `src/components/icons/Icon.tsx` и использование в `src/ui/button/Button.tsx`; обновить `src/components/icons/index.ts` и при необходимости stories
-
----
-
-## Phase 6: Button как эталонный компонент
-
-**Purpose**: Button пересобран на новой архитектуре (CSS Modules, токены, провайдер, иконки) и остаётся эталоном без изменения визуального дизайна.
-
-**Independent Test**: Button в Storybook выглядит и ведёт себя как до рефакторинга; сборка библиотеки и потребителя проходят; нет лишних зависимостей в bundle.
-
-- [x] T009 Пересобрать Button как эталонный компонент на новой архитектуре: использовать только CSS Modules (T001), токены (T004), при необходимости TurboUIProvider для темы (T003), новую icon architecture (T007–T008); не менять визуальный дизайн; обновить `src/ui/button/Button.tsx` и `src/ui/button/button.module.css`; убедиться, что Storybook и документация Button остаются актуальными
+- [x] T007 [S3] В `src/ui/button/Button.tsx`: поддержать нативный HTML prop `type` (button | submit | reset) — убрать из Omit в ButtonProps и передавать ...rest на `<button>`; в деструктуризации извлечь визуальный alias: если передан deprecated prop `type` со значением из ButtonVariant, трактовать как variant (с приоритетом variant над type)
+- [x] T008 [S3] Убедиться что ButtonProps в `src/ui/button/Button.tsx` расширяет React.ButtonHTMLAttributes<HTMLButtonElement> без лишнего Omit (кроме при необходимости конфликтующих кастомных полей); ref через forwardRef уже есть; проверить типизацию onClick и rest
+- [x] T009 [P] [S3] Обновить контракт и документацию: в `specs/001-turbo-ui-root-spec/contracts/button.md` описать поддержку нативного type, deprecated type→variant, перечень поддерживаемых нативных атрибутов (aria, data, id, tabIndex, style, name, value, form)
 
 ---
 
-## Phase 7: Итоговая структура и список изменений
+## Phase 4: Loading / state logic (S4)
 
-**Purpose**: Зафиксировать итоговую структуру проекта и перечень изменений для ревью и документации.
+**Purpose**: loading не ломает layout; loading + icons стабильны; loading + disabled не конфликтуют; убрать demo-only hover state из production API; использовать CSS hover/focus вместо JS state где возможно.
 
-**Independent Test**: Документ с деревом структуры и списком изменений по файлам/модулям.
+**Independent Test**: В Storybook кнопка в состоянии loading сохраняет размер/раскладку; комбинации loading+disabled и loading+иконки работают; hover визуально через CSS, не через контролируемый state в production.
 
-- [x] T010 Показать итоговую структуру проекта и список изменений: обновить specs/001-turbo-ui-root-spec/quickstart.md (или отдельный LIBRARY_ARCHITECTURE.md) — актуальное дерево src/ (ui/, provider/, components/icons, tokens, styles); краткий список изменений по пунктам 1–9 (какие файлы добавлены/удалены/изменены); при необходимости обновить plan.md и README с инструкцией по подключению библиотеки по частям и использованию TurboUIProvider
+- [x] T010 [S4] В `src/ui/button/Button.tsx`: упростить логику loading — убрать фиксацию ширины через widthWhenDefaultRef если она ломает layout; обеспечить что loading + disabled обрабатываются согласованно (кнопка disabled, визуал loading)
+- [x] T011 [S4] В `src/ui/button/Button.tsx`: убрать контролируемый JS hover state из production API (isHovered/handleMouseEnter/handleMouseLeave) и перевести визуал hover на CSS (:hover в `src/ui/button/button.module.css`); оставить опциональный prop state только для disabled/loading если нужен для документации/Storybook
+- [x] T012 [S4] Проверить в `src/ui/button/Button.tsx` и `button.module.css`: loading + startIcon/endIcon не ломают раскладку; при необходимости поправить стили (min-width или фиксированные отступы через токены)
+
+---
+
+## Phase 5: Theme scoping (S5)
+
+**Purpose**: TurboUIProvider принимает scopeClassName; CSS-переменные применяются только внутри scope; библиотека не меняет :root глобально при использовании scope.
+
+**Independent Test**: В тестовом приложении обёртка с scopeClassName применяет тему только внутри контейнера; глобальные :root хост-приложения не перезаписываются при использовании scoped провайдера.
+
+- [x] T013 [S5] В `src/provider/TurboUIProvider.tsx`: при наличии scopeClassName всегда рендерить обёртку (div с классом и style theme), а не fragment; при отсутствии theme но наличии scopeClassName всё равно рендерить div с scopeClassName для консистентности scope в `src/provider/TurboUIProvider.tsx`
+- [x] T014 [S5] Обеспечить что дефолтные токены не инжектятся в :root из библиотеки: проверить `src/styles/theme.css` и сборку — при использовании scoped темы переменные должны применяться только к элементу с scopeClassName; при необходимости документировать в README что глобальная тема подключается явно через импорт theme.css, а scoped — через TurboUIProvider + свой класс в `README.md` или `specs/001-turbo-ui-root-spec/quickstart.md`
+
+---
+
+## Phase 6: Styles и fonts (S6)
+
+**Purpose**: Убрать глобальный `* { font-family }`; ограничить шрифт только scope контейнера; безопасная доставка шрифтов (относительные пути, ассеты в dist); opt-in подключение fonts.
+
+**Independent Test**: После подключения библиотеки глобальные стили хост-приложения не переопределяются селектором *; шрифты загружаются только при явном импорте fonts.css; пути к font-files относительные и работают из dist.
+
+- [x] T015 [S6] Убрать глобальное правило `* { font-family }` (или эквивалент) в `src/styles/global.css` или `src/styles/theme.css`; ограничить применение font-family только контейнером темы (например .turbo-ui-root или класс из TurboUIProvider) в соответствующих CSS-файлах
+- [x] T016 [S6] В `src/styles/fonts.css`: перевести пути к шрифтам на относительные (от расположения CSS в dist), чтобы при установке пакета из npm ассеты резолвились корректно; убедиться что fonts копируются в dist при build:lib (скрипт или Vite) в `scripts/copy-styles.cjs` или `vite.config.lib.js`
+- [x] T017 [P] [S6] Документировать opt-in подключение шрифтов: в README и при необходимости в `specs/001-turbo-ui-root-spec/quickstart.md` указать что `turbo-ui/styles/fonts` подключается по желанию; без него приложение может использовать свои шрифты при переопределении токена --family-brand
+
+---
+
+## Phase 7: README и документация (S7)
+
+**Purpose**: README с реальными импортами, примером theme, TurboUIProvider, Button variant; пометить deprecated type.
+
+**Independent Test**: По README можно установить пакет, подключить стили и провайдер, отрендерить Button с variant; deprecated type упомянут.
+
+- [x] T018 [S7] Обновить раздел подключения в `README.md`: реальные импорты (turbo-ui/button, turbo-ui/provider, turbo-ui/styles/theme, turbo-ui/styles/theme-vars, turbo-ui/styles/fonts); пример одного подключения theme и TurboUIProvider с children
+- [x] T019 [P] [S7] Добавить в `README.md` пример Button с variant (primary, secondary) и кратко пометить что prop type для визуального варианта deprecated — использовать variant
+
+---
+
+## Phase 8: Storybook consistency (S8)
+
+**Purpose**: Stories синхронизированы с реальным API; убрать несуществующие фичи; оставить полезные integration examples.
+
+**Independent Test**: В Storybook все контролы соответствуют ButtonProps; нет пропсов/фич которых нет в коде; есть примеры интеграции (ref, data-*, variant).
+
+- [x] T020 [S8] В `src/ui/button/Button.stories.tsx`: синхронизировать argTypes и все stories с актуальным API (variant, нативный type, ref, aria/data); убрать упоминания несуществующих фич
+- [x] T021 [P] [S8] Оставить в Storybook только полезные integration examples (ref forwarding, native props, variant), убрать избыточные или сломанные демо в `src/ui/button/Button.stories.tsx` и при необходимости в `src/stories/`
+
+---
+
+## Phase 9: Dev experience (S9)
+
+**Purpose**: Минимальный demo shell для vite dev или убрать мёртвые entrypoints; консистентные скрипты dev, build, typecheck, storybook, build-storybook.
+
+**Independent Test**: `npm run dev` открывает рабочий playground или явно документировано что dev — только Storybook; все скрипты из списка (dev, build, typecheck, storybook, build-storybook) есть и работают.
+
+- [x] T022 [S9] Решить по текущему состоянию: либо оставить минимальный demo shell (`src/main.jsx` + index.html) для `npm run dev`, либо удалить мёртвые entrypoints и документировать что для разработки используется только Storybook; в `package.json` скрипты dev/build/typecheck/storybook/build-storybook должны быть консистентны и перечислены в README
+- [x] T023 [S9] Добавить скрипт typecheck в `package.json` (например `"typecheck": "tsc --noEmit"` или через vitest) и при необходимости настроить tsc для библиотеки (tsconfig.json) в корне проекта
+
+---
+
+## Phase 10: Tests — минимум (S10)
+
+**Purpose**: typecheck script; smoke-тесты Button (variant rendering, disabled, loading, native props, ref forwarding) через Vitest.
+
+**Independent Test**: `npm run typecheck` и `npm run test` проходят; есть хотя бы один smoke-тест на рендер Button по вариантам и на ref.
+
+- [x] T024 [S10] Добавить/настроить Vitest для библиотеки: конфиг в `vite.config.js` или отдельный vitest.config; скрипт `"test": "vitest run"` в `package.json`
+- [x] T025 [P] [S10] Написать smoke-тесты Button в `src/ui/button/Button.test.tsx` (или `src/ui/button/__tests__/Button.test.tsx`): рендер по variant (primary, secondary); disabled; loading; передача нативных props (data-testid, type="submit"); ref forwarding (ref получает DOM-элемент)
+- [x] T026 [S10] Убедиться что тесты и typecheck запускаются в CI или по инструкции в README/quickstart в `specs/001-turbo-ui-root-spec/quickstart.md`
+
+---
+
+## Phase 11: Финал — сборка и отчёт
+
+**Purpose**: После refactor запустить build, typecheck, tests; вывести краткий summary (изменённые файлы, breaking changes, deprecated props, как проверить локально).
+
+**Independent Test**: Все команды выполняются без ошибок; в репозитории или в quickstart есть concise summary.
+
+- [x] T027 Запустить `npm run build:lib`, `npm run typecheck`, `npm run test` и исправить ошибки если появятся после предыдущих фаз
+- [x] T028 Обновить `specs/001-turbo-ui-root-spec/quickstart.md` (или отдельный REFACTOR_SUMMARY.md): список изменённых файлов; breaking changes (если есть); перечень deprecated props (type → variant); как проверить библиотеку локально (npm link / npm pack + install в другом проекте)
 
 ---
 
 ## Dependencies & Execution Order
 
-### Phase Dependencies
+### Phase order
 
-- **Phase 1 (Стили и изоляция)**: можно начинать сразу
-- **Phase 2 (TurboUIProvider)**: после Phase 1 (опционально можно параллельно, если провайдер не трогает стили компонентов)
-- **Phase 3 (Проверка токенов)**: после Phase 1 (актуальные файлы — module.css и tsx)
-- **Phase 4 (Exports и tree-shaking)**: после Phase 1–3 (стабильные компоненты и токены)
-- **Phase 5 (Иконки)**: можно после Phase 1; желательно до Phase 6
-- **Phase 6 (Button эталон)**: после Phase 1–5
-- **Phase 7 (Документация)**: после Phase 6
+- **Phase 1 (S1)**: Package.json — без зависимостей, можно начинать первым.
+- **Phase 2 (S2)**: Build — зависит от S1 (exports/files в package.json).
+- **Phase 3 (S3)**: Button API — после S2 (сборка уже есть).
+- **Phase 4 (S4)**: Loading/state — после S3 (логика Button).
+- **Phase 5 (S5)**: Theme scoping — после S2 (провайдер в сборке).
+- **Phase 6 (S6)**: Styles/fonts — после S2, S5 (theme и scope).
+- **Phase 7 (S7)**: README — после S1–S6 (документирует итог).
+- **Phase 8 (S8)**: Storybook — после S3, S4 (стабильный API).
+- **Phase 9 (S9)**: Dev experience — после S2 (скрипты и entrypoints).
+- **Phase 10 (S10)**: Tests — после S3, S4 (тесты Button).
+- **Phase 11**: Финал — после всех фаз.
 
-### Recommended Order
+### Recommended sequence
 
-1. T001 → T002 (CSS Modules и изоляция)
-2. T003 (TurboUIProvider)
-3. T004 (аудит токенов)
-4. T005 → T006 (exports и tree-shaking)
-5. T007 → T008 (иконки)
-6. T009 (Button на новой архитектуре)
-7. T010 (структура и список изменений)
+1. T001 → T002 → T003 (package)
+2. T004 → T005 → T006 (build)
+3. T007 → T008 → T009 (Button API)
+4. T010 → T011 → T012 (loading/state)
+5. T013 → T014 (theme scoping)
+6. T015 → T016 → T017 (styles/fonts)
+7. T018 → T019 (README)
+8. T020 → T021 (Storybook)
+9. T022 → T023 (dev experience)
+10. T024 → T025 → T026 (tests)
+11. T027 → T028 (финал и summary)
 
-### Parallel Opportunities
+### Parallel opportunities
 
-- T002 можно выполнять сразу после T001 (та же фаза)
-- T004 помечен [P] — после Phase 1 можно выполнять параллельно с T003
+- T002 и T003 можно выполнять параллельно после T001.
+- T009, T017, T019, T021, T025 — помечены [P] в своих фазах.
 
 ---
 
 ## Implementation Strategy
 
-### MVP (минимальная библиотечная архитектура)
+### MVP (минимальный publish-ready)
 
-1. Phase 1 (T001–T002) — CSS Modules
-2. Phase 2 (T003) — TurboUIProvider
-3. Phase 3 (T004) — только токены в компонентах
-4. Phase 6 (T009) — Button на новой архитектуре (с текущими иконками при необходимости отложить T007–T008)
-5. Phase 7 (T010) — структура и список изменений
+1. Phase 1 + Phase 2 (package + build)
+2. Phase 3 (Button API fix)
+3. Phase 5 (theme scoping)
+4. Phase 7 (README)
+5. Phase 11 (финал)
 
-Остановиться и проверить: сборка и Storybook работают; Button без визуальных изменений; провайдер позволяет переопределять тему.
+Остановиться и проверить: `npm pack` и установка в другой проект, typecheck, один smoke-тест.
 
 ### Полный объём
 
-Выполнить все фазы по порядку T001–T010; затем финальная сборка и проверка tree-shaking и размера бандла.
-
----
-
----
-
-## Phase 8: Button API для интеграции без конфликтов
-
-**Purpose**: Разработчик может передавать ref и нативные атрибуты на кнопку (формы, фокус, тесты, data-*, aria-*), не конфликтуя с дизайн-системой проекта.
-
-**Independent Test**: Button рендерит `<button>`, принимает ref через forwardRef; переданные id, data-testid, aria-label, autoFocus и др. попадают на DOM-элемент; существующие stories и сборка проходят.
-
-- [x] T011 Реализовать forwardRef для Button: обернуть экспорт в `React.forwardRef<HTMLButtonElement, ButtonProps>`, пробросить ref на внутренний `<button>` в `src/ui/button/Button.tsx`; обновить тип экспорта при необходимости в `src/ui/button/index.ts`
-- [x] T012 Расширить Button пропсами нативного button: в `ButtonProps` добавить деструктуризацию с исключением уже используемых пропсов (onClick, disabled, className и т.д.) и передать `...rest` на `<button>` в `src/ui/button/Button.tsx`; документировать в `specs/001-turbo-ui-root-spec/contracts/button.md` (id, data-*, aria-label, autoFocus, tabIndex)
-
----
-
-## Phase 9: Scoped theme и провайдер
-
-**Purpose**: Использование Turbo UI в одной обёртке без переопределения глобальных переменных дизайн-системы проекта.
-
-**Independent Test**: В Storybook или тестовом приложении обёртка с классом (например `.turbo-ui-scope`) применяет только свои токены; глобальные :root проекта не меняются.
-
-- [x] T013 Добавить опциональный scopeClassName в TurboUIProvider: в `src/provider/TurboUIProvider.tsx` добавить проп `scopeClassName?: string`, применять его к корневому div вместе с style (theme); при отсутствии theme по-прежнему возвращать `<>{children}</>`
-- [x] T014 [P] Добавить в документацию пример scoped-темы: в README.md или `specs/001-turbo-ui-root-spec/quickstart.md` раздел «Интеграция без конфликтов» — пример обёртки с классом и переопределением только токенов Turbo UI внутри неё (CSS или TurboUIProvider с scopeClassName)
-
----
-
-## Phase 10: Документация и экспорт стилей
-
-**Purpose**: Разработчик знает, какие стили подключать и какие CSS-переменные переопределять; стили библиотеки можно подключить явно.
-
-**Independent Test**: README содержит инструкцию по подключению theme/стилей; в package.json экспортированы нужные CSS-файлы; список переменных Button доступен в контракте или README.
-
-- [x] T015 Добавить экспорт стилей в package.json: в `exports` добавить пути к theme.css и при необходимости theme-vars.css (например `"./styles/theme": "./dist/styles/theme.css"`); при сборке библиотеки копировать или включать стили в dist; уточнить `sideEffects` для CSS в `package.json`
-- [x] T016 [P] Описать подключение стилей в README: в README.md раздел «Подключение» — какие файлы импортировать (theme.css и/или theme-vars.css, нужен ли global.css), один раз на приложение; ссылка на экспорт из п. T015
-- [x] T017 [P] Добавить список CSS-переменных для Button: в `specs/001-turbo-ui-root-spec/contracts/button.md` (или README) раздел «CSS variables used» — перечень всех --button-*, --surface-*, --content-*, --border-*, шрифтов и т.д., используемых в `src/ui/button/button.module.css`, чтобы разработчик мог переопределить только их в своей обёртке
-
----
-
-## Phase 11: Polish — иконки и минимальный CSS
-
-**Purpose**: Понятно, как использовать свои иконки и не тянуть лишние глобальные стили.
-
-**Independent Test**: В контракте/README описан способ отключения встроенных иконок и использования iconL2/iconR2; описан вариант «только переменные» без глобальных сбросов.
-
-- [x] T018 [P] Документировать использование своих иконок: в `specs/001-turbo-ui-root-spec/contracts/button.md` (или README) описать: кнопка по умолчанию использует иконки Turbo UI (play, loading); для интеграции без конфликтов — передавать iconL2/iconR2 и отключать встроенные через iconL={false}/iconR={false}
-- [x] T019 [P] Описать опцию минимального CSS: в README или quickstart — при необходимости подключить только переменные (theme-vars.css) без глобальных сбросов из global.css, если у проекта свои нормалайз/ресет; указать, какие файлы обязательны для Button
-
----
-
-## Dependencies (Phase 8–11)
-
-### Phase Dependencies (новые фазы)
-
-- **Phase 8 (Button API)**: можно начинать после Phase 6 (не зависит от 9–11)
-- **Phase 9 (Scoped theme)**: можно после Phase 2 (TurboUIProvider уже есть)
-- **Phase 10 (Документация и экспорт стилей)**: можно параллельно с 8–9; T015 может потребовать настройки сборки lib
-- **Phase 11 (Polish)**: после Phase 10 (документация уже есть)
-
-### Recommended Order (T011–T019)
-
-1. T011 → T012 (forwardRef и rest-пропсы)
-2. T013 → T014 (scopeClassName и пример scoped)
-3. T015 → T016, T017 (экспорт стилей, README, список переменных) — T016 и T017 [P]
-4. T018, T019 (документация иконок и минимального CSS) — оба [P]
-
-### Parallel Opportunities
-
-- T014, T016, T017 можно выполнять параллельно после T013 и T015
-- T018 и T019 можно выполнять параллельно после Phase 10
+Выполнить все фазы T001–T028 по порядку; затем финальный прогон build, typecheck, test и запись summary в quickstart/REFACTOR_SUMMARY.
 
 ---
 
 ## Notes
 
-- Не добавлять новые фичи; не менять визуальный дизайн Button
-- Фокус только на чистой библиотечной сборке и изоляции
-- После каждой фазы рекомендуется коммит и проверка сборки/Storybook
-- Phase 8–11: задачи из рекомендаций «идеальный Button для интеграции без конфликтов с дизайн-системой проекта»
-
----
-
-## Phase 12: Storybook — документация для стороннего разработчика
-
-**Purpose**: Сторонний разработчик понимает, как подключить Button в свой проект, передать ref/aria/data-*, использовать свои иконки и не конфликтовать с глобальной темой.
-
-**Independent Test**: В Storybook есть блок подключения в проекте (импорт из turbo-ui/button, стили); примеры с ref и нативными атрибутами; описание пропсов включает iconL2/iconR2 и ref; при необходимости — краткая секция про тему и изоляцию.
-
-- [x] T020 Добавить в Button Docs блок «Подключение в проекте» и исправить путь импорта: в `src/ui/button/Button.stories.tsx` (ButtonDocsPage) добавить секцию «Подключение в проекте» — импорт компонента `import { Button } from 'turbo-ui/button'`, однократное подключение стилей `import 'turbo-ui/styles/theme'` или `import 'turbo-ui/styles/theme-vars'`, мини-пример; в существующей секции «Импорт» показывать для потребителя пакета путь `turbo-ui/button` (при необходимости оставить вариант для локальной разработки отдельно)
-- [x] T021 Расширить описание пропсов в Storybook: в `src/ui/button/Button.stories.tsx` (CollapsiblePropsList или эквивалент) добавить пропсы iconL2, iconR2; добавить явное указание поддержки ref (forwardRef) и нативных атрибутов `<button>` (id, data-testid, aria-label, aria-describedby и т.д.) — в таблице или отдельной строкой под ней
-- [x] T022 Добавить story или подблок «Интеграция» в Button Docs: в `src/ui/button/Button.stories.tsx` пример использования с ref и data-testid (или aria-label), чтобы сторонний разработчик видел типичный сценарий для тестов/доступности; опционально пример своих иконок (iconL2, iconR={false})
-- [x] T023 [P] Добавить в Button Docs краткий подраздел «Тема и изоляция»: в `src/ui/button/Button.stories.tsx` одна секция — переопределение токенов через TurboUIProvider, изоляция через scopeClassName без переопределения глобальных переменных проекта; ссылка на README или quickstart для деталей
-
----
-
-## Dependencies (Phase 12)
-
-- **Phase 12**: после Phase 10–11 (README и контракт уже содержат подключение и список переменных).
-- **Порядок**: T020 (подключение и путь) → T021 (пропсы) → T022 (story интеграции); T023 можно выполнять параллельно с T021 или T022.
+- Не менять визуальное поведение компонентов без крайней необходимости.
+- Deprecated: визуальный prop `type` → использовать `variant`; обратная совместимость: type="primary" трактуется как variant="primary".
+- После каждой фазы рекомендуется коммит и проверка сборки/Storybook.

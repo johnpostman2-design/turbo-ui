@@ -122,10 +122,9 @@
 .typeCaution:hover:not(:disabled) { background-color: var(--surface-caution-hover); }
 .typeCaution:disabled { background-color: var(--surface-primary-disabled); color: var(--content-disabled); }
 
-/* Loading */
+/* Loading: сохраняем раскладку через min-height из size, без фиксации ширины */
 .loading {
-  width: var(--btn-width, auto);
-  min-width: var(--btn-width, auto);
+  min-width: 0;
 }
 .loadingRight {
   display: inline-flex;

@@ -13,58 +13,54 @@ const CollapsiblePropsList = () => {
   const props = [
     {
       name: 'type',
+      type: '"button" | "submit" | "reset" (или deprecated: вариант кнопки)',
+      description: 'Нативный HTML type. Deprecated: значение варианта (primary, secondary, …) трактуется как variant — используйте variant.',
+      default: '"button"'
+    },
+    {
+      name: 'variant',
       type: '"primary" | "secondary" | "text" | "backless" | "success" | "danger" | "caution"',
-      description: 'Визуальный вариант по макету Figma. Primary — основное действие. Secondary — второстепенное. Text — текстовая. Backless — без фона. Success, Danger, Caution — семантические варианты.',
+      description: 'Визуальный вариант кнопки. Primary — основное действие. Secondary, text, backless — второстепенные. Success, danger, caution — семантические.',
       default: '"primary"'
     },
     {
       name: 'state',
       type: '"default" | "hover" | "disabled" | "loading"',
-      description: 'Состояние. default — обычное, hover — при наведении, disabled — заблокирована, loading — показывается спиннер.',
+      description: 'Состояние. default — обычное, hover — при наведении, disabled — заблокирована, loading — спиннер.',
       default: '"default"'
     },
     {
       name: 'size',
       type: '"small" | "medium" | "large"',
-      description: 'Высота кнопки: small 32px, medium 40px, large 56px.',
+      description: 'Размер: small 32px, medium 40px, large 56px.',
       default: '"medium"'
     },
     {
-      name: 'iconL',
-      type: 'boolean',
-      description: 'Показывать иконку слева.',
-      default: 'true'
+      name: 'startIcon',
+      type: 'ReactNode | null',
+      description: 'Слот слева. undefined — иконка play по умолчанию, null — не показывать, ReactNode — своя иконка.',
+      default: 'undefined'
     },
     {
-      name: 'iconR',
-      type: 'boolean',
-      description: 'Показывать иконку справа.',
-      default: 'true'
+      name: 'endIcon',
+      type: 'ReactNode | null',
+      description: 'Слот справа. undefined — иконка play по умолчанию, null — не показывать, ReactNode — своя иконка.',
+      default: 'undefined'
     },
     {
       name: 'text',
       type: 'boolean',
-      description: 'Показывать текст кнопки.',
+      description: 'Показывать текст (children).',
       default: 'true'
-    },
-    {
-      name: 'iconL2',
-      type: 'ReactNode | null',
-      description: 'Кастомная иконка слева (переопределяет встроенную). Для своих иконок без конфликта с Turbo UI передавайте сюда узел и при необходимости отключите встроенные через iconL={false}.',
-      default: 'null'
-    },
-    {
-      name: 'iconR2',
-      type: 'ReactNode | null',
-      description: 'Кастомная иконка справа (переопределяет встроенную).',
-      default: 'null'
     },
     {
       name: 'className',
       type: 'string',
       description: 'Дополнительные CSS-классы.',
       default: '—'
-    }
+    },
+    { name: 'ref', type: 'RefObject<HTMLButtonElement>', description: 'forwardRef: ref на DOM <button>.', default: '—' },
+    { name: '…rest', type: 'HTML button attrs', description: 'id, data-*, aria-*, tabIndex, form, name, value, style и др. пробрасываются на <button>.', default: '—' }
   ];
 
   return (
@@ -233,15 +229,6 @@ const CollapsiblePropsList = () => {
               ))}
             </tbody>
           </table>
-          <p style={{
-            marginTop: '1rem',
-            fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
-            fontSize: 'var(--text-base, 15px)',
-            lineHeight: '1.5',
-            color: 'var(--foreground)'
-          }}>
-            Компонент реализован через <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>forwardRef</code>: можно передавать <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>ref</code> для доступа к DOM-элементу. Все нативные атрибуты <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;button&gt;</code> поддерживаются и пробрасываются на элемент: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>id</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>data-testid</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>autoFocus</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>tabIndex</code> и т.д.
-          </p>
         </div>
       )}
     </div>
@@ -263,7 +250,7 @@ const ButtonDocsPage = () => {
 
     return (
       <Button 
-        type="primary" 
+        variant="primary" 
         state={isLoading ? "loading" : "default"}
         onClick={handleClick}
       >
@@ -285,7 +272,7 @@ const ButtonDocsPage = () => {
         alignItems: 'center'
       }}>
         <Button 
-          type="primary" 
+          variant="primary" 
           size="small"
           state={isLoadingSmall ? "loading" : "default"}
           onClick={() => {
@@ -296,7 +283,7 @@ const ButtonDocsPage = () => {
           Small
         </Button>
         <Button 
-          type="primary" 
+          variant="primary" 
           size="medium"
           state={isLoadingMedium ? "loading" : "default"}
           onClick={() => {
@@ -307,7 +294,7 @@ const ButtonDocsPage = () => {
           Medium
         </Button>
         <Button 
-          type="primary" 
+          variant="primary" 
           size="large"
           state={isLoadingLarge ? "loading" : "default"}
           onClick={() => {
@@ -338,51 +325,42 @@ const ButtonDocsPage = () => {
         alignItems: 'center'
       }}>
         <Button 
-          type="primary" 
+          variant="primary" 
           state={isLoading ? "loading" : "default"}
-          iconL={true}
-          text={false} 
-          iconR={false}
+          text={false}
+          endIcon={null}
           onClick={handleClick}
         >
           Удалить
         </Button>
         <Button 
-          type="primary" 
+          variant="primary" 
           state={isLoading ? "loading" : "default"}
-          iconL={false}
-          text={true}
-          iconR={false}
+          startIcon={null}
+          endIcon={null}
           onClick={handleClick}
         >
           Удалить
         </Button>
         <Button 
-          type="primary" 
+          variant="primary" 
           state={isLoading ? "loading" : "default"}
-          iconL={true}
-          text={true}
-          iconR={false}
+          endIcon={null}
           onClick={handleClick}
         >
           Удалить
         </Button>
         <Button 
-          type="primary" 
+          variant="primary" 
           state={isLoading ? "loading" : "default"}
-          iconL={false}
-          text={true}
-          iconR={true}
+          startIcon={null}
           onClick={handleClick}
         >
           Удалить
         </Button>
         <Button 
-          type="primary" 
+          variant="primary" 
           state={isLoading ? "loading" : "default"}
-          iconL={true}
-          text={true}
-          iconR={true}
           onClick={handleClick}
         >
           Удалить
@@ -413,7 +391,7 @@ const ButtonDocsPage = () => {
           ref={buttonRef}
           data-testid="submit-btn"
           aria-label="Отправить форму"
-          type="primary"
+          variant="primary"
           onClick={() => buttonRef.current?.focus()}
         >
           Отправить
@@ -449,17 +427,17 @@ const ButtonDocsPage = () => {
         alignItems: 'center'
       }}>
         <Button 
-          type="backless" 
-          iconL={false}
-          iconR={false}
-          onClick={() => window.open('https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo--UI-Demo?node-id=1-8&t=qY6qqTxdmKFUKcCU-11', '_blank', 'noopener,noreferrer')}
+          variant="backless" 
+          startIcon={null}
+          endIcon={null}
+          onClick={() => window.open('https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=559-2347', '_blank', 'noopener,noreferrer')}
         >
           Figma
         </Button>
         <Button 
-          type="backless" 
-          iconL={false}
-          iconR={false}
+          variant="backless" 
+          startIcon={null}
+          endIcon={null}
           onClick={() => window.open('https://github.com/johnpostman2-design/turbo-ui/tree/main/src/ui/button', '_blank', 'noopener,noreferrer')}
         >
           GitHub
@@ -507,7 +485,7 @@ import 'turbo-ui/styles/theme';
 import { Button } from 'turbo-ui/button';
 
 // 3) Использование
-<Button type="primary">Текст</Button>`}
+<Button variant="primary">Текст</Button>`}
           </SyntaxHighlighter>
         </div>
         <p style={{ fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
@@ -570,14 +548,14 @@ import { Button } from 'src/ui/button';`}
         <ExampleBlock
           code={`import { Button } from 'turbo-ui/button';
 
-<Button type="primary">Button</Button>`}
+<Button variant="primary">Button</Button>`}
         >
           <div style={{ 
             display: 'flex',
             gap: '1rem',
             alignItems: 'center'
           }}>
-            <Button type="primary">Button</Button>
+            <Button variant="primary">Button</Button>
           </div>
         </ExampleBlock>
       </div>
@@ -595,6 +573,9 @@ import { Button } from 'src/ui/button';`}
           }}>
           Все пропсы
         </h2>
+        <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
+          Компонент реализован через <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>forwardRef</code>: можно передавать <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>ref</code> для доступа к DOM-элементу. Все нативные атрибуты <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;button&gt;</code> поддерживаются и пробрасываются на элемент: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>id</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>data-testid</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>autoFocus</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>tabIndex</code> и т.д.
+        </p>
         <CollapsiblePropsList />
       </div>
 
@@ -621,7 +602,7 @@ import { Button } from 'src/ui/button';`}
   ref={buttonRef}
   data-testid="submit-btn"
   aria-label="Отправить форму"
-  type="primary"
+  variant="primary"
   onClick={() => buttonRef.current?.focus()}
 >
   Отправить
@@ -630,7 +611,7 @@ import { Button } from 'src/ui/button';`}
           <RefAndAttrsExample />
         </ExampleBlock>
         <p style={{ marginTop: '1rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-          Свои иконки: передайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconL2</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconR2</code> и при необходимости отключите встроенные через <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconL=&#123;false&#125;</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>iconR=&#123;false&#125;</code>.
+          Свои иконки: передайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>startIcon</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endIcon</code> (ReactNode). Чтобы скрыть слот, передайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>startIcon=&#123;null&#125;</code> или <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endIcon=&#123;null&#125;</code>.
         </p>
       </div>
 
@@ -731,13 +712,13 @@ import { Button } from 'src/ui/button';`}
         <ExampleBlock
           code={`import { Button } from 'src/ui/button/Button';
 
-<Button type="primary">Primary</Button>
-<Button type="secondary">Secondary</Button>
-<Button type="text">Text</Button>
-<Button type="backless">Backless</Button>
-<Button type="success">Success</Button>
-<Button type="danger">Danger</Button>
-<Button type="caution">Caution</Button>`}
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="text">Text</Button>
+<Button variant="backless">Backless</Button>
+<Button variant="success">Success</Button>
+<Button variant="danger">Danger</Button>
+<Button variant="caution">Caution</Button>`}
         >
           <div style={{ 
             display: 'flex',
@@ -745,13 +726,13 @@ import { Button } from 'src/ui/button';`}
             alignItems: 'center',
             flexWrap: 'wrap'
           }}>
-            <Button type="primary">Primary</Button>
-            <Button type="secondary">Secondary</Button>
-            <Button type="text">Text</Button>
-            <Button type="backless">Backless</Button>
-            <Button type="success">Success</Button>
-            <Button type="danger">Danger</Button>
-            <Button type="caution">Caution</Button>
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="text">Text</Button>
+            <Button variant="backless">Backless</Button>
+            <Button variant="success">Success</Button>
+            <Button variant="danger">Danger</Button>
+            <Button variant="caution">Caution</Button>
           </div>
         </ExampleBlock>
       </div>
@@ -786,7 +767,7 @@ const [isLoadingMedium, setIsLoadingMedium] = useState(false);
 const [isLoadingLarge, setIsLoadingLarge] = useState(false);
 
 <Button 
-  type="primary" 
+  variant="primary" 
   size="small"
   state={isLoadingSmall ? "loading" : "default"}
   onClick={() => {
@@ -797,7 +778,7 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
   Small
 </Button>
 <Button 
-  type="primary" 
+  variant="primary" 
   size="medium"
   state={isLoadingMedium ? "loading" : "default"}
   onClick={() => {
@@ -808,7 +789,7 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
   Medium
 </Button>
 <Button 
-  type="primary" 
+  variant="primary" 
   size="large"
   state={isLoadingLarge ? "loading" : "default"}
   onClick={() => {
@@ -847,10 +828,10 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
         <ExampleBlock
           code={`import { Button } from 'src/ui/button/Button';
 
-<Button type="primary">С обеими</Button>
-<Button type="primary" iconR={false}>Только левая</Button>
-<Button type="primary" iconL={false}>Только правая</Button>
-<Button type="primary" iconL={false} iconR={false}>Без иконок</Button>`}
+<Button variant="primary">С обеими</Button>
+<Button variant="primary" endIcon={null}>Только левая</Button>
+<Button variant="primary" startIcon={null}>Только правая</Button>
+<Button variant="primary" startIcon={null} endIcon={null}>Без иконок</Button>`}
         >
           <div style={{ 
             display: 'flex',
@@ -858,10 +839,10 @@ const [isLoadingLarge, setIsLoadingLarge] = useState(false);
             gap: '1rem',
             alignItems: 'center'
           }}>
-            <Button type="primary">С обеими</Button>
-            <Button type="primary" iconR={false}>Только левая</Button>
-            <Button type="primary" iconL={false}>Только правая</Button>
-            <Button type="primary" iconL={false} iconR={false}>Без иконок</Button>
+            <Button variant="primary">С обеими</Button>
+            <Button variant="primary" endIcon={null}>Только левая</Button>
+            <Button variant="primary" startIcon={null}>Только правая</Button>
+            <Button variant="primary" startIcon={null} endIcon={null}>Без иконок</Button>
           </div>
         </ExampleBlock>
       </div>
@@ -897,11 +878,11 @@ const handleClick = () => {
   setTimeout(() => setIsLoading(false), 2000);
 };
 
-<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={true} text={false} iconR={false} onClick={handleClick}>Удалить</Button>
-<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={false} text={true} iconR={false} onClick={handleClick}>Удалить</Button>
-<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={true} text={true} iconR={false} onClick={handleClick}>Удалить</Button>
-<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={false} text={true} iconR={true} onClick={handleClick}>Удалить</Button>
-<Button type="primary" state={isLoading ? 'loading' : 'default'} iconL={true} text={true} iconR={true} onClick={handleClick}>Удалить</Button>`}
+<Button variant="primary" state={isLoading ? 'loading' : 'default'} text={false} endIcon={null} onClick={handleClick}>Удалить</Button>
+<Button variant="primary" state={isLoading ? 'loading' : 'default'} startIcon={null} endIcon={null} onClick={handleClick}>Удалить</Button>
+<Button variant="primary" state={isLoading ? 'loading' : 'default'} endIcon={null} onClick={handleClick}>Удалить</Button>
+<Button variant="primary" state={isLoading ? 'loading' : 'default'} startIcon={null} onClick={handleClick}>Удалить</Button>
+<Button variant="primary" state={isLoading ? 'loading' : 'default'} onClick={handleClick}>Удалить</Button>`}
         >
           <InteractiveLoadingButtons />
         </ExampleBlock>
@@ -931,10 +912,10 @@ const handleClick = () => {
         <ExampleBlock
           code={`import { Button } from 'src/ui/button/Button';
 
-<Button type="primary" state="disabled">Primary</Button>
-<Button type="secondary" state="disabled">Secondary</Button>
-<Button type="text" state="disabled">Text</Button>
-<Button type="backless" state="disabled">Backless</Button>`}
+<Button variant="primary" state="disabled">Primary</Button>
+<Button variant="secondary" state="disabled">Secondary</Button>
+<Button variant="text" state="disabled">Text</Button>
+<Button variant="backless" state="disabled">Backless</Button>`}
         >
           <div style={{ 
             display: 'flex',
@@ -942,10 +923,10 @@ const handleClick = () => {
             alignItems: 'center',
             flexWrap: 'wrap'
           }}>
-            <Button type="primary" state="disabled">Primary</Button>
-            <Button type="secondary" state="disabled">Secondary</Button>
-            <Button type="text" state="disabled">Text</Button>
-            <Button type="backless" state="disabled">Backless</Button>
+            <Button variant="primary" state="disabled">Primary</Button>
+            <Button variant="secondary" state="disabled">Secondary</Button>
+            <Button variant="text" state="disabled">Text</Button>
+            <Button variant="backless" state="disabled">Backless</Button>
           </div>
         </ExampleBlock>
       </div>
@@ -1145,35 +1126,35 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     children: 'Primary Button',
   },
 };
 
 export const Secondary: Story = {
   args: {
-    type: 'secondary',
+    variant: 'secondary',
     children: 'Secondary Button',
   },
 };
 
 export const Text: Story = {
   args: {
-    type: 'text',
+    variant: 'text',
     children: 'Text Button',
   },
 };
 
 export const Backless: Story = {
   args: {
-    type: 'backless',
+    variant: 'backless',
     children: 'Backless Button',
   },
 };
 
 export const Loading: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     state: 'loading',
     children: 'Loading...',
   },
@@ -1181,7 +1162,7 @@ export const Loading: Story = {
 
 export const Disabled: Story = {
   args: {
-    type: 'primary',
+    variant: 'primary',
     state: 'disabled',
     children: 'Disabled Button',
   },
@@ -1189,21 +1170,21 @@ export const Disabled: Story = {
 
 export const Success: Story = {
   args: {
-    type: 'success',
+    variant: 'success',
     children: 'Success',
   },
 };
 
 export const Danger: Story = {
   args: {
-    type: 'danger',
+    variant: 'danger',
     children: 'Danger',
   },
 };
 
 export const Caution: Story = {
   args: {
-    type: 'caution',
+    variant: 'caution',
     children: 'Caution',
   },
 };

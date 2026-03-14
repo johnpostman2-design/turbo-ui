@@ -1,0 +1,27 @@
+/* Playground layout — только токены */
+.playground {
+  padding: var(--spacing-32);
+  font-family: var(--family-brand), sans-serif;
+}
+
+.playground h1 {
+  margin-bottom: var(--spacing-16);
+  font-size: var(--typescale-title-large-size);
+  line-height: var(--typescale-title-large-height);
+  color: var(--content-primary);
+}
+
+.playground p {
+  margin-bottom: var(--spacing-24);
+  color: var(--content-secondary);
+}
+
+.playground a {
+  color: var(--content-brand);
+}
+
+.playground-actions {
+  display: flex;
+  gap: var(--spacing-12);
+  flex-wrap: wrap;
+}

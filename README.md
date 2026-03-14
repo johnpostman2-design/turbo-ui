@@ -2,46 +2,80 @@
 
 Библиотека UI-компонентов (Turbo UI). Компоненты стилизуются через design tokens (CSS-переменные), тема переопределяется без смены кода.
 
+## Установка
+
+```bash
+npm i turbo-ui
+```
+
 ## Подключение
 
-1. Установите пакет: `npm i turbo-ui` (или подключите локально по пути).
+### 1. Стили (один раз в приложении, например в `main.tsx`)
 
-2. Подключите стили **один раз** в приложении (например, в корневом JS/TS или в `main.tsx`):
+Импорты из пакета:
 
-   - **Рекомендуемый вариант** — полная тема (переменные + legacy-алиасы и типографика):
-     ```js
-     import 'turbo-ui/styles/theme';
-     ```
-     Либо после сборки библиотеки: импортируйте `dist/styles/theme.css` (файл подключает `theme-vars.css` и задаёт алиасы).
+| Импорт | Назначение |
+|--------|------------|
+| `turbo-ui/styles/theme` | Полная тема (переменные + алиасы в `:root`) |
+| `turbo-ui/styles/theme-vars` | Только CSS-переменные из tokens — достаточно для Button |
+| `turbo-ui/styles/fonts` | Объявление @font-face для ONY ONE (opt-in) |
 
-   - **Только переменные** (если у проекта свои нормалайз/ресет и не нужны глобальные стили Turbo UI):
-     ```js
-     import 'turbo-ui/styles/theme-vars';
-     ```
-     Подключится только `theme-vars.css` (переменные из tokens.json). Этого достаточно для Button.
+```js
+// Рекомендуемый вариант — полная тема
+import 'turbo-ui/styles/theme';
 
-   Файлы стилей экспортируются из пакета: `turbo-ui/styles/theme`, `turbo-ui/styles/theme-vars` (см. `package.json` → `exports`).
+// Опционально: шрифты (см. раздел «Шрифты» ниже)
+import 'turbo-ui/styles/fonts';
+```
 
-3. Оберните приложение (или блок с Turbo UI) в провайдер темы при необходимости переопределить токены:
-   ```jsx
-   import { TurboUIProvider } from 'turbo-ui/provider';
-   import { Button } from 'turbo-ui/button';
+**Шрифты:** Файлы шрифтов (woff2) в npm-пакет не входят. Варианты: (1) не импортировать `turbo-ui/styles/fonts` и задать свой шрифт через тему: `theme={{ '--family-brand': '"Your Font", sans-serif' }}`; (2) использовать ONY ONE — скопировать файл шрифта в свой проект и подключить своим `@font-face`, либо положить в `public/fonts/` при сборке библиотеки (тогда в dist попадёт `dist/fonts/` и путь из fonts.css сработает).
 
-   <TurboUIProvider theme={{ '--content-primary': '#333' }}>
-     <Button>Текст</Button>
-   </TurboUIProvider>
-   ```
+Минимальный вариант (только переменные, без глобальных сбросов Turbo UI):
 
-4. Импортируйте компоненты по подпутям для tree-shaking:
-   ```js
-   import { Button } from 'turbo-ui/button';
-   ```
+```js
+import 'turbo-ui/styles/theme-vars';
+```
+
+### 2. Провайдер и компоненты
+
+```jsx
+import { TurboUIProvider } from 'turbo-ui/provider';
+import { Button } from 'turbo-ui/button';
+
+function App() {
+  return (
+    <TurboUIProvider theme={{ '--content-primary': '#333' }}>
+      <Button variant="primary">Основная</Button>
+      <Button variant="secondary">Вторичная</Button>
+    </TurboUIProvider>
+  );
+}
+```
+
+Импортируйте по подпутям для tree-shaking: `turbo-ui/button`, `turbo-ui/provider`.
+
+### 3. Button: варианты и deprecated prop
+
+Визуальный вариант задаётся пропом **`variant`**:
+
+- `primary` | `secondary` | `text` | `backless` | `success` | `danger` | `caution`
+
+Проп **`type`** для визуального варианта **deprecated** — используйте `variant`. Нативный HTML-атрибут `type` (button | submit | reset) поддерживается и пробрасывается на `<button>`.
 
 ## Минимальный CSS для Button
 
-Для работы кнопки достаточно переменных темы. Подключите один из вариантов:
+- `import 'turbo-ui/styles/theme'` — полная тема.
+- `import 'turbo-ui/styles/theme-vars'` — только переменные (подходит при своих нормалайз/ресет).
 
-- `import 'turbo-ui/styles/theme'` — полная тема (переменные + алиасы в `:root`).
-- `import 'turbo-ui/styles/theme-vars'` — только переменные из tokens; подходит, если в проекте свои глобальные сбросы и не нужен `global.css` Turbo UI.
+Перечень CSS-переменных Button: [contracts/button.md](specs/001-turbo-ui-root-spec/contracts/button.md) (раздел «CSS variables used»).
 
-Перечень переменных, используемых Button, см. в [contracts/button.md](specs/001-turbo-ui-root-spec/contracts/button.md) (раздел «CSS variables used»).
+## Скрипты
+
+| Команда | Описание |
+|---------|----------|
+| `npm run dev` | Запуск playground (Vite) |
+| `npm run build:lib` | Сборка библиотеки в `dist/` |
+| `npm run typecheck` | Проверка типов |
+| `npm run test` | Запуск тестов (Vitest) |
+| `npm run storybook` | Запуск Storybook |
+| `npm run build-storybook` | Сборка Storybook |
