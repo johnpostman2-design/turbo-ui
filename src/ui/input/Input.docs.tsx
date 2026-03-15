@@ -162,7 +162,7 @@ import { Input } from 'src/ui/input';`}
 
           <div style={{ marginBottom: '3rem' }}>
             <ExampleBlock code={`<Input type="email" placeholder="you@example.com" />`}>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', width: '320px', maxWidth: '320px', flexShrink: 0, boxSizing: 'border-box' }}>
+              <div style={{ flex: '0 0 320px', width: '320px', maxWidth: '100%', display: 'flex', gap: '1rem', alignItems: 'stretch', boxSizing: 'border-box' }}>
                 <Input type="email" placeholder="you@example.com" />
               </div>
             </ExampleBlock>
