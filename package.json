@@ -27,6 +27,14 @@
       "types": "./dist/ui/button.d.ts",
       "import": "./dist/ui/button.js"
     },
+    "./icon-button": {
+      "types": "./dist/ui/icon-button.d.ts",
+      "import": "./dist/ui/icon-button.js"
+    },
+    "./input": {
+      "types": "./dist/ui/input.d.ts",
+      "import": "./dist/ui/input.js"
+    },
     "./provider": {
       "types": "./dist/provider.d.ts",
       "import": "./dist/provider.js"

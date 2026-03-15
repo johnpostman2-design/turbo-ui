@@ -238,20 +238,28 @@ if (typeof document !== 'undefined') {
     
     /* Скрываем меню на мобильных устройствах */
     @media (max-width: 1200px) {
-      nav[style*="position: fixed"]:not(.button-docs-menu) {
+      nav[style*="position: fixed"]:not(.button-docs-menu):not(.icon-button-docs-menu):not(.input-docs-menu) {
         display: none !important;
       }
     }
     
-    /* Показываем меню документации всегда */
-    .button-docs-menu {
+    /* Показываем меню документации всегда (Button, IconButton, Input) */
+    .button-docs-menu,
+    .icon-button-docs-menu,
+    .input-docs-menu {
       display: block !important;
     }
     
     /* Оглавление справа — Label/small */
     .button-docs-menu,
     .button-docs-menu a,
-    .button-docs-menu li {
+    .button-docs-menu li,
+    .icon-button-docs-menu,
+    .icon-button-docs-menu a,
+    .icon-button-docs-menu li,
+    .input-docs-menu,
+    .input-docs-menu a,
+    .input-docs-menu li {
       font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--typescale-lable-small-size) !important;
       line-height: var(--typescale-lable-small-height) !important;

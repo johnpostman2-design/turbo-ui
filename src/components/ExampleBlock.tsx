@@ -75,7 +75,9 @@ export const ExampleBlock: React.FC<ExampleBlockProps> = ({
           justifyContent: 'center',
           background: 'var(--background, white)'
         }}>
-          {children}
+          <div style={{ maxWidth: '100%', minWidth: 0 }}>
+            {children}
+          </div>
         </div>
         
         {/* Панель управления кодом */}

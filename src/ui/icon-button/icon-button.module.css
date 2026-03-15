@@ -1,0 +1,97 @@
+/* IconButton по макету Figma 614-149/614-150/614-151, 618-316.
+   Primary: без фона, только цвет иконки. Secondary: при hover — круглый фон (Figma 618-316). */
+
+/* Контейнер без паддингов и без фона */
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  transition: var(--icon-button-transition);
+}
+
+.root:disabled {
+  cursor: default;
+}
+
+/* Область иконки = 100% контейнера, без паддингов и инсетов. Иконка тянется на весь размер кнопки. */
+.iconWrap {
+  display: inline-flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Потомок заполняет область. Для Icon передавайте size="100%" — тогда без !important в каскаде. */
+.iconWrap > * {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.iconWrap svg {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
+
+/* Размеры из Figma MCP get_metadata node 602:3021: small 16×16, medium 24×24, large 32×32 */
+.sizeSmall {
+  width: var(--icon-button-small-size);
+  height: var(--icon-button-small-size);
+  min-width: var(--icon-button-small-size);
+  min-height: var(--icon-button-small-size);
+}
+
+.sizeMedium {
+  width: var(--icon-button-medium-size);
+  height: var(--icon-button-medium-size);
+  min-width: var(--icon-button-medium-size);
+  min-height: var(--icon-button-medium-size);
+}
+
+.sizeLarge {
+  width: var(--icon-button-large-size);
+  height: var(--icon-button-large-size);
+  min-width: var(--icon-button-large-size);
+  min-height: var(--icon-button-large-size);
+}
+
+/* Primary: иконка чёрная, при hover — тёмно-серый, disabled — приглушённо. Фона нет. */
+.typePrimary {
+  color: var(--content-primary);
+}
+.typePrimary:hover:not(:disabled) {
+  color: var(--surface-primary-invert-hover);
+}
+.typePrimary:disabled {
+  color: var(--content-disabled);
+}
+
+/* Secondary: default — surface-secondary-main; hover — surface-secondary-hover */
+.typeSecondary {
+  color: var(--surface-secondary-main);
+}
+.typeSecondary:hover:not(:disabled) {
+  color: var(--surface-secondary-hover);
+}
+.typeSecondary:disabled {
+  color: var(--content-disabled);
+}

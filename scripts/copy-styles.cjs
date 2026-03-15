@@ -56,3 +56,15 @@ if (fs.existsSync(path.join(dist, 'ui', 'button', 'index.d.ts'))) {
   fs.writeFileSync(buttonDts, "export { Button } from './button/index';\nexport type { ButtonProps, ButtonVariant } from './button/index';\n");
   console.log('Written dist/ui/button.d.ts');
 }
+const iconButtonDts = path.join(dist, 'ui', 'icon-button.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'icon-button', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(iconButtonDts, "export { IconButton } from './icon-button/index';\nexport type { IconButtonProps, IconButtonVariant } from './icon-button/index';\n");
+  console.log('Written dist/ui/icon-button.d.ts');
+}
+const inputDts = path.join(dist, 'ui', 'input.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'input', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(inputDts, "export { Input } from './input/index';\nexport type { InputProps, InputSize, InputType } from './input/index';\n");
+  console.log('Written dist/ui/input.d.ts');
+}

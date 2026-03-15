@@ -1,0 +1,138 @@
+/* Input: поле с leftIcon, endAdornment. Только токены. */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 120px;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-self: stretch;
+}
+
+.fieldWrap {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border-tertiary);
+  border-radius: var(--input-border-radius);
+  background: var(--surface-primary-main);
+  color: var(--content-primary);
+  transition: var(--input-transition);
+  outline: none;
+}
+
+.fieldWrap:hover:not(.fieldDisabled) {
+  border-color: var(--border-secondary);
+}
+
+.fieldError {
+  border-color: var(--border-error);
+}
+
+.fieldDisabled {
+  cursor: default;
+  background: var(--surface-primary-disabled);
+  border-color: var(--border-disabled);
+  color: var(--content-disabled);
+}
+
+/* Размеры из токенов */
+.sizeSmall {
+  height: var(--input-small-height);
+}
+
+.sizeSmall .input {
+  height: var(--input-small-height);
+  padding: 0 var(--input-small-padding-x);
+  font-size: var(--input-small-font-size);
+}
+
+.sizeMedium {
+  height: var(--input-medium-height);
+}
+
+.sizeMedium .input {
+  height: var(--input-medium-height);
+  padding: 0 var(--input-medium-padding-x);
+  font-size: var(--input-medium-font-size);
+}
+
+.sizeLarge {
+  height: var(--input-large-height);
+}
+
+.sizeLarge .input {
+  height: var(--input-large-height);
+  padding: 0 var(--input-large-padding-x);
+  font-size: var(--input-large-font-size);
+}
+
+.leftIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-left: var(--input-medium-padding-x);
+  color: var(--content-secondary);
+}
+
+.sizeSmall .leftIcon {
+  padding-left: var(--input-small-padding-x);
+}
+
+.sizeLarge .leftIcon {
+  padding-left: var(--input-large-padding-x);
+}
+
+.input {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  line-height: 1.25;
+  transition: var(--input-transition);
+}
+
+/* number/time/date получают от браузера свою ширину — принудительно под flex layout */
+.input[type='number'],
+.input[type='time'],
+.input[type='date'] {
+  min-width: 0 !important;
+  width: 0 !important;
+  flex: 1 1 0 !important;
+}
+
+.input::placeholder {
+  color: var(--content-tertiary);
+}
+
+.input:focus {
+  outline: none;
+}
+
+/* Убираем нативные иконки поиска — используем только leftIcon/endAdornment из дизайн-системы */
+.input[type='search']::-webkit-search-decoration,
+.input[type='search']::-webkit-search-cancel-button,
+.input[type='search']::-webkit-search-results-button,
+.input[type='search']::-webkit-search-results-decoration {
+  appearance: none;
+}
+
+.input:disabled {
+  cursor: default;
+  color: var(--content-disabled);
+}
+
+.endAdornment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-right: var(--spacing-12);
+}

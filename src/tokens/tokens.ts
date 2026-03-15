@@ -9,9 +9,16 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'primary' | 'secondary' | 'text' | 'backless';
 export type ButtonState = 'default' | 'hover' | 'disabled' | 'loading';
 
+export type IconButtonSize = 'small' | 'medium' | 'large';
+
 // Утилиты для получения токенов
 export const getButtonSizeConfig = (size: ButtonSize) => {
   return tokensData.button.sizes[size];
+};
+
+export const getIconButtonSizeConfig = (size: IconButtonSize) => {
+  const ib = (tokensData as { iconButton?: { sizes: Record<IconButtonSize, { size: string; iconSize: number }> } }).iconButton;
+  return ib?.sizes[size] ?? { size: '24px', iconSize: 16 };
 };
 
 // Удобные геттеры для семантических токенов (из tokens, без дублей)
@@ -142,6 +149,11 @@ export const button = {
   gapEmpty: tokensData.button.gapEmpty,
   transition: tokensData.button.transition,
 };
+
+const iconButtonData = (tokensData as { iconButton?: { sizes: Record<string, { size: string; iconSize: number }>; transition?: string } }).iconButton;
+export const iconButton = iconButtonData
+  ? { sizes: iconButtonData.sizes, transition: iconButtonData.transition ?? 'background-color 0.2s ease' }
+  : { sizes: { small: { size: '16px', iconSize: 12 }, medium: { size: '24px', iconSize: 16 }, large: { size: '32px', iconSize: 24 } }, transition: 'background-color 0.2s ease' };
 
 // Экспорт всех токенов для прямого доступа
 export const tokens = tokensData;

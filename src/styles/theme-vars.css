@@ -4,8 +4,8 @@
   /* tokens */
   --surface-primary-main: #ffffff;
   --surface-accent-main: #9a80c6;
-  --surface-tertiary-main: #00000028;
-  --surface-secondary-main: #0000000a;
+  --surface-tertiary-main: #00000014;
+  --surface-secondary-main: #00000028;
   --surface-success-main: #6acd0019;
   --surface-error-main: #ff000019;
   --surface-caution-main: #f3ab2414;
@@ -150,10 +150,33 @@
   --button-medium-icon-size: 24px;
   --button-medium-font-size: 17px;
   --button-medium-line-height: 24px;
-  --button-large-height: 56px;
+  --button-large-height: 48px;
   --button-large-padding-x: 16px;
   --button-large-padding-y: 8px;
   --button-large-icon-size: 32px;
   --button-large-font-size: 20px;
   --button-large-line-height: 32px;
+  /* iconButton */
+  --icon-button-transition: background-color 0.2s ease;
+  --icon-button-small-size: 16px;
+  --icon-button-small-icon-size: 16px;
+  --icon-button-medium-size: 24px;
+  --icon-button-medium-icon-size: 24px;
+  --icon-button-large-size: 32px;
+  --icon-button-large-icon-size: 32px;
+  /* input */
+  --input-border-radius: 8px;
+  --input-transition: border-color 0.2s ease, background-color 0.2s ease;
+  --input-small-height: 32px;
+  --input-small-padding-x: 12px;
+  --input-small-padding-y: 8px;
+  --input-small-font-size: 14px;
+  --input-medium-height: 40px;
+  --input-medium-padding-x: 12px;
+  --input-medium-padding-y: 8px;
+  --input-medium-font-size: 17px;
+  --input-large-height: 48px;
+  --input-large-padding-x: 16px;
+  --input-large-padding-y: 8px;
+  --input-large-font-size: 20px;
 }

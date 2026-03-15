@@ -8,8 +8,8 @@ export type IconState = 'default' | 'disabled';
 export interface IconProps {
   /** Имя иконки из папки icons (например: plus, chart, trash) */
   name?: string;
-  /** Размер в пикселях */
-  size?: number;
+  /** Размер в пикселях или '100%' — заполнить контейнер (для использования внутри IconButton и т.п.) */
+  size?: number | '100%';
   /** Цвет (CSS, токен или hex). Передаётся в svg через color; пути должны использовать fill="currentColor" */
   color?: string;
   /** Состояние: default — полная непрозрачность, disabled — приглушённый вид */
@@ -51,10 +51,15 @@ export function Icon({
   const resolvedContent = content ?? null;
   const isDisabled = state === 'disabled';
 
+  const sizeStyle =
+    size === '100%'
+      ? { width: '100%' as const, height: '100%' as const }
+      : { width: size, height: size };
+
   return (
     <span
       className={clsx(styles.root, className)}
-      style={{ width: size, height: size }}
+      style={sizeStyle}
       role={ariaLabel ? 'img' : undefined}
       aria-label={ariaLabel}
     >

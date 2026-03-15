@@ -32,7 +32,7 @@ const CollapsiblePropsList = () => {
     {
       name: 'size',
       type: '"small" | "medium" | "large"',
-      description: 'Размер: small 32px, medium 40px, large 56px.',
+      description: 'Размер: small 32px, medium 40px, large 48px.',
       default: '"medium"'
     },
     {
@@ -448,9 +448,10 @@ const ButtonDocsPage = () => {
         marginBottom: '2rem',
         fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
         fontSize: 'var(--text-base, 15px)',
+        lineHeight: '1.5',
         color: '#000000'
       }}>
-        Кнопка запускает действие, сценарий или позволяет перейти на другую страницу.
+        Кнопка для действия или перехода. Вариант — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>variant</code>, размер — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> (32 / 40 / 48 px). Иконки: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>startIcon</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endIcon</code>; <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>null</code> — скрыть слот.
       </p>
 
       {/* Секция Подключение в проекте */}
@@ -756,7 +757,7 @@ import { Button } from 'src/ui/button';`}
           fontSize: 'var(--text-base, 15px)',
           color: '#000000'
         }}>
-          Кнопки доступны в трех размерах: Small (32px), Medium (40px), Large (56px). Нажмите на кнопку, чтобы увидеть состояние загрузки.
+          Кнопки доступны в трех размерах: Small (32px), Medium (40px), Large (48px). Нажмите на кнопку, чтобы увидеть состояние загрузки.
         </p>
         <ExampleBlock
           code={`import { useState } from 'react';

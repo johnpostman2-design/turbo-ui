@@ -1,0 +1,13 @@
+---
+description: Агент должен опираться на конституцию и root-спецификацию Turbo UI при принятии решений и реализации.
+alwaysApply: true
+---
+
+# Constitution and Root Spec
+
+При работе над Turbo UI агент **должен** ссылаться на:
+
+- **@.specify/memory/constitution.md** — правила и принципы проекта (tokens, компоненты, запрет hardcoded, Figma как reference, versioning и т.д.).
+- **@specs/001-turbo-ui-root-spec/spec.md** — root-спецификация: scope, принципы, Enforcement, требования (FR), критерии успеха (SC).
+
+Используй эти документы как источник истины для архитектуры, стилей, API компонентов и проверки соответствия перед завершением задачи.

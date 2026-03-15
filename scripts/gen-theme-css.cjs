@@ -80,6 +80,37 @@ if (data.button) {
   }
 }
 
+// iconButton (круглая кнопка-иконка по макету Figma 614-203)
+if (data.iconButton) {
+  lines.push('  /* iconButton */');
+  const ib = data.iconButton;
+  if (ib.transition) lines.push(`  --icon-button-transition: ${ib.transition};`);
+  if (ib.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(ib.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --icon-button-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
+// input (поле ввода по образцу Button)
+if (data.input) {
+  lines.push('  /* input */');
+  const inp = data.input;
+  if (inp.borderRadius) lines.push(`  --input-border-radius: ${inp.borderRadius};`);
+  if (inp.transition) lines.push(`  --input-transition: ${inp.transition};`);
+  if (inp.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(inp.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --input-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
 lines.push('}');
 lines.push('');
 

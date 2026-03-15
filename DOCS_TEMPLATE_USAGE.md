@@ -1,319 +1,165 @@
-# Использование шаблона документации DocsTemplate
+# Шаблон документации компонента (эталон — Button)
 
-## Пример использования
+**Источник правды:** `src/ui/button/Button.stories.tsx`. Все новые компоненты делают документацию по этой структуре, не собирают лэйаут заново.
 
-```tsx
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { DocsTemplate } from '../components/DocsTemplate';
-import { YourComponent } from '../app/components/YourComponent';
+---
 
-const YourComponentDocsPage = () => {
-  return (
-    <DocsTemplate
-      componentName="YourComponent"
-      description="Описание вашего компонента из дизайн-системы."
-      importCode="import { YourComponent } from 'turbo-ui';"
-      exampleCode={`<YourComponent prop1="value1" prop2="value2">Content</YourComponent>`}
-      exampleComponent={<YourComponent prop1="value1" prop2="value2">Content</YourComponent>}
-      props={[
-        {
-          name: 'prop1',
-          type: 'string',
-          description: 'Описание первого пропса.',
-          default: '"defaultValue"'
-        },
-        {
-          name: 'prop2',
-          type: 'boolean',
-          description: 'Описание второго пропса.',
-          default: 'false'
-        }
-      ]}
-      menuItems={[
-        { id: 'import', title: 'Импорт', level: 2 },
-        { id: 'example', title: 'Пример', level: 2 },
-        { id: 'all-props', title: 'Все пропсы', level: 2 },
-        // Добавьте дополнительные пункты меню при необходимости
-      ]}
-    />
-  );
-};
+## 1. Откуда копировать
 
-const meta: Meta<typeof YourComponent> = {
-  title: 'Components/YourComponent',
-  component: YourComponent,
-  tags: ['autodocs'],
-  parameters: {
-    docs: {
-      page: YourComponentDocsPage,
-    },
-  },
-};
+- **Лэйаут и порядок секций:** `src/ui/button/Button.stories.tsx` (компонент `ButtonDocsPage`).
+- **Стили якорного меню:** `.storybook/preview.js` — селекторы `.button-docs-menu`. Для нового компонента добавляется класс `.[компонент]-docs-menu` в те же правила.
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+---
 
-// Stories (опционально)
-export const Default: Story = {
-  args: {
-    prop1: 'value1',
-    prop2: true,
-  },
-};
-```
+## 2. Структура страницы документации (как в Button)
 
-## Параметры DocsTemplate
-
-- `componentName` (string) - Название компонента (заголовок)
-- `description` (string) - Описание компонента
-- `importCode` (string) - Код импорта для блока "Импорт"
-- `exampleCode` (string) - Код примера для ExampleBlock
-- `exampleComponent` (ReactNode) - React компонент для примера
-- `props` (Prop[]) - Массив пропсов компонента
-- `menuItems` (Array, опционально) - Кастомные пункты меню (по умолчанию: Импорт, Пример, Все пропсы)
-
-## Структура Prop
-
-```typescript
-interface Prop {
-  name: string;        // Имя пропса
-  type: string;        // Тип пропса (например: "string | number")
-  description: string; // Описание пропса
-  default: string;     // Значение по умолчанию
-}
-```
-
-## Минимальный состав шаблона
-
-Шаблон включает:
-1. ✅ Якорное меню (справа, фиксированное при скролле, ширина 240px)
-2. ✅ Заголовок компонента
-3. ✅ Блок импорта
-4. ✅ Блок с примером компонента
-5. ✅ Все пропсы (сворачиваемый список)
-
-## Структура макета
-
-Документация использует flexbox-структуру с двумя колонками:
+Один и тот же каркас для любого компонента:
 
 ```tsx
-<div style={{
-  display: 'flex',
-  gap: '80px',
-  maxWidth: '1400px',
-  margin: '0 auto',
-  paddingLeft: '2rem',
-  paddingRight: 'calc(240px + 80px + 20px)', // место для меню (240px) + зазор (80px) + отступ (20px)
-  boxSizing: 'border-box'
-}}>
-  {/* Контентная зона */}
-  <div style={{ flex: '1', minWidth: 0, maxWidth: '100%' }}>
-    {/* Контент документации */}
-  </div>
-</div>
+return (
+  <>
+    <div style={{
+      display: 'flex',
+      gap: '80px',
+      maxWidth: '1400px',
+      margin: '0 auto',
+      paddingLeft: '2rem',
+      paddingRight: 'calc(240px + 80px + 20px)',
+      boxSizing: 'border-box'
+    }}>
+      {/* Основной контент */}
+      <div style={{ flex: '1', minWidth: 0, maxWidth: '100%' }}>
+        <h1 id="{component}-title" style={{ marginBottom: 'var(--spacing-32)', marginTop: 0 }}>{ComponentName}</h1>
 
-{/* Меню навигации - фиксированное */}
-<nav style={{
-  position: 'fixed',
-  top: '80px',
-  right: '20px',
-  width: '240px',
-  // ... остальные стили
-}}>
-  {/* Меню */}
-</nav>
-```
-
-### Параметры макета:
-- **Контентная зона**: `flex: 1` - занимает оставшееся пространство
-- **Меню**: `width: 240px`, `position: fixed` - фиксированная ширина, фиксируется при скролле
-- **Зазор между колонками**: `gap: 80px`
-- **Отступ меню от правого края**: `right: 20px`
-- **Максимальная ширина контейнера**: `maxWidth: 1400px`
-
-## Дополнительные секции (на примере Button)
-
-### Буллитированный список для описания стилей
-
-Для описания вариантов стилей используйте буллитированный список:
-
-```tsx
-<ul style={{ 
-  marginBottom: '1.5rem',
-  marginTop: 0,
-  paddingLeft: '1.5rem',
-  fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
-  fontSize: 'var(--text-base, 15px)',
-  lineHeight: '1.5',
-  color: '#000000',
-  listStyleType: 'disc'
-}}>
-  <li style={{ 
-    marginBottom: '0.5rem',
-    fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
-    fontSize: 'var(--text-base, 15px)',
-    lineHeight: '1.5',
-    color: '#000000'
-  }}>Primary — кнопка основного действия (черный фон)</li>
-  <li style={{ 
-    marginBottom: '0.5rem',
-    fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
-    fontSize: 'var(--text-base, 15px)',
-    lineHeight: '1.5',
-    color: '#000000'
-  }}>Secondary — кнопка второстепенного действия (белый фон с обводкой)</li>
-</ul>
-```
-
-### Интерактивные примеры
-
-Для демонстрации состояний компонентов используйте интерактивные примеры с `useState`:
-
-```tsx
-const InteractiveExample = () => {
-  const [clickedButtonIndex, setClickedButtonIndex] = useState<number | null>(null);
-
-  const handleButtonClick = (index: number) => {
-    setClickedButtonIndex(index);
-    setTimeout(() => {
-      setClickedButtonIndex(null);
-    }, 2000);
-  };
-
-  return (
-    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-      <Button 
-        type="primary" 
-        state={clickedButtonIndex !== null && clickedButtonIndex !== 1 ? "loading" : "default"}
-        onClick={() => handleButtonClick(1)}
-      >
-        Button 1
-      </Button>
-      <Button 
-        type="primary" 
-        state={clickedButtonIndex !== null && clickedButtonIndex !== 2 ? "loading" : "default"}
-        onClick={() => handleButtonClick(2)}
-      >
-        Button 2
-      </Button>
-    </div>
-  );
-};
-```
-
-**Особенность**: При клике на одну кнопку все остальные переходят в состояние loading.
-
-### Пример структуры с дополнительными секциями
-
-```tsx
-const ButtonDocsPage = () => {
-  return (
-    <>
-      <div style={{
-        display: 'flex',
-        gap: '80px',
-        maxWidth: '1400px',
-        margin: '0 auto',
-        paddingLeft: '2rem',
-        paddingRight: 'calc(240px + 80px + 20px)',
-        boxSizing: 'border-box'
-      }}>
-        <div style={{ flex: '1', minWidth: 0, maxWidth: '100%' }}>
-          <h1>Button</h1>
-          <p>Описание компонента</p>
-
-          {/* Импорт */}
-          <h2 id="import">Импорт</h2>
-          {/* Блок импорта */}
-
-          {/* Пример */}
-          <ExampleBlock code="..." />
-
-          {/* Все пропсы */}
-          <h2 id="all-props">Все пропсы</h2>
-          <CollapsiblePropsList />
-
-          {/* Дополнительные секции */}
-          <h2 id="style-variants">Варианты стилей</h2>
-          {/* Буллитированный список */}
-          <ExampleBlock code="..." />
-
-          <h2 id="sizes">Размеры</h2>
-          <InteractiveSizesButtons />
-
-          <h2 id="icons">Иконки в кнопке</h2>
-          <ExampleBlock code="..." />
-
-          <h2 id="loading">Состояние загрузки</h2>
-          <InteractiveLoadingButtons />
-
-          <h2 id="disabled">Состояние блокировки</h2>
-          <ExampleBlock code="..." />
+        {/* Кнопки Figma и GitHub — всегда этот блок */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', alignItems: 'center' }}>
+          <Button
+            variant="backless"
+            startIcon={null}
+            endIcon={null}
+            onClick={() => window.open(FIGMA_URL, '_blank', 'noopener,noreferrer')}
+          >
+            Figma
+          </Button>
+          <Button
+            variant="backless"
+            startIcon={null}
+            endIcon={null}
+            onClick={() => window.open(GITHUB_URL, '_blank', 'noopener,noreferrer')}
+          >
+            GitHub
+          </Button>
         </div>
-      </div>
 
-      {/* Фиксированное меню */}
-      <nav style={{
+        <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', color: '#000000' }}>
+          {description}
+        </p>
+
+        {/* Секция: Подключение в проекте (id="setup") */}
+        {/* Секция: Импорт (id="import") */}
+        {/* Секция: Пример (ExampleBlock) */}
+        {/* Секция: Все пропсы (id="all-props") + CollapsiblePropsList */}
+        {/* Секция: Интеграция (id="integration") */}
+        {/* Секция: Тема и изоляция (id="theme-scope") */}
+        {/* Секция: Варианты стилей (id="style-variants") */}
+        {/* Остальные секции по необходимости (Размеры, Иконки, Состояние загрузки, Состояние блокировки и т.д.) */}
+      </div>
+    </div>
+
+    {/* Меню навигации — всегда так, класс [component]-docs-menu */}
+    <nav
+      className="{component}-docs-menu"
+      style={{
         position: 'fixed',
         top: '80px',
         right: '20px',
         width: '240px',
-        // ...
-      }}>
-        {/* Пункты меню */}
-      </nav>
-    </>
-  );
-};
+        fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
+        fontSize: 'var(--text-base, 15px)',
+        lineHeight: '1.5',
+        color: '#000000'
+      }}
+    >
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {/* По одному <li> на пункт меню, id совпадают с id секций */}
+        <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
+          <a href="#import" onClick={...} style={{ color: '#000000', textDecoration: 'none', display: 'block', transition: 'color 0.2s ease', cursor: 'pointer' }}>Импорт</a>
+        </li>
+        {/* ... остальные пункты в том же порядке, что и секции */}
+      </ul>
+    </nav>
+  </>
+);
 ```
 
-## Важные правила
+---
 
-### 1. Использование переменных и названий из Figma
+## 3. Стили секций (не выдумывать, брать из Button)
 
-**Обязательно**: При создании компонентов всегда используйте:
-- **Названия пропсов** точно как в Figma (например, `type` вместо `variant`)
-- **CSS переменные** из `FIGMA_VARIABLES_ANALYSIS.md` и `src/styles/theme.css`
-- **Типы и значения** точно как указано в Figma
+- **Заголовок h2:**  
+  `id="..."` для якоря, стили:  
+  `marginBottom: '0.25rem'`, `textDecoration: 'none'`, `borderBottom: 'none'`,  
+  `fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)'`, `color: '#000000'`.
 
-Пример:
-```tsx
-// ✅ Правильно (из Figma)
-interface ButtonProps {
-  type?: "primary" | "secondary" | "text" | "backless";
-  state?: "default" | "hover" | "disabled" | "loading";
-  size?: "small" | "medium" | "large";
-}
+- **Абзац p:**  
+  `fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)'`,  
+  `fontSize: 'var(--text-base, 15px)'`, `lineHeight: '1.5'`, `color: '#000000'`.  
+  При необходимости: `marginBottom: '1rem'` или `'1.5rem'`.
 
-// ❌ Неправильно
-interface ButtonProps {
-  variant?: "primary" | "secondary"; // не соответствует Figma
-}
-```
+- **Инлайн code:**  
+  `style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}`.
 
-### 2. Стилизация текста
+- **Блок кода (SyntaxHighlighter):**  
+  обёртка с `borderRadius: '8px'`, `overflow: 'hidden'`, `background: '#f5f5f5'`, `padding: '1rem'`, `fontSize: '0.875rem'`.
 
-Все описательные тексты должны использовать глобальные стили:
-- `fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)'`
-- `fontSize: 'var(--text-base, 15px)'`
-- `lineHeight: '1.5'`
-- `color: '#000000'`
+- **Секция:**  
+  обёртка `<div style={{ marginBottom: '3rem' }}>`.
 
-### 3. Структура заголовков
+---
 
-Заголовки секций (`h2`) должны иметь:
-- `marginBottom: '0.25rem'` (4px)
-- `id` для якорных ссылок
-- Те же стили шрифта, что и описания
+## 4. Якорное меню и preview.js
 
-### 4. Якорное меню
+- Класс меню: **`[component]-docs-menu`** (например `button-docs-menu`, `icon-button-docs-menu`).
+- Стили меню задаются в **`.storybook/preview.js`**: один раз прописаны для `.button-docs-menu`, для каждого нового компонента в те же правила добавляется класс `.[component]-docs-menu`.
+- В preview.js должны быть:
+  - `display: block !important` для `.button-docs-menu` и `.icon-button-docs-menu` (и для следующих компонентов);
+  - общие стили шрифта/цвета для нав и ссылок (Label/small из токенов).
 
-Меню должно:
-- Быть фиксированным при скролле (`position: fixed`)
-- Иметь ширину `240px`
-- Находиться на `right: 20px` от правого края
-- Использовать плавную прокрутку при клике на пункты меню
+**При добавлении нового компонента:** добавить в preview.js класс `.[новый-компонент]-docs-menu` рядом с `.button-docs-menu` / `.icon-button-docs-menu` в тех же селекторах.
+
+---
+
+## 5. Порядок секций и пунктов меню (как в Button)
+
+Порядок в контенте и в меню должен совпадать:
+
+1. Подключение в проекте (id `setup`)
+2. Импорт (id `import`)
+3. Пример (первый ExampleBlock)
+4. Все пропсы (id `all-props`)
+5. Интеграция: ref и нативные атрибуты (id `integration`)
+6. Тема и изоляция (id `theme-scope`)
+7. Варианты стилей (id `style-variants`)
+8. Дальше — секции по компоненту (Размеры, Иконки, Состояние загрузки, Состояние блокировки и т.д.)
+
+Каждой секции с `id` соответствует один пункт в `<nav>` с `href="#id"` и тем же текстом.
+
+---
+
+## 6. Чеклист для нового компонента
+
+- [ ] Скопировать структуру `ButtonDocsPage` из `src/ui/button/Button.stories.tsx` (обёртки, порядок блоков, меню).
+- [ ] Заменить заголовок, описание, ссылки Figma/GitHub, код импорта и примеров на свои.
+- [ ] Оставить блок кнопок Figma/GitHub через `<Button variant="backless" startIcon={null} endIcon={null} onClick={...}>`.
+- [ ] Меню: класс `[component]-docs-menu`, те же стили что у nav в Button, пункты меню в том же формате (li > a с теми же style).
+- [ ] В `.storybook/preview.js` добавить класс `.[component]-docs-menu` в правила для якорного меню (display + типографика).
+- [ ] Не придумывать новый лэйаут: только подставлять свои тексты и секции в каркас Button.
+
+---
+
+## 7. handleMenuClick (плавная прокрутка)
+
+Использовать одну и ту же функцию во всех документациях:
 
 ```tsx
 const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -323,10 +169,11 @@ const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => 
     const offset = 80;
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - offset;
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
   }
 };
 ```
+
+---
+
+**Итог:** документация нового компонента = копия лэйаута и стилей из `Button.stories.tsx` + подстановка своих текстов, ссылок и секций + регистрация класса меню в `preview.js`. Лэйаут не собирать заново.
