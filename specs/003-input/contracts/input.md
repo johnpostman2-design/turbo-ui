@@ -2,6 +2,8 @@
 
 Публичный API компонента Input. Стили: design tokens + CSS Modules. По образцу Button/IconButton.
 
+Для поля формы с **внешней подписью** над областью ввода, helper/error под полем и вариантом label-out-primary используйте **`InputField`** (`import { InputField } from 'turbo-ui/input-field'`), см. спеку `specs/004-input-label-out-primary` и `contracts/input-field.md`.
+
 ## Компонент
 
 Один компонент: опциональные label, поле ввода, helper/error текст, иконка слева, IconButton справа (только IconButton из библиотеки). Размеры small / medium / large. Состояния: default, hover, focus, filled, error, disabled. Controlled и uncontrolled; layout не прыгает при появлении helper/error.
@@ -42,7 +44,7 @@
 
 ## CSS variables (Input)
 
-Из tokens.json (секция `input`), генерируются в theme-vars.css: `--input-border-radius`, `--input-transition`, `--input-small-height`, `--input-small-padding-x`, `--input-small-padding-y`, `--input-small-font-size` (аналогично medium, large). Состояния: default, hover, focus, error, disabled — через переменные темы (`--border-primary`, `--border-error`, `--content-primary`, `--content-disabled`, `--surface-primary-main` и т.д.).
+Из tokens.json (секция `input`), генерируются в theme-vars.css: `--input-border-radius`, `--input-transition`, `--input-small-height`, `--input-small-padding-x`, `--input-small-padding-y`, `--input-small-font-size`, `--input-small-line-height`, `--input-small-left-icon-size` (аналогично medium, large). Состояния: default, hover, focus, error, disabled — через переменные темы (`--border-primary`, `--border-error`, `--content-primary`, `--content-disabled`, `--surface-primary-main` и т.д.).
 
 ## Версионирование
 

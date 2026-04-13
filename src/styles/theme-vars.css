@@ -16,7 +16,7 @@
   --content-accent: #2fb5aa;
   --content-success: #69cd00;
   --content-primary: #000000;
-  --content-tertiary: #00000051;
+  --content-tertiary: #00000052;
   --content-secondary: #00000099;
   --border-error: #ff000066;
   --border-caution: #f3ab2466;
@@ -38,12 +38,12 @@
   --surface-primary-disabled: #0000000a;
   --content-invert: #ffffff;
   --content-disabled: #00000014;
-  --icon-disabled-opacity: 0.08;
   --surface-primary-invert-main: #000000;
   --surface-primary-invert-hover: #00000099;
   --surface-primary-invert-disabled: #0000000a;
   --border-disabled: #0000000a;
   --surface-secondary-disabled: #0000000a;
+  --icon-disabled-opacity: 0.08;
 
   /* spaces */
   --spacing-0: 0px;
@@ -91,38 +91,38 @@
   --typescale-lable-medium-size: 17px;
   --typescale-title-large-size: 35px;
   --typescale-body-large-size: 20px;
-  --family-brand: ONY ONE;
+  --family-brand: 'ONY ONE';
   --typescale-caption-large-size: 14px;
-  --typescale-display-large-font: ONY ONE;
+  --typescale-display-large-font: 'ONY ONE';
   --typescale-display-large-weight: 400;
   --typescale-display-large-height: 72px;
   --typescale-display-large-tracking: 0px;
   --typescale-headline-large-weight: 400;
   --typescale-headline-large-tracking: 0px;
   --typescale-headline-large-height: 52px;
-  --typescale-headline-large-font: ONY ONE;
+  --typescale-headline-large-font: 'ONY ONE';
   --typescale-title-large-tracking: 0px;
   --typescale-title-large-height: 40px;
   --typescale-title-large-weight: 400;
-  --typescale-title-large-font: ONY ONE;
+  --typescale-title-large-font: 'ONY ONE';
   --typescale-body-large-tracking: 0px;
   --typescale-body-large-weight: 400;
   --typescale-body-large-height: 26px;
-  --typescale-body-large-font: ONY ONE;
+  --typescale-body-large-font: 'ONY ONE';
   --typescale-lable-medium-tracking: 0px;
   --typescale-lable-medium-height: 24px;
   --typescale-lable-medium-weight: 400;
-  --typescale-lable-medium-font: ONY ONE;
+  --typescale-lable-medium-font: 'ONY ONE';
   --typescale-caption-large-tracking: 0px;
   --typescale-caption-large-height: 16px;
   --typescale-caption-large-weight: 400;
-  --typescale-caption-large-font: ONY ONE;
-  --typescale-lable-small-font: ONY ONE;
+  --typescale-caption-large-font: 'ONY ONE';
+  --typescale-lable-small-font: 'ONY ONE';
   --typescale-lable-small-weight: 400;
   --typescale-lable-small-size: 14px;
   --typescale-lable-small-height: 16px;
   --typescale-lable-small-tracking: 0px;
-  --typescale-lable-large-font: ONY ONE;
+  --typescale-lable-large-font: 'ONY ONE';
   --typescale-lable-large-weight: 400;
   --typescale-lable-large-size: 20px;
   --typescale-lable-large-height: 32px;
@@ -131,7 +131,7 @@
   --typescale-caption-medium-height: 14px;
   --typescale-caption-medium-tracking: 0px;
   --typescale-caption-medium-weight: 400;
-  --typescale-caption-medium-font: ONY ONE;
+  --typescale-caption-medium-font: 'ONY ONE';
 
   /* button */
   --button-border-radius: 8px;
@@ -171,12 +171,18 @@
   --input-small-padding-x: 12px;
   --input-small-padding-y: 8px;
   --input-small-font-size: 14px;
+  --input-small-line-height: 16px;
+  --input-small-left-icon-size: 16px;
   --input-medium-height: 40px;
   --input-medium-padding-x: 12px;
   --input-medium-padding-y: 8px;
   --input-medium-font-size: 17px;
+  --input-medium-line-height: 24px;
+  --input-medium-left-icon-size: 24px;
   --input-large-height: 48px;
   --input-large-padding-x: 16px;
   --input-large-padding-y: 8px;
   --input-large-font-size: 20px;
+  --input-large-line-height: 32px;
+  --input-large-left-icon-size: 32px;
 }

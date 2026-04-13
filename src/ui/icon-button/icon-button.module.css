@@ -1,5 +1,6 @@
 /* IconButton по макету Figma 614-149/614-150/614-151, 618-316.
-   Primary: без фона, только цвет иконки. Secondary: при hover — круглый фон (Figma 618-316). */
+   Цвета — семантические токены (content-*, surface-primary-hover для фона secondary hover).
+   Primary: без фона. Secondary: круглый фон при hover. */
 
 /* Контейнер без паддингов и без фона */
 .root {
@@ -74,23 +75,25 @@
   min-height: var(--icon-button-large-size);
 }
 
-/* Primary: иконка чёрная, при hover — тёмно-серый, disabled — приглушённо. Фона нет. */
+/* Primary: контентные токены; hover — приглушённый (secondary) */
 .typePrimary {
   color: var(--content-primary);
 }
 .typePrimary:hover:not(:disabled) {
-  color: var(--surface-primary-invert-hover);
+  color: var(--content-secondary);
 }
 .typePrimary:disabled {
   color: var(--content-disabled);
 }
 
-/* Secondary: default — surface-secondary-main; hover — surface-secondary-hover */
+/* Secondary: secondary-текст; hover — круглый фон surface-primary-hover */
 .typeSecondary {
-  color: var(--surface-secondary-main);
+  border-radius: 50%;
+  color: var(--content-secondary);
 }
 .typeSecondary:hover:not(:disabled) {
-  color: var(--surface-secondary-hover);
+  background: var(--surface-primary-hover);
+  color: var(--content-primary);
 }
 .typeSecondary:disabled {
   color: var(--content-disabled);

@@ -30,7 +30,7 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--family-brand), 'ONY One', sans-serif;
+  font-family: var(--family-brand), 'ONY ONE', sans-serif;
   font-size: var(--text-base);
   line-height: var(--text-base-height);
   font-weight: var(--font-weight-normal);
@@ -38,5 +38,5 @@ body {
 
 html {
   font-size: 16px;
-  font-family: var(--family-brand), 'ONY One', sans-serif;
+  font-family: var(--family-brand), 'ONY ONE', sans-serif;
 }

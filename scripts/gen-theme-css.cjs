@@ -56,7 +56,13 @@ if (data.typography) {
     if (typeof v === 'number') cssVal = `${v}px`;
     else if (typeof v === 'string' && /^\d+$/.test(v)) cssVal = `${v}px`;
     else if (v === 'regular' && k.includes('weight')) cssVal = '400';
-    else cssVal = String(v);
+    else if (
+      typeof v === 'string' &&
+      (k === 'family-brand' || k.endsWith('-font'))
+    ) {
+      // Имена шрифтов с пробелами MUST быть в кавычках, иначе браузер игнорирует (падает в sans-serif)
+      cssVal = `'${String(v).replace(/'/g, "\\'")}'`;
+    } else cssVal = String(v);
     lines.push(`  ${varName}: ${cssVal};`);
   }
   lines.push('');

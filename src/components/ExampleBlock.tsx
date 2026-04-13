@@ -50,7 +50,7 @@ export const ExampleBlock: React.FC<ExampleBlockProps> = ({
       {title && (
         <h4 style={{ 
           marginBottom: '1rem',
-          fontFamily: 'var(--font-base, "ONY One", sans-serif)',
+          fontFamily: 'var(--font-base, "ONY ONE", sans-serif)',
           fontSize: 'var(--text-h4)',
           fontWeight: 'var(--font-weight-normal)'
         }}>

@@ -51,7 +51,7 @@ return (
           </Button>
         </div>
 
-        <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', color: '#000000' }}>
+        <p style={{ marginBottom: '2rem', fontFamily: 'var(--typescale-lable-medium-font), var(--family-brand), "ONY ONE", sans-serif', fontSize: 'var(--typescale-lable-medium-size)', lineHeight: 'var(--typescale-lable-medium-height)', letterSpacing: 'var(--typescale-lable-medium-tracking)', color: '#000000' }}>
           {description}
         </p>
 
@@ -74,9 +74,10 @@ return (
         top: '80px',
         right: '20px',
         width: '240px',
-        fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
-        fontSize: 'var(--text-base, 15px)',
-        lineHeight: '1.5',
+        fontFamily: 'var(--typescale-lable-small-font), var(--family-brand), "ONY ONE", sans-serif',
+        fontSize: 'var(--typescale-lable-small-size)',
+        lineHeight: 'var(--typescale-lable-small-height)',
+        letterSpacing: 'var(--typescale-lable-small-tracking)',
         color: '#000000'
       }}
     >
@@ -101,10 +102,15 @@ return (
   `marginBottom: '0.25rem'`, `textDecoration: 'none'`, `borderBottom: 'none'`,  
   `fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)'`, `color: '#000000'`.
 
-- **Абзац p:**  
-  `fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)'`,  
-  `fontSize: 'var(--text-base, 15px)'`, `lineHeight: '1.5'`, `color: '#000000'`.  
-  При необходимости: `marginBottom: '1rem'` или `'1.5rem'`.
+- **Абзац p (наборный текст):**  
+  **Label/medium** из токенов:  
+  `fontFamily: 'var(--typescale-lable-medium-font), var(--family-brand), "ONY ONE", sans-serif'`,  
+  `fontSize: 'var(--typescale-lable-medium-size)'`,  
+  `lineHeight: 'var(--typescale-lable-medium-height)'`,  
+  `letterSpacing: 'var(--typescale-lable-medium-tracking)'`,  
+  `color: '#000000'`.  
+  При необходимости: `marginBottom: '1rem'` или `'1.5rem'`.  
+  Глобально то же задаётся в `.storybook/preview.js` для контента Docs (`!important`).
 
 - **Инлайн code:**  
   `style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}`.
@@ -123,7 +129,7 @@ return (
 - Стили меню задаются в **`.storybook/preview.js`**: один раз прописаны для `.button-docs-menu`, для каждого нового компонента в те же правила добавляется класс `.[component]-docs-menu`.
 - В preview.js должны быть:
   - `display: block !important` для `.button-docs-menu` и `.icon-button-docs-menu` (и для следующих компонентов);
-  - общие стили шрифта/цвета для нав и ссылок (Label/small из токенов).
+  - якорное меню справа — **Label/small**; наборный текст страницы — **Label/medium** (см. правила в `preview.js`).
 
 **При добавлении нового компонента:** добавить в preview.js класс `.[новый-компонент]-docs-menu` рядом с `.button-docs-menu` / `.icon-button-docs-menu` в тех же селекторах.
 

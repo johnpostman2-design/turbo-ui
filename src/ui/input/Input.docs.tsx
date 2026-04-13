@@ -24,18 +24,18 @@ const SearchWithClearExample = () => {
 const CollapsiblePropsList = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const props = [
-    { name: 'leftIcon', type: 'ReactNode', description: 'Иконка слева внутри поля (напр. Icon).', default: '—' },
-    { name: 'endAdornment', type: 'ReactNode', description: 'Только IconButton из Turbo UI; кликабелен; tabIndex=-1.', default: '—' },
-    { name: 'size', type: '"small" | "medium" | "large"', description: 'Размер поля (32 / 40 / 48 px).', default: '"medium"' },
-    { name: 'disabled', type: 'boolean', description: 'Отключение поля и endAdornment.', default: 'false' },
-    { name: 'error', type: 'boolean', description: 'Визуал ошибки и aria-invalid.', default: 'false' },
-    { name: 'type', type: 'text | number | tel | search | time | date | email | password', description: 'Нативный type input.', default: '"text"' },
-    { name: 'value', type: 'string', description: 'Controlled значение.', default: '—' },
-    { name: 'defaultValue', type: 'string', description: 'Uncontrolled начальное значение.', default: '—' },
-    { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', description: 'Обработчик изменения.', default: '—' },
-    { name: 'className', type: 'string', description: 'Доп. классы на корневой контейнер.', default: '—' },
-    { name: 'ref', type: 'RefObject<HTMLInputElement>', description: 'forwardRef на DOM <input>.', default: '—' },
-    { name: '…rest', type: 'HTML input attrs', description: 'id, name, placeholder, aria-*, data-* и т.д. пробрасываются на <input>.', default: '—' },
+    { name: 'leftIcon', type: 'ReactNode', description: 'Иконка слева (например Icon).', default: '—' },
+    { name: 'endAdornment', type: 'ReactNode', description: 'Справа только IconButton из Turbo UI; tabIndex −1.', default: '—' },
+    { name: 'size', type: '"small" | "medium" | "large"', description: 'Высота: 32 / 40 / 48 px.', default: '"medium"' },
+    { name: 'disabled', type: 'boolean', description: 'Блокирует поле и endAdornment.', default: 'false' },
+    { name: 'error', type: 'boolean', description: 'Ошибка: рамка + aria-invalid.', default: 'false' },
+    { name: 'type', type: 'text | number | tel | search | time | date | email | password', description: 'Нативный type.', default: '"text"' },
+    { name: 'value', type: 'string', description: 'Controlled.', default: '—' },
+    { name: 'defaultValue', type: 'string', description: 'Uncontrolled, начальное.', default: '—' },
+    { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', description: 'Смена значения.', default: '—' },
+    { name: 'className', type: 'string', description: 'Класс на корневой обёртке.', default: '—' },
+    { name: 'ref', type: 'RefObject<HTMLInputElement>', description: 'На DOM <input>.', default: '—' },
+    { name: '…rest', type: 'HTML input attrs', description: 'Остальное — на <input> (placeholder, aria-*, data-* …).', default: '—' },
   ];
 
   return (
@@ -128,13 +128,13 @@ export function InputDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Поле ввода позволяет ввести или отредактировать значение.
+            Однострочный ввод: рамка, placeholder, три высоты. Иконка слева, справа — IconButton. Нужны подпись над полем или плавающий label — бери InputField или FloatingInputField.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="setup" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Подключение в проекте</h2>
             <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              Импорт по подпути. Стили — один раз. Пропсы: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>leftIcon</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code> (IconButton), <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>error</code>.
+              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>turbo-ui/input</code>, тема подключается один раз. Контракт — в репо, путь ниже.
             </p>
             <div style={{ borderRadius: '8px', overflow: 'hidden', width: '100%', boxSizing: 'border-box', marginBottom: '1rem' }}>
               <SyntaxHighlighter language="tsx" style={oneLight} customStyle={{ margin: 0, padding: '1rem', fontSize: '0.875rem', lineHeight: '1.6', borderRadius: 0, background: '#f5f5f5' }} codeTagProps={{ style: { fontFamily: 'monospace' } }} PreTag="div" useInlineStyles={true}>
@@ -171,7 +171,7 @@ import { Input } from 'src/ui/input';`}
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="all-props" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Все пропсы</h2>
             <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>forwardRef</code>, все атрибуты <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;input&gt;</code> пробрасываются.
+              ref вешается на <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;input&gt;</code>; всё остальное из HTML input — туда же.
             </p>
             <CollapsiblePropsList />
           </div>
@@ -179,7 +179,7 @@ import { Input } from 'src/ui/input';`}
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="integration" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Интеграция: ref и нативные атрибуты</h2>
             <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>ref</code> и атрибуты <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;input&gt;</code> пробрасываются — для тестов и a11y.
+              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>data-testid</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-*</code> — на input, как в нативном API.
             </p>
             <ExampleBlock code={`const ref = useRef<HTMLInputElement>(null);
 <Input ref={ref} placeholder="Поле" data-testid="input-ref" />
@@ -191,19 +191,15 @@ import { Input } from 'src/ui/input';`}
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="theme-scope" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Тема и изоляция</h2>
             <p style={{ marginBottom: 0, fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>TurboUIProvider</code> + <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>theme</code>. <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>scopeClassName</code> — изоляция токенов. <a href="https://github.com/johnpostman2-design/turbo-ui#readme" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--content-brand)' }}>README</a>.
+              Тема: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>TurboUIProvider</code>. Изоляция: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>scopeClassName</code>. Подробности — <a href="https://github.com/johnpostman2-design/turbo-ui#readme" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--content-brand)' }}>README</a>.
             </p>
           </div>
 
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="style-variants" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Варианты</h2>
             <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
-              <li style={{ marginBottom: '0.5rem' }}><strong>Default</strong> — обычное поле</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>Error</strong> — error</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>Disabled</strong> — отключено</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>With left icon</strong> — leftIcon</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>With right IconButton</strong> — endAdornment</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>With both</strong> — leftIcon + endAdornment</li>
+              <li style={{ marginBottom: '0.5rem' }}>База, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>error</code>, <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>disabled</code></li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>leftIcon</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code> / оба</li>
             </ul>
             <ExampleBlock code={`<Input placeholder="Default" />
 <Input error placeholder="Ошибка" />
@@ -243,15 +239,12 @@ import { Input } from 'src/ui/input';`}
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="input-types" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Типы поля</h2>
             <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              Нативный <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>type</code> задаёт поведение и валидацию браузера.
+              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>type</code> — как в HTML: поведение и подсказки браузера на стороне клиента.
             </p>
             <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
-              <li style={{ marginBottom: '0.5rem' }}><strong>text</strong> — любой текст и символы</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>number</strong> — только цифры</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>time</strong> — время в формате чч:мм</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>date</strong> — дата (формат зависит от браузера)</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>email</strong> — адрес почты</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>search</strong> — поле поиска; с endAdornment (IconButton) можно очистить по клику</li>
+              <li style={{ marginBottom: '0.5rem' }}><strong>text</strong>, <strong>email</strong>, <strong>password</strong> — строки</li>
+              <li style={{ marginBottom: '0.5rem' }}><strong>number</strong>, <strong>time</strong>, <strong>date</strong> — спец. ввод</li>
+              <li style={{ marginBottom: '0.5rem' }}><strong>search</strong> — поиск; очистку удобно вешать на <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code></li>
             </ul>
             <ExampleBlock code={`<Input type="search" placeholder="Поиск..." endAdornment={...} />`}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '320px', maxWidth: '100%', flexShrink: 0, alignItems: 'stretch', boxSizing: 'border-box' }}>
@@ -268,7 +261,7 @@ import { Input } from 'src/ui/input';`}
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="disabled" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Состояние блокировки</h2>
             <p style={{ marginBottom: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', color: '#000000' }}>
-              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>disabled</code> — блокировка поля и endAdornment; визуал из токенов.
+              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>disabled</code> глушит поле и кнопку справа.
             </p>
             <ExampleBlock code={`<Input disabled placeholder="..." />
 <Input endAdornment={endAdornment} disabled placeholder="..." />`}>

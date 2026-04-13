@@ -35,6 +35,14 @@
       "types": "./dist/ui/input.d.ts",
       "import": "./dist/ui/input.js"
     },
+    "./input-field": {
+      "types": "./dist/ui/input-field.d.ts",
+      "import": "./dist/ui/input-field.js"
+    },
+    "./floating-input-field": {
+      "types": "./dist/ui/floating-input-field.d.ts",
+      "import": "./dist/ui/floating-input-field.js"
+    },
     "./provider": {
       "types": "./dist/provider.d.ts",
       "import": "./dist/provider.js"

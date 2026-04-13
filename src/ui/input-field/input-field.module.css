@@ -1,0 +1,75 @@
+/* InputField: label-out-primary. Только токены. */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  width: 100%;
+  min-width: 120px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--typescale-lable-small-font), var(--family-brand), sans-serif;
+  font-size: var(--typescale-lable-small-size);
+  font-weight: var(--typescale-lable-small-weight);
+  line-height: var(--typescale-lable-small-height);
+  letter-spacing: var(--typescale-lable-small-tracking);
+  color: var(--content-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rootDisabled .label {
+  color: var(--content-disabled);
+}
+
+.inputWrap {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Одна строка под полем — фиксированная высота, без прыжков layout */
+.helperSlot {
+  min-height: var(--typescale-caption-medium-height);
+}
+
+/* Caption/medium на самом тексте — как в Figma 696-412 (node typescale/caption medium) */
+.helper,
+.helperError {
+  margin: 0;
+  font-family: var(--typescale-caption-medium-font), var(--family-brand), sans-serif;
+  font-size: var(--typescale-caption-medium-size);
+  font-weight: var(--typescale-caption-medium-weight);
+  line-height: var(--typescale-caption-medium-height);
+  letter-spacing: var(--typescale-caption-medium-tracking);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.helper {
+  color: var(--content-tertiary);
+}
+
+.helperError {
+  color: var(--content-error);
+}
+
+/* Сброс margin у <p>: после исключения из глобальных стилей Storybook вернулись дефолты браузера */
+.helperSlot > p {
+  margin: 0;
+}
+
+/* Тот же root с .root и .rootDisabled — повышаем специфичность для цвета */
+.root.rootDisabled .helper,
+.root.rootDisabled .helperError {
+  color: var(--content-disabled);
+}
+
+.helperInvisible {
+  visibility: hidden;
+}

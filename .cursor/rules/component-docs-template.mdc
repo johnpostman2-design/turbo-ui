@@ -10,5 +10,6 @@ alwaysApply: false
 1. **Эталон:** `src/ui/button/Button.stories.tsx` — единственный образец лэйаута, порядка секций и стилей.
 2. **Инструкция:** `DOCS_TEMPLATE_USAGE.md` в корне репозитория — описание структуры, стилей, чеклист для нового компонента.
 3. **Меню:** класс `[component]-docs-menu`; для отображения и стилей меню класс должен быть добавлен в `.storybook/preview.js` в те же селекторы, что и `.button-docs-menu` / `.icon-button-docs-menu`.
+4. **Типографика Docs:** наборный текст — **Label/medium**; якорное меню справа — **Label/small** (всё в `.storybook/preview.js`, см. `DOCS_TEMPLATE_USAGE.md`).
 
 Не придумывать новый flex/position/отступы: копировать структуру из Button и подставлять свои тексты, ссылки и секции.

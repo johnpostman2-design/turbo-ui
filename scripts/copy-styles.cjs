@@ -68,3 +68,21 @@ if (fs.existsSync(path.join(dist, 'ui', 'input', 'index.d.ts'))) {
   fs.writeFileSync(inputDts, "export { Input } from './input/index';\nexport type { InputProps, InputSize, InputType } from './input/index';\n");
   console.log('Written dist/ui/input.d.ts');
 }
+const inputFieldDts = path.join(dist, 'ui', 'input-field.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'input-field', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    inputFieldDts,
+    "export { InputField } from './input-field/index';\nexport type { InputFieldProps } from './input-field/index';\n"
+  );
+  console.log('Written dist/ui/input-field.d.ts');
+}
+const floatingInputFieldDts = path.join(dist, 'ui', 'floating-input-field.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'floating-input-field', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    floatingInputFieldDts,
+    "export { FloatingInputField } from './floating-input-field/index';\nexport type { FloatingInputFieldProps } from './floating-input-field/index';\n"
+  );
+  console.log('Written dist/ui/floating-input-field.d.ts');
+}

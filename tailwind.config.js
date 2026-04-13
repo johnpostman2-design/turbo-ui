@@ -45,7 +45,7 @@ export default {
         xl: 'calc(var(--radius) + 4px)',
       },
       fontFamily: {
-        sans: ['ONY One', 'sans-serif'],
+        sans: ['ONY ONE', 'sans-serif'],
       },
       fontSize: {
         h1: 'var(--text-h1)',

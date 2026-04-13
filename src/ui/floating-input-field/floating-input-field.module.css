@@ -1,0 +1,173 @@
+/* FloatingInputField: label-in-primary — плавающий лейбл по макету Figma input-label_in-primary. Только токены. */
+
+/* Оболочка под абсолютный лейбл (совпадает с верхом fieldWrap внутри Input) */
+.shell {
+  /* Длительность и кривая как у типичных Material / M3 floating label (~200ms, standard) */
+  --floating-input-field-label-duration: 200ms;
+  --floating-input-field-label-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Ширина иконки слева — из токенов input (совпадает с макетом 16 / 24 / 32 по размеру поля) */
+.shellWithLeftIcon.shellSmall {
+  --floating-input-field-icon-slot: var(--input-small-left-icon-size);
+}
+
+.shellWithLeftIcon.shellMedium {
+  --floating-input-field-icon-slot: var(--input-medium-left-icon-size);
+}
+
+.shellWithLeftIcon.shellLarge {
+  --floating-input-field-icon-slot: var(--input-large-left-icon-size);
+}
+
+.floatingWrap {
+  position: absolute;
+  z-index: 2;
+  max-width: calc(100% - var(--spacing-24));
+  pointer-events: none;
+  transition:
+    top var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    left var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    transform var(--floating-input-field-label-duration) var(--floating-input-field-label-ease);
+}
+
+/* Состояние «внутри поля», как placeholder */
+.floatingWrapRest {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Состояние на границе */
+.floatingWrapFloated {
+  top: 0;
+  transform: translateY(-50%);
+}
+
+.shellSmall .floatingWrapRest {
+  left: var(--input-small-padding-x);
+}
+
+.shellMedium .floatingWrapRest {
+  left: var(--input-medium-padding-x);
+}
+
+.shellLarge .floatingWrapRest {
+  left: var(--input-large-padding-x);
+}
+
+.shellSmall .floatingWrapFloated {
+  left: var(--spacing-8);
+}
+
+.shellMedium .floatingWrapFloated {
+  left: var(--spacing-8);
+}
+
+.shellLarge .floatingWrapFloated {
+  left: var(--spacing-12);
+}
+
+/* Текст начинается после иконки: padding + иконка + padding input */
+.shellWithLeftIcon.shellSmall .floatingWrapRest {
+  left: calc(var(--input-small-padding-x) + var(--floating-input-field-icon-slot) + var(--input-small-padding-x));
+}
+
+.shellWithLeftIcon.shellMedium .floatingWrapRest {
+  left: calc(var(--input-medium-padding-x) + var(--floating-input-field-icon-slot) + var(--input-medium-padding-x));
+}
+
+.shellWithLeftIcon.shellLarge .floatingWrapRest {
+  left: calc(var(--input-large-padding-x) + var(--floating-input-field-icon-slot) + var(--input-large-padding-x));
+}
+
+.floatingText {
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: transparent;
+  /* Как у .fieldWrap в Input и глобально в Storybook: бренд + литерал ONY ONE */
+  font-family: var(--family-brand), 'ONY ONE', sans-serif;
+  color: var(--content-tertiary);
+  transition:
+    font-size var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    line-height var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    letter-spacing var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    font-weight var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    font-family var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    color var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    background-color var(--floating-input-field-label-duration) var(--floating-input-field-label-ease),
+    padding var(--floating-input-field-label-duration) var(--floating-input-field-label-ease);
+}
+
+/*
+ * «Плейсхолдер» (пусто, без фокуса): те же токены размера текста, что и значение в Input — макет по размеру поля.
+ * Не использовать caption здесь — только --input-{size}-font-size + типографика label/medium как у .fieldWrap в Input.
+ */
+.shellSmall .floatingText:not(.floatingTextFloated) {
+  font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif;
+  font-size: var(--input-small-font-size);
+  font-weight: var(--typescale-lable-medium-weight);
+  line-height: var(--input-small-line-height);
+  letter-spacing: var(--typescale-lable-medium-tracking);
+}
+
+.shellMedium .floatingText:not(.floatingTextFloated) {
+  font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif;
+  font-size: var(--input-medium-font-size);
+  font-weight: var(--typescale-lable-medium-weight);
+  line-height: var(--input-medium-line-height);
+  letter-spacing: var(--typescale-lable-medium-tracking);
+}
+
+.shellLarge .floatingText:not(.floatingTextFloated) {
+  font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif;
+  font-size: var(--input-large-font-size);
+  font-weight: var(--typescale-lable-medium-weight);
+  line-height: var(--input-large-line-height);
+  letter-spacing: var(--typescale-lable-medium-tracking);
+}
+
+/*
+ * Фокус или ввод: лейбл на границе — Caption/medium одинаково для small / medium / large
+ * (селекторы с .shell* перебивают любые коллизии с правилами «плейсхолдера» по размеру).
+ */
+.shellSmall .floatingText.floatingTextFloated,
+.shellMedium .floatingText.floatingTextFloated,
+.shellLarge .floatingText.floatingTextFloated {
+  padding: 0 var(--spacing-4);
+  background-color: var(--surface-primary-main);
+  font-family: var(--typescale-caption-medium-font), var(--family-brand), 'ONY ONE', sans-serif;
+  font-size: var(--typescale-caption-medium-size);
+  font-weight: var(--typescale-caption-medium-weight);
+  line-height: var(--typescale-caption-medium-height);
+  letter-spacing: var(--typescale-caption-medium-tracking);
+  color: var(--content-primary);
+}
+
+.floatingTextDisabled {
+  color: var(--content-disabled);
+}
+
+.shellSmall .floatingText.floatingTextFloated.floatingTextDisabled,
+.shellMedium .floatingText.floatingTextFloated.floatingTextDisabled,
+.shellLarge .floatingText.floatingTextFloated.floatingTextDisabled {
+  color: var(--content-disabled);
+}
+
+.inputGrow {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatingWrap,
+  .floatingText {
+    transition-duration: 0.01ms;
+  }
+}
