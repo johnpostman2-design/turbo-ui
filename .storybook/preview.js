@@ -6,6 +6,16 @@ import './turbo-ui-theme.css';
 /** @type { import('@storybook/react').Preview } */
 const preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          'Foundations',
+          ['Colors', 'Typography'],
+          'Components',
+          ['Icons', 'Button', 'IconButton', 'Input', 'InputField', 'FloatingInputField'],
+        ],
+      },
+    },
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {

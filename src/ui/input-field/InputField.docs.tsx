@@ -8,7 +8,8 @@ import { ChevronDown } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-const figmaUrl = 'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=696-412';
+const figmaUrl =
+  'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=595-2403&t=XvUVQiKsKWdIYACV-11';
 const githubUrl = 'https://github.com/johnpostman2-design/turbo-ui/tree/main/src/ui/input-field';
 
 const iconForEnd = <Icon name="delete-cross-circle" size="100%" />;
@@ -136,7 +137,7 @@ export function InputFieldDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Макет <strong>label-out-primary</strong>: подпись над рамкой, поле, под полем — helper или ошибка (caption). Внутри — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>. Плавающий label внутри рамки — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>FloatingInputField</code>.
+            Поле ввода с названием и хелпером за пределами. Собрано на основе <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>

@@ -8,7 +8,8 @@ import { ChevronDown } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-const figmaUrl = 'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=696-412';
+const figmaUrl =
+  'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=575-10269&t=XvUVQiKsKWdIYACV-11';
 const githubUrl = 'https://github.com/johnpostman2-design/turbo-ui/tree/main/src/ui/floating-input-field';
 
 const iconForEnd = <Icon name="delete-cross-circle" size="100%" />;
@@ -142,7 +143,7 @@ export function FloatingInputFieldDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Макет <strong>label-in-primary</strong> (Figma <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>696:412</code>): один текст <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>label</code> сначала внутри поля (как placeholder по размеру текста), при фокусе или вводе — на границе, Caption/medium. Внутри — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>. Пропа <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>placeholder</code> нет. Подпись над полем — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>InputField</code>.
+            Поле ввода с названием и хелпером внутри. Собрано на основе <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
