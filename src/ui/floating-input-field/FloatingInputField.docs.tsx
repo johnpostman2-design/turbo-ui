@@ -114,7 +114,7 @@ export function FloatingInputFieldDocsPage() {
   const RefExample = () => {
     const ref = React.useRef<HTMLInputElement>(null);
     return (
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', flexShrink: 0 }}>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', flexWrap: 'wrap', flexShrink: 0 }}>
         <div style={{ flex: '1', minWidth: '200px', maxWidth: '320px' }}>
           <FloatingInputField ref={ref} label="Поле" helperText="Подсказка" data-testid="floating-input-field-ref" />
         </div>
