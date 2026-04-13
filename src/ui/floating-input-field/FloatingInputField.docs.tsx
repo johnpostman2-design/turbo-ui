@@ -168,9 +168,6 @@ import { FloatingInputField } from 'turbo-ui/floating-input-field';
 <FloatingInputField label="Email" helperText="Подсказка" type="email" />`}
               </SyntaxHighlighter>
             </div>
-            <p style={{ fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              Контракт: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>specs/005-input-label-in-primary/contracts/floating-input-field.md</code>.
-            </p>
           </div>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -238,23 +235,6 @@ import { FloatingInputField } from 'src/ui/floating-input-field';`}
                 README
               </a>
             </p>
-          </div>
-
-          <div style={{ marginBottom: '3rem' }}>
-            <h2 id="style-variants" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>
-              Вариант label-in-primary
-            </h2>
-            <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
-              <li style={{ marginBottom: '0.5rem' }}>
-                Пусто и без фокуса: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>label</code> в строке — цвет tertiary, кегль как у ввода (<code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>--input-*-font-size</code>).
-              </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                Фокус или есть значение: тот же текст на границе, Caption/medium на всех размерах поля.
-              </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                Под полем: helper или error; <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>errorText</code> важнее helper.
-              </li>
-            </ul>
           </div>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -374,11 +354,6 @@ import { FloatingInputField } from 'src/ui/floating-input-field';`}
           <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
             <a href="#theme-scope" onClick={(e) => handleMenuClick(e, 'theme-scope')} style={{ color: '#000000', textDecoration: 'none', display: 'block', transition: 'color 0.2s ease', cursor: 'pointer' }}>
               Тема и изоляция
-            </a>
-          </li>
-          <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
-            <a href="#style-variants" onClick={(e) => handleMenuClick(e, 'style-variants')} style={{ color: '#000000', textDecoration: 'none', display: 'block', transition: 'color 0.2s ease', cursor: 'pointer' }}>
-              Вариант label-in-primary
             </a>
           </li>
           <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>

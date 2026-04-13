@@ -162,9 +162,6 @@ import { InputField } from 'turbo-ui/input-field';
 <InputField label="Email" helperText="Подсказка" placeholder="you@example.com" type="email" />`}
               </SyntaxHighlighter>
             </div>
-            <p style={{ fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              Контракт: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>specs/004-input-label-out-primary/contracts/input-field.md</code>.
-            </p>
           </div>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -232,19 +229,6 @@ import { InputField } from 'src/ui/input-field';`}
                 README
               </a>
             </p>
-          </div>
-
-          <div style={{ marginBottom: '3rem' }}>
-            <h2 id="style-variants" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>
-              Вариант label-out-primary
-            </h2>
-            <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
-              <li style={{ marginBottom: '0.5rem' }}>Label над рамкой — label/small по токенам.</li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                Под полем: helper или error; <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>errorText</code> перекрывает helper.
-              </li>
-              <li style={{ marginBottom: '0.5rem' }}>Отступы между блоками — spacing из темы.</li>
-            </ul>
           </div>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -364,11 +348,6 @@ import { InputField } from 'src/ui/input-field';`}
           <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
             <a href="#theme-scope" onClick={(e) => handleMenuClick(e, 'theme-scope')} style={{ color: '#000000', textDecoration: 'none', display: 'block', transition: 'color 0.2s ease', cursor: 'pointer' }}>
               Тема и изоляция
-            </a>
-          </li>
-          <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
-            <a href="#style-variants" onClick={(e) => handleMenuClick(e, 'style-variants')} style={{ color: '#000000', textDecoration: 'none', display: 'block', transition: 'color 0.2s ease', cursor: 'pointer' }}>
-              Вариант label-out-primary
             </a>
           </li>
           <li style={{ marginBottom: '0.25rem', paddingLeft: '1rem' }}>
