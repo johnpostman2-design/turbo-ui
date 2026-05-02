@@ -86,3 +86,30 @@ if (fs.existsSync(path.join(dist, 'ui', 'floating-input-field', 'index.d.ts'))) 
   );
   console.log('Written dist/ui/floating-input-field.d.ts');
 }
+const textareaDts = path.join(dist, 'ui', 'textarea.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'textarea', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    textareaDts,
+    "export { TextArea } from './textarea/index';\nexport type { TextAreaProps, TextAreaSize } from './textarea/index';\n"
+  );
+  console.log('Written dist/ui/textarea.d.ts');
+}
+const checkboxDts = path.join(dist, 'ui', 'checkbox.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'checkbox', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    checkboxDts,
+    "export { Checkbox } from './checkbox/index';\nexport type { CheckboxProps, CheckboxSize } from './checkbox/index';\n"
+  );
+  console.log('Written dist/ui/checkbox.d.ts');
+}
+const radioDts = path.join(dist, 'ui', 'radio.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'radio', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    radioDts,
+    "export { Radio } from './radio/index';\nexport type { RadioProps, RadioSize } from './radio/index';\n"
+  );
+  console.log('Written dist/ui/radio.d.ts');
+}

@@ -1,0 +1,174 @@
+/* TextArea: многострочное поле. Только токены. */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  width: 100%;
+  min-width: 120px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ручка resize — только нативная, в правом нижнем углу textarea; обёртка не обрезает угол */
+.fieldWrap {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+  border: 1px solid var(--border-tertiary);
+  border-radius: var(--textarea-border-radius);
+  background: var(--surface-primary-main);
+  color: var(--content-primary);
+  font-family: var(--typescale-lable-medium-font), var(--family-brand), sans-serif;
+  transition: var(--textarea-transition);
+  outline: none;
+}
+
+.fieldWrap:hover:not(.fieldDisabled):not(.fieldError) {
+  border-color: var(--border-secondary);
+}
+
+.fieldWrap:focus-within:not(.fieldDisabled):not(.fieldError) {
+  border-color: var(--border-secondary);
+}
+
+.fieldError:focus-within:not(.fieldDisabled) {
+  border-color: var(--border-error);
+}
+
+.fieldError {
+  border-color: var(--border-error);
+}
+
+.fieldDisabled {
+  cursor: default;
+  background: var(--surface-primary-main);
+  border-color: var(--border-disabled);
+  color: var(--content-disabled);
+}
+
+.sizeSmall {
+  min-height: var(--textarea-small-min-height);
+}
+
+.sizeMedium {
+  min-height: var(--textarea-medium-min-height);
+}
+
+.textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  /* vertical: ручка внизу справа; overflow: auto — единый режим, чтобы ручка не «уезжала» от раздельных overflow-x/y */
+  resize: vertical;
+  overflow: auto;
+  transition: var(--textarea-transition);
+  outline: none;
+}
+
+.textarea:focus {
+  outline: none;
+}
+
+.sizeSmall .textarea {
+  min-height: var(--textarea-small-min-height);
+  padding: var(--textarea-small-padding-y) var(--textarea-small-padding-x);
+  font-size: var(--textarea-small-font-size);
+  line-height: var(--textarea-small-line-height);
+}
+
+.sizeMedium .textarea {
+  min-height: var(--textarea-medium-min-height);
+  padding: var(--textarea-medium-padding-y) var(--textarea-medium-padding-x);
+  font-size: var(--textarea-medium-font-size);
+  line-height: var(--textarea-medium-line-height);
+}
+
+/* Высота по нативному `rows`; иначе min-height с токенов перебивает число строк */
+.fieldWrap.heightFromRows.sizeSmall,
+.fieldWrap.heightFromRows.sizeMedium {
+  min-height: unset;
+}
+
+.fieldWrap.heightFromRows.sizeSmall .textarea,
+.fieldWrap.heightFromRows.sizeMedium .textarea {
+  min-height: unset;
+}
+
+.fieldDisabled .textarea {
+  cursor: default;
+  color: var(--content-disabled);
+  resize: none;
+}
+
+.textarea::placeholder {
+  color: var(--content-tertiary);
+}
+
+.fieldDisabled .textarea::placeholder {
+  color: var(--content-disabled);
+}
+
+/* Макет invalid: значение в поле — content-primary, не цвет ошибки */
+.fieldError .textarea {
+  color: var(--content-primary);
+}
+
+.fieldError .textarea::placeholder {
+  color: var(--content-tertiary);
+}
+
+/* Одна строка под полем — фиксированная минимальная высота, без прыжков layout */
+.helperSlot {
+  min-height: var(--typescale-caption-medium-height);
+}
+
+/* Caption/medium — нейтральный helper под полем */
+.helper {
+  margin: 0;
+  font-family: var(--typescale-caption-medium-font), var(--family-brand), sans-serif;
+  font-size: var(--typescale-caption-medium-size);
+  font-weight: var(--typescale-caption-medium-weight);
+  line-height: var(--typescale-caption-medium-height);
+  letter-spacing: var(--typescale-caption-medium-tracking);
+  color: var(--content-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Figma 726:146 invalid — текст ошибки: Caption/medium + content-error */
+.helperError {
+  margin: 0;
+  font-family: var(--typescale-caption-medium-font), var(--family-brand), sans-serif;
+  font-size: var(--typescale-caption-medium-size);
+  font-weight: var(--typescale-caption-medium-weight);
+  line-height: var(--typescale-caption-medium-height);
+  letter-spacing: var(--typescale-caption-medium-tracking);
+  color: var(--content-error);
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
+}
+
+.helperSlot > p {
+  margin: 0;
+}
+
+.root.rootDisabled .helper,
+.root.rootDisabled .helperError {
+  color: var(--content-disabled);
+}
+
+.helperInvisible {
+  visibility: hidden;
+}

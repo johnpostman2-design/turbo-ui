@@ -12,7 +12,7 @@ const preview = {
           'Foundations',
           ['Colors', 'Typography'],
           'Components',
-          ['Icons', 'Button', 'IconButton', 'Input', 'InputField', 'FloatingInputField'],
+          ['Icons', 'Button', 'IconButton', 'Input', 'InputField', 'FloatingInputField', 'TextArea', 'Checkbox', 'Radio'],
         ],
       },
     },
@@ -150,20 +150,38 @@ if (typeof document !== 'undefined') {
       color: var(--content-disabled) !important;
     }
 
+    /* TextArea helper/error под полем — Caption/medium; перебивает color у .sbdocs-content (как InputField) */
+    p[data-turbo-textarea-helper] {
+      font-family: var(--typescale-caption-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--typescale-caption-medium-size) !important;
+      line-height: var(--typescale-caption-medium-height) !important;
+      font-weight: var(--typescale-caption-medium-weight) !important;
+      letter-spacing: var(--typescale-caption-medium-tracking) !important;
+    }
+    p[data-turbo-textarea-helper][data-helper-tone="tertiary"] {
+      color: var(--content-tertiary) !important;
+    }
+    p[data-turbo-textarea-helper][data-helper-tone="error"] {
+      color: var(--content-error) !important;
+    }
+    p[data-turbo-textarea-helper][data-helper-tone="disabled"] {
+      color: var(--content-disabled) !important;
+    }
+
     /* Плавающий лейбл FloatingInputField: исключён из глобального span — задаём только семейство; размеры из CSS Modules */
     [data-turbo-floating-input-field-label] {
       font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
     }
 
     /* Наборный текст в Docs — Label/medium (типографика из токенов) */
-    .sbdocs-p:not([data-turbo-input-field-helper]),
-    .sbdocs-p p:not([data-turbo-input-field-helper]),
-    .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]),
+    .sbdocs-p:not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
+    .sbdocs-p p:not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
+    .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
     .sbdocs-content span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
     .sbdocs-content div:not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label):not(.typography-sample-text):not(.colors-table-header):not(.colors-table-row),
-    .sbdocs-wrapper p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]),
+    .sbdocs-wrapper p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
     .sbdocs-wrapper span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
-    .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]),
+    .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
     .docs-story span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]) {
       font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--typescale-lable-medium-size) !important;
@@ -275,7 +293,7 @@ if (typeof document !== 'undefined') {
     
     /* Скрываем меню на мобильных устройствах */
     @media (max-width: 1200px) {
-      nav[style*="position: fixed"]:not(.button-docs-menu):not(.icon-button-docs-menu):not(.input-docs-menu):not(.input-field-docs-menu):not(.floating-input-field-docs-menu) {
+      nav[style*="position: fixed"]:not(.button-docs-menu):not(.icon-button-docs-menu):not(.input-docs-menu):not(.input-field-docs-menu):not(.floating-input-field-docs-menu):not(.textarea-docs-menu):not(.checkbox-docs-menu):not(.radio-docs-menu) {
         display: none !important;
       }
     }
@@ -285,7 +303,10 @@ if (typeof document !== 'undefined') {
     .icon-button-docs-menu,
     .input-docs-menu,
     .input-field-docs-menu,
-    .floating-input-field-docs-menu {
+    .floating-input-field-docs-menu,
+    .textarea-docs-menu,
+    .checkbox-docs-menu,
+    .radio-docs-menu {
       display: block !important;
     }
     
@@ -304,7 +325,16 @@ if (typeof document !== 'undefined') {
     .input-field-docs-menu li,
     .floating-input-field-docs-menu,
     .floating-input-field-docs-menu a,
-    .floating-input-field-docs-menu li {
+    .floating-input-field-docs-menu li,
+    .textarea-docs-menu,
+    .textarea-docs-menu a,
+    .textarea-docs-menu li,
+    .checkbox-docs-menu,
+    .checkbox-docs-menu a,
+    .checkbox-docs-menu li,
+    .radio-docs-menu,
+    .radio-docs-menu a,
+    .radio-docs-menu li {
       font-family: var(--typescale-lable-small-font), var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--typescale-lable-small-size) !important;
       line-height: var(--typescale-lable-small-height) !important;

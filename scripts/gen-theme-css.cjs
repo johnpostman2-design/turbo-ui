@@ -117,6 +117,67 @@ if (data.input) {
   }
 }
 
+// textarea (многострочное поле; min-height и радиус по макету 726:146)
+if (data.textarea) {
+  lines.push('  /* textarea */');
+  const ta = data.textarea;
+  if (ta.borderRadius) lines.push(`  --textarea-border-radius: ${ta.borderRadius};`);
+  if (ta.transition) lines.push(`  --textarea-transition: ${ta.transition};`);
+  if (ta.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(ta.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --textarea-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
+// checkbox (флажок; размеры по макету 761:112)
+if (data.checkbox) {
+  lines.push('  /* checkbox */');
+  const cb = data.checkbox;
+  if (cb.borderRadius) lines.push(`  --checkbox-border-radius: ${cb.borderRadius};`);
+  if (cb.transition) lines.push(`  --checkbox-transition: ${cb.transition};`);
+  if (cb.focusBorderWidth != null) {
+    const v = cb.focusBorderWidth;
+    lines.push(`  --checkbox-focus-border-width: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (cb.labelTransition) lines.push(`  --checkbox-label-transition: ${cb.labelTransition};`);
+  if (cb.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(cb.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --checkbox-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
+// radio (радиокнопка; размеры по макету 794:352)
+if (data.radio) {
+  lines.push('  /* radio */');
+  const rd = data.radio;
+  if (rd.transition) lines.push(`  --radio-transition: ${rd.transition};`);
+  if (rd.focusBorderWidth != null) {
+    const v = rd.focusBorderWidth;
+    lines.push(`  --radio-focus-border-width: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (rd.invalidRingWidth != null) {
+    const v = rd.invalidRingWidth;
+    lines.push(`  --radio-invalid-ring-width: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (rd.labelTransition) lines.push(`  --radio-label-transition: ${rd.labelTransition};`);
+  if (rd.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(rd.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --radio-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
 lines.push('}');
 lines.push('');
 

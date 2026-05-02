@@ -43,6 +43,18 @@
       "types": "./dist/ui/floating-input-field.d.ts",
       "import": "./dist/ui/floating-input-field.js"
     },
+    "./textarea": {
+      "types": "./dist/ui/textarea.d.ts",
+      "import": "./dist/ui/textarea.js"
+    },
+    "./checkbox": {
+      "types": "./dist/ui/checkbox.d.ts",
+      "import": "./dist/ui/checkbox.js"
+    },
+    "./radio": {
+      "types": "./dist/ui/radio.d.ts",
+      "import": "./dist/ui/radio.js"
+    },
     "./provider": {
       "types": "./dist/provider.d.ts",
       "import": "./dist/provider.js"

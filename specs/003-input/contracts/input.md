@@ -4,6 +4,8 @@
 
 Для поля формы с **внешней подписью** над областью ввода, helper/error под полем и вариантом label-out-primary используйте **`InputField`** (`import { InputField } from 'turbo-ui/input-field'`), см. спеку `specs/004-input-label-out-primary` и `contracts/input-field.md`.
 
+Для **многострочного** ввода используйте **`TextArea`** (`import { TextArea } from 'turbo-ui/textarea'`), см. `specs/006-textarea` и `specs/006-textarea/contracts/textarea.md`.
+
 ## Компонент
 
 Один компонент: опциональные label, поле ввода, helper/error текст, иконка слева, IconButton справа (только IconButton из библиотеки). Размеры small / medium / large. Состояния: default, hover, focus, filled, error, disabled. Controlled и uncontrolled; layout не прыгает при появлении helper/error.

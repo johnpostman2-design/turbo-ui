@@ -1,0 +1,232 @@
+/* Checkbox: нативный input + визуал по макету 761:112; только токены. */
+
+.field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: var(--checkbox-transition);
+}
+
+.sizeLarge {
+  gap: var(--spacing-12);
+}
+
+.sizeMedium,
+.sizeSmall {
+  gap: var(--spacing-8);
+}
+
+.control {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.sizeSmall .control {
+  width: var(--checkbox-small-box-size);
+  height: var(--checkbox-small-box-size);
+}
+
+.sizeMedium .control {
+  width: var(--checkbox-medium-box-size);
+  height: var(--checkbox-medium-box-size);
+}
+
+.sizeLarge .control {
+  width: var(--checkbox-large-box-size);
+  height: var(--checkbox-large-box-size);
+}
+
+.native {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  appearance: none;
+}
+
+/* Кольцо рисуем на .box по :focus-visible; обводку браузера на невидимом input убираем. */
+.native:focus {
+  outline: none;
+}
+
+.disabled .native {
+  cursor: not-allowed;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-style: solid;
+  border-radius: var(--checkbox-border-radius);
+  background: var(--surface-primary-main);
+  color: var(--content-primary);
+  transition: var(--checkbox-transition);
+  pointer-events: none;
+}
+
+.sizeSmall .box {
+  border-width: var(--checkbox-small-border-width);
+  border-color: var(--border-tertiary);
+}
+
+.sizeMedium .box {
+  border-width: var(--checkbox-medium-border-width);
+  border-color: var(--border-tertiary);
+}
+
+.sizeLarge .box {
+  border-width: var(--checkbox-large-border-width);
+  border-color: var(--border-tertiary);
+}
+
+.field:not(.disabled):hover .box {
+  border-color: var(--border-secondary);
+}
+
+.field.error:not(.disabled):hover .box {
+  border-color: var(--border-error);
+}
+
+.field[data-checked] .box,
+.field[data-indeterminate] .box {
+  background: var(--surface-tertiary-main);
+  border-color: var(--border-tertiary);
+  color: var(--content-primary);
+}
+
+.field.error[data-checked] .box,
+.field.error[data-indeterminate] .box {
+  border-color: var(--border-error);
+}
+
+.field.sizeSmall[data-checked] .box,
+.field.sizeSmall[data-indeterminate] .box {
+  padding: var(--checkbox-small-inner-padding);
+}
+
+.field.sizeMedium[data-checked] .box,
+.field.sizeMedium[data-indeterminate] .box {
+  padding: var(--checkbox-medium-inner-padding);
+}
+
+.field.sizeLarge[data-checked] .box,
+.field.sizeLarge[data-indeterminate] .box {
+  padding: var(--checkbox-large-inner-padding);
+}
+
+.field[data-checked]:not(.disabled):hover .box,
+.field[data-indeterminate]:not(.disabled):hover .box {
+  background: var(--surface-tertiary-hover);
+  border-color: var(--border-secondary);
+}
+
+.field.error[data-checked]:not(.disabled):hover .box,
+.field.error[data-indeterminate]:not(.disabled):hover .box {
+  border-color: var(--border-error);
+}
+
+.error .box {
+  border-color: var(--border-error);
+}
+
+/* Выбранный при error: фон/иконка как у обычного выбора; красная обводка сохраняется (см. .field.error[data-checked] выше). */
+
+/* Фокус с клавиатуры: только :focus-visible (Tab), не при клике мышью по чекбоксу. */
+.field:has(.native:focus-visible):not(.disabled):not(.error) .box {
+  border-width: var(--checkbox-focus-border-width);
+  border-color: var(--border-primary);
+}
+
+.field.error:has(.native:focus-visible):not(.disabled) .box {
+  border-width: var(--checkbox-focus-border-width);
+  border-color: var(--border-error);
+}
+
+.field.disabled:has(.native:focus-visible) .box {
+  border-width: var(--checkbox-small-border-width);
+  border-color: var(--border-disabled);
+}
+
+/* Только для демо программного фокуса в Storybook/Docs (проп demoFocusRing). */
+.field.demoFocusRing:not(.disabled):not(.error) .box {
+  border-width: var(--checkbox-focus-border-width);
+  border-color: var(--border-primary);
+}
+
+.field.error.demoFocusRing:not(.disabled) .box {
+  border-width: var(--checkbox-focus-border-width);
+  border-color: var(--border-error);
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.disabled .box {
+  background: var(--surface-primary-main);
+  border-color: var(--border-disabled);
+  color: var(--content-disabled);
+}
+
+.disabled[data-checked] .box,
+.disabled[data-indeterminate] .box {
+  background: var(--surface-primary-disabled);
+  border-color: var(--border-disabled);
+  color: var(--content-disabled);
+}
+
+.label {
+  min-width: 0;
+  color: var(--content-primary);
+  transition: var(--checkbox-label-transition);
+}
+
+.field:not(.disabled):hover .label {
+  color: var(--content-secondary);
+}
+
+.field.disabled .label {
+  color: var(--content-disabled);
+}
+
+.labelSmall {
+  font-family: var(--typescale-lable-small-font);
+  font-size: var(--typescale-lable-small-size);
+  line-height: var(--typescale-lable-small-height);
+  font-weight: var(--typescale-lable-small-weight);
+  letter-spacing: var(--typescale-lable-small-tracking);
+}
+
+.labelMedium {
+  font-family: var(--typescale-lable-medium-font);
+  font-size: var(--typescale-lable-medium-size);
+  line-height: var(--typescale-lable-medium-height);
+  font-weight: var(--typescale-lable-medium-weight);
+  letter-spacing: var(--typescale-lable-medium-tracking);
+}
+
+.labelLarge {
+  font-family: var(--typescale-lable-large-font);
+  font-size: var(--typescale-lable-large-size);
+  line-height: var(--typescale-lable-large-height);
+  font-weight: var(--typescale-lable-large-weight);
+  letter-spacing: var(--typescale-lable-large-tracking);
+}
+
+.icon {
+  display: block;
+  flex-shrink: 0;
+}

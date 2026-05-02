@@ -185,4 +185,48 @@
   --input-large-font-size: 20px;
   --input-large-line-height: 32px;
   --input-large-left-icon-size: 32px;
+  /* textarea */
+  --textarea-border-radius: 4px;
+  --textarea-transition: border-color 0.2s ease, background-color 0.2s ease;
+  --textarea-small-min-height: 64px;
+  --textarea-small-padding-x: 12px;
+  --textarea-small-padding-y: 8px;
+  --textarea-small-font-size: 14px;
+  --textarea-small-line-height: 16px;
+  --textarea-medium-min-height: 100px;
+  --textarea-medium-padding-x: 12px;
+  --textarea-medium-padding-y: 8px;
+  --textarea-medium-font-size: 17px;
+  --textarea-medium-line-height: 24px;
+  /* checkbox */
+  --checkbox-border-radius: 8px;
+  --checkbox-transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-width 0.2s ease;
+  --checkbox-focus-border-width: 2px;
+  --checkbox-label-transition: color 0.2s ease;
+  --checkbox-small-box-size: 24px;
+  --checkbox-small-icon-size: 16px;
+  --checkbox-small-inner-padding: 4px;
+  --checkbox-small-border-width: 1px;
+  --checkbox-medium-box-size: 32px;
+  --checkbox-medium-icon-size: 24px;
+  --checkbox-medium-inner-padding: 4px;
+  --checkbox-medium-border-width: 1px;
+  --checkbox-large-box-size: 40px;
+  --checkbox-large-icon-size: 32px;
+  --checkbox-large-inner-padding: 4px;
+  --checkbox-large-border-width: 1px;
+  /* radio */
+  --radio-transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-width 0.2s ease;
+  --radio-focus-border-width: 2px;
+  --radio-invalid-ring-width: 1px;
+  --radio-label-transition: color 0.2s ease;
+  --radio-small-indicator-size: 24px;
+  --radio-small-border-width: 1px;
+  --radio-small-inner-dot-size: 8px;
+  --radio-medium-indicator-size: 32px;
+  --radio-medium-border-width: 1px;
+  --radio-medium-inner-dot-size: 12px;
+  --radio-large-indicator-size: 40px;
+  --radio-large-border-width: 1px;
+  --radio-large-inner-dot-size: 16px;
 }

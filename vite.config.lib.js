@@ -13,7 +13,7 @@ export default defineConfig({
     dts({
       tsconfigPath: path.resolve(dirname, 'tsconfig.build.json'),
       outDir: 'dist',
-      include: ['src/index.ts', 'src/ui/button/**/*.ts', 'src/ui/button/**/*.tsx', 'src/ui/icon-button/**/*.ts', 'src/ui/icon-button/**/*.tsx', 'src/ui/input/**/*.ts', 'src/ui/input/**/*.tsx', 'src/ui/input-field/**/*.ts', 'src/ui/input-field/**/*.tsx', 'src/ui/floating-input-field/**/*.ts', 'src/ui/floating-input-field/**/*.tsx', 'src/provider/**/*.tsx', 'src/tokens/**/*.ts'],
+      include: ['src/index.ts', 'src/ui/button/**/*.ts', 'src/ui/button/**/*.tsx', 'src/ui/icon-button/**/*.ts', 'src/ui/icon-button/**/*.tsx', 'src/ui/input/**/*.ts', 'src/ui/input/**/*.tsx', 'src/ui/input-field/**/*.ts', 'src/ui/input-field/**/*.tsx', 'src/ui/floating-input-field/**/*.ts', 'src/ui/floating-input-field/**/*.tsx', 'src/ui/textarea/**/*.ts', 'src/ui/textarea/**/*.tsx', 'src/ui/checkbox/**/*.ts', 'src/ui/checkbox/**/*.tsx', 'src/ui/radio/**/*.ts', 'src/ui/radio/**/*.tsx', 'src/provider/**/*.tsx', 'src/tokens/**/*.ts'],
       exclude: ['**/*.test.*', '**/*.stories.*'],
     }),
   ],
@@ -26,6 +26,9 @@ export default defineConfig({
         'ui/input': path.resolve(dirname, 'src/ui/input/index.ts'),
         'ui/input-field': path.resolve(dirname, 'src/ui/input-field/index.ts'),
         'ui/floating-input-field': path.resolve(dirname, 'src/ui/floating-input-field/index.ts'),
+        'ui/textarea': path.resolve(dirname, 'src/ui/textarea/index.ts'),
+        'ui/checkbox': path.resolve(dirname, 'src/ui/checkbox/index.ts'),
+        'ui/radio': path.resolve(dirname, 'src/ui/radio/index.ts'),
         provider: path.resolve(dirname, 'src/provider/index.ts'),
       },
       formats: ['es'],

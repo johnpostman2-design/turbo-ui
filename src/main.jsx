@@ -10,7 +10,7 @@ import { Button } from './ui/button';
 function Playground() {
   return (
     <TurboUIProvider>
-      <div className="playground">
+      <div className="playground turbo-ui-root">
         <h1>Turbo UI Playground</h1>
         <p>
           Библиотека компонентов. Сторибук: <a href="http://localhost:6006">localhost:6006</a>
