@@ -10,9 +10,8 @@ const figmaUrl =
   'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=558-1439';
 const githubUrl =
   'https://github.com/johnpostman2-design/turbo-ui/tree/main/src/components/icons';
-/** Сторис «все иконки из реестра» на локальном Storybook, порт по умолчанию. */
-const storybookAllFromRegistryHref =
-  'http://localhost:6006/?path=/story/components-icons--all-from-registry';
+/** Сторис со всеми иконками: тот же хост, путь от корня Storybook. */
+const storybookAllFromRegistryHref = '/?path=/story/components-icons--all-from-registry';
 
 const codeBadge = {
   background: '#f0f0f0',
@@ -26,7 +25,8 @@ const CollapsiblePropsList = () => {
     {
       name: 'name',
       type: 'string',
-      description: 'Файл в папке icons без .svg: plus, check-done.',
+      description:
+        'Файл в папке icons без .svg: plus, check-done. Нет в реестре — пустой SVG, сверяйтесь с iconNames.',
       default: '—',
     },
     {
@@ -308,7 +308,8 @@ export function IconsDocsPage() {
             Передаёте <code style={codeBadge}>name</code> — на экране SVG из папки{' '}
             <code style={codeBadge}>icons/</code>. Расширение в коде не пишете. Цвет задаёте в{' '}
             <code style={codeBadge}>color</code>: обычно токен темы, он идёт в{' '}
-            <code style={codeBadge}>currentColor</code> внутри иконки.
+            <code style={codeBadge}>currentColor</code> внутри иконки. Файл подтягивается асинхронно: на первый кадр
+            место под иконку может быть пустым.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -411,13 +412,21 @@ export function IconsDocsPage() {
             <p style={{ ...pSection, marginBottom: '1rem' }}>
               Положили новый <code style={codeBadge}>.svg</code> в <code style={codeBadge}>icons/</code>, пути с{' '}
               <code style={codeBadge}>currentColor</code> — перезапустите dev. Имя файла без расширения появится в{' '}
-              <code style={codeBadge}>iconNames</code>.
+              <code style={codeBadge}>iconNames</code>. Опечатка в <code style={codeBadge}>name</code> или имя не из
+              реестра — на экране пустой квадрат: сверьтесь с <code style={codeBadge}>iconNames</code> или вкладкой
+              AllFromRegistry.
             </p>
             <p style={{ ...pSection, marginBottom: '1rem' }}>
               В реестре сейчас <code style={codeBadge}>{iconNames.length}</code> имён. Все плиткой — во вкладке{' '}
-              <a className="icons-docs-inline-link" href={storybookAllFromRegistryHref}>
+              <a
+                className="icons-docs-inline-link"
+                href={storybookAllFromRegistryHref}
+                target="_top"
+                rel="noopener noreferrer"
+              >
                 AllFromRegistry
-              </a>.
+              </a>
+              .
             </p>
             <div
               style={{

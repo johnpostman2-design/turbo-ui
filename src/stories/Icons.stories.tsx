@@ -102,7 +102,7 @@ export const Sizes: Story = {
 };
 
 export const States: Story = {
-  args: { name: 'trash', size: 32 },
+  args: { name: 'trash-bin-delete', size: 32 },
   render: (args) => (
     <div style={{ padding: '2rem', display: 'flex', gap: '2rem', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>

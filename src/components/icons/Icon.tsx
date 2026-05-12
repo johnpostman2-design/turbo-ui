@@ -6,7 +6,7 @@ import styles from './icon.module.css';
 export type IconState = 'default' | 'disabled';
 
 export interface IconProps {
-  /** Имя иконки из папки icons (например: plus, chart, trash) */
+  /** Имя иконки из папки icons (например: plus, chart, trash-bin-delete) */
   name?: string;
   /** Размер в пикселях или '100%' — заполнить контейнер (для использования внутри IconButton и т.п.) */
   size?: number | '100%';
