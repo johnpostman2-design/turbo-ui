@@ -451,7 +451,7 @@ const ButtonDocsPage = () => {
         lineHeight: '1.5',
         color: '#000000'
       }}>
-        Кнопка для действия или перехода. Вариант — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>variant</code>, размер — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> (32 / 40 / 48 px). Иконки: <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>startIcon</code> / <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endIcon</code>; <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>null</code> — скрыть слот.
+        Кнопка для действия или перехода.
       </p>
 
       {/* Секция Подключение в проекте */}

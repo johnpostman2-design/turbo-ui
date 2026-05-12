@@ -43,6 +43,7 @@
   --surface-primary-invert-disabled: #0000000a;
   --border-disabled: #0000000a;
   --surface-secondary-disabled: #0000000a;
+  --surface-tertiary-disabled: #0000000a;
   --icon-disabled-opacity: 0.08;
 
   /* spaces */
@@ -198,6 +199,11 @@
   --textarea-medium-padding-y: 8px;
   --textarea-medium-font-size: 17px;
   --textarea-medium-line-height: 24px;
+  --textarea-large-min-height: 120px;
+  --textarea-large-padding-x: 16px;
+  --textarea-large-padding-y: 10px;
+  --textarea-large-font-size: 20px;
+  --textarea-large-line-height: 32px;
   /* checkbox */
   --checkbox-border-radius: 8px;
   --checkbox-transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-width 0.2s ease;
@@ -229,4 +235,53 @@
   --radio-large-indicator-size: 40px;
   --radio-large-border-width: 1px;
   --radio-large-inner-dot-size: 16px;
+  /* listbox */
+  --listbox-border-radius: 8px;
+  --listbox-transition: background-color 0.15s ease, color 0.15s ease;
+  --listbox-default-menu-max-height: 280px;
+  --listbox-panel-padding: 4px;
+  --listbox-focus-border-width: 2px;
+  --listbox-small-item-min-height: 36px;
+  --listbox-small-item-padding-x: 12px;
+  --listbox-small-item-gap: 8px;
+  --listbox-small-icon-size: 16px;
+  --listbox-small-check-icon-size: 16px;
+  --listbox-small-font-size: 14px;
+  --listbox-small-line-height: 16px;
+  --listbox-medium-item-min-height: 44px;
+  --listbox-medium-item-padding-x: 12px;
+  --listbox-medium-item-gap: 8px;
+  --listbox-medium-icon-size: 20px;
+  --listbox-medium-check-icon-size: 20px;
+  --listbox-medium-font-size: 17px;
+  --listbox-medium-line-height: 24px;
+  --listbox-large-item-min-height: 52px;
+  --listbox-large-item-padding-x: 16px;
+  --listbox-large-item-gap: 8px;
+  --listbox-large-icon-size: 24px;
+  --listbox-large-check-icon-size: 24px;
+  --listbox-large-font-size: 20px;
+  --listbox-large-line-height: 32px;
+  /* combobox */
+  --combobox-menu-z-index: 1200;
+  --combobox-match-background: var(--main-brand-100);
+  --combobox-match-color: var(--content-primary);
+  --combobox-borderless-underline-color: var(--border-secondary);
+
+  /* select */
+  --select-menu-z-index: 1200;
+  --select-chevron-size: 20px;
+  --select-transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  --select-small-height: 32px;
+  --select-small-padding-x: 12px;
+  --select-small-font-size: 14px;
+  --select-small-line-height: 16px;
+  --select-medium-height: 40px;
+  --select-medium-padding-x: 12px;
+  --select-medium-font-size: 17px;
+  --select-medium-line-height: 24px;
+  --select-large-height: 48px;
+  --select-large-padding-x: 16px;
+  --select-large-font-size: 20px;
+  --select-large-line-height: 32px;
 }

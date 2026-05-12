@@ -21,20 +21,10 @@ describe('TextArea', () => {
     expect(el).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('links errorText with aria-describedby', () => {
-    render(<TextArea placeholder="P" error errorText="Сообщение об ошибке" />);
-    const el = screen.getByPlaceholderText('P');
-    const id = el.getAttribute('aria-describedby');
-    expect(id).toBeTruthy();
-    expect(document.getElementById(id!)).toHaveTextContent('Сообщение об ошибке');
-  });
-
-  it('links helperText with aria-describedby when no errorText', () => {
-    render(<TextArea placeholder="P" helperText="Подсказка" />);
-    const el = screen.getByPlaceholderText('P');
-    const id = el.getAttribute('aria-describedby');
-    expect(id).toBeTruthy();
-    expect(document.getElementById(id!)).toHaveTextContent('Подсказка');
+  it('does not render any built-in helper slot under the field', () => {
+    const { container } = render(<TextArea placeholder="P" />);
+    expect(container.querySelectorAll('[class*="helperSlot"]').length).toBe(0);
+    expect(container.querySelectorAll('p').length).toBe(0);
   });
 
   it('forwards ref to DOM textarea', () => {

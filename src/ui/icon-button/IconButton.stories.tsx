@@ -269,7 +269,7 @@ const IconButtonDocsPage = () => {
         lineHeight: '1.5',
         color: '#000000'
       }}>
-        Кнопка только с иконкой. Размер 16 | 24 | 32 px. Для <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Icon</code> передавайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size="100%"</code> — иконка заполнит контейнер. И <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code>.
+        Кнопка только с иконкой, без подписи.
       </p>
 
       {/* Секция Подключение в проекте */}

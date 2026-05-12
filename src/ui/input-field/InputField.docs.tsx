@@ -66,15 +66,15 @@ const CollapsiblePropsList = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', margin: '0' }}>
             <thead>
               <tr style={{ background: '#ffffff', borderTop: 'none' }}>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Имя</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Описание</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Имя</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Описание</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
               </tr>
             </thead>
             <tbody>
               {props.map((prop, index) => (
                 <tr key={prop.name} style={{ background: '#ffffff', borderBottom: index < props.length - 1 ? '1px solid #b0b0b0' : 'none' }}>
-                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'bold', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
+                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'var(--weight-regular)', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
                   <td style={{ padding: '1rem', verticalAlign: 'top', borderLeft: 'none', borderRight: 'none' }}>
                     <p style={{ marginBottom: '0.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base)', lineHeight: '1.5', color: 'var(--foreground)' }}>{prop.description}</p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
@@ -137,7 +137,7 @@ export function InputFieldDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Поле ввода с названием и хелпером за пределами. Собрано на основе <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>.
+            Однострочное поле ввода с подписью сверху и подсказкой снизу.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -237,13 +237,13 @@ import { InputField } from 'src/ui/input-field';`}
             </h2>
             <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
               <li style={{ marginBottom: '0.5rem' }}>
-                <strong>small</strong> — высота поля 32px
+                <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>small</code> — компактное поле, высота 32px
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <strong>medium</strong> — 40px (по умолчанию)
+                <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> — базовый размер по умолчанию, высота 40px
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <strong>large</strong> — 48px
+                <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>large</code> — крупное поле, высота 48px
               </li>
             </ul>
             <ExampleBlock

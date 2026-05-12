@@ -1,10 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { docsPageFromModule } from '../../storybook/docsPageLoader';
 import { TextArea } from './TextArea';
-
-const TextAreaDocsPageLazy = React.lazy(() =>
-  import('./TextArea.docs').then((m) => ({ default: m.TextAreaDocsPage }))
-);
 
 const meta: Meta<typeof TextArea> = {
   title: 'Components/TextArea',
@@ -19,12 +16,7 @@ const meta: Meta<typeof TextArea> = {
   ],
   parameters: {
     docs: {
-      page: () =>
-        React.createElement(
-          React.Suspense,
-          { fallback: React.createElement('div', { style: { padding: '2rem' } }, 'Загрузка…') },
-          React.createElement(TextAreaDocsPageLazy)
-        ),
+      page: docsPageFromModule(() => import('./TextArea.docs'), 'TextAreaDocsPage'),
     },
   },
   argTypes: {
@@ -48,14 +40,10 @@ export const WithValue: Story = {
   args: { defaultValue: 'Value', size: 'medium' },
 };
 
-/** Состояние invalid по макету: рамка error, значение — primary, подпись — «Error name» (caption/error) */
+/** Состояние invalid по макету: рамка error, значение — primary. Текст ошибки рисуется внешней обёрткой (`TextAreaField`). */
 export const Invalid: Story = {
   name: 'Invalid',
-  args: { error: true, errorText: 'Error name', defaultValue: 'Value', size: 'medium' },
-};
-
-export const Helper: Story = {
-  args: { helperText: 'Не больше 500 символов', size: 'small' },
+  args: { error: true, defaultValue: 'Value', size: 'medium' },
 };
 
 export const Disabled: Story = {

@@ -7,7 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const figmaUrl =
-  'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=794-352';
+  'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=793-23';
 const githubUrl = 'https://github.com/johnpostman2-design/turbo-ui/tree/main/src/ui/radio';
 
 function focusInputVisible(el: HTMLInputElement | null) {
@@ -75,7 +75,7 @@ const CollapsiblePropsList = () => {
                     textAlign: 'left',
                     fontFamily: 'var(--family-brand)',
                     fontSize: '0.875rem',
-                    fontWeight: 'bold',
+                    fontWeight: 'var(--weight-regular)',
                     color: '#999',
                     border: 'none',
                   }}
@@ -88,7 +88,7 @@ const CollapsiblePropsList = () => {
                     textAlign: 'left',
                     fontFamily: 'var(--family-brand)',
                     fontSize: '0.875rem',
-                    fontWeight: 'bold',
+                    fontWeight: 'var(--weight-regular)',
                     color: '#999',
                     border: 'none',
                   }}
@@ -101,7 +101,7 @@ const CollapsiblePropsList = () => {
                     textAlign: 'left',
                     fontFamily: 'var(--family-brand)',
                     fontSize: '0.875rem',
-                    fontWeight: 'bold',
+                    fontWeight: 'var(--weight-regular)',
                     color: '#999',
                     width: '22.5%',
                     border: 'none',
@@ -127,7 +127,7 @@ const CollapsiblePropsList = () => {
                       fontSize: '0.875rem',
                       color: 'var(--foreground)',
                       verticalAlign: 'top',
-                      fontWeight: 'bold',
+                      fontWeight: 'var(--weight-regular)',
                       borderLeft: 'none',
                       borderRight: 'none',
                     }}
@@ -313,42 +313,17 @@ export function RadioDocsPage() {
             </Button>
           </div>
 
-          <div
+          <p
             style={{
               marginBottom: '2rem',
               fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)',
               fontSize: 'var(--text-base, 15px)',
-              lineHeight: '1.55',
+              lineHeight: '1.5',
               color: '#000000',
             }}
           >
-            <p style={{ margin: '0 0 0.65rem' }}>
-              Радио — выбор <strong>одного</strong> значения из набора. Правила как у HTML: общий <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>name</code>, свой <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>value</code> у каждого пункта.
-            </p>
-            <ul
-              style={{
-                margin: '0 0 0.65rem',
-                paddingLeft: '1.25rem',
-                listStyleType: 'disc',
-              }}
-            >
-              <li style={{ marginBottom: '0.35rem' }}>
-                <strong>Без стейта в React</strong> — не передаёте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>checked</code>: кто выбран, переключает браузер (часто хватает <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>defaultChecked</code> у одного пункта).
-              </li>
-              <li style={{ marginBottom: '0.35rem' }}>
-                <strong>Controlled</strong> — значение в стейте родителя, на каждый пункт <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>checked</code> и <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>onChange</code>.
-              </li>
-              <li style={{ marginBottom: 0 }}>
-                Один <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Radio</code> на экране — нормально (группа из одного варианта; позже рядом добавят остальные с тем же <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>name</code>).
-              </li>
-            </ul>
-            <p style={{ margin: '0 0 0.65rem' }}>
-              Внутри — нативный <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>input type=&quot;radio&quot;</code>: форма, фокус, скринридер — как у обычного поля.
-            </p>
-            <p style={{ margin: 0 }}>
-              <strong>Визуал:</strong> три размера, только токены темы. Hover меняет вид только у <strong>невыбранного</strong> пункта. <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>error</code> и <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>disabled</code> — по макету Figma. Подпись — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>label</code>; без текста у пункта — <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code>.
-            </p>
-          </div>
+            Переключатель для выбора одного значения из группы.
+          </p>
 
           <div style={{ marginBottom: '3rem' }}>
             <h2
@@ -364,7 +339,7 @@ export function RadioDocsPage() {
               Подключение
             </h2>
             <p style={{ fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', marginBottom: '0.75rem' }}>
-              Три примера снизу — по нарастанию: <strong>одна кнопка</strong>, <strong>две без useState</strong> (браузер ведёт выбор), <strong>controlled</strong> (стейт у вас). Копируйте тот блок, который совпадает с задачей.
+              Три примера снизу — по нарастанию: одна кнопка, две без useState (браузер ведёт выбор), controlled (стейт у вас). Копируйте тот блок, который совпадает с задачей.
             </p>
 
             <p style={{ fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 600, color: '#000000', marginBottom: '0.35rem' }}>
@@ -516,9 +491,11 @@ export function RadioDocsPage() {
             >
               Размеры
             </h2>
-            <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <strong>small</strong>, <strong>medium</strong> (по умолчанию), <strong>large</strong> — токены <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>radio.sizes</code>.
-            </p>
+            <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>small</code> — компактный индикатор, диаметр 24px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> — базовый размер по умолчанию, диаметр 32px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>large</code> — крупный индикатор, диаметр 40px</li>
+            </ul>
             <ExampleBlock
               code={`<Radio size="small" name="s" value="1" defaultChecked label="Small" />
 <Radio size="medium" name="m" value="1" defaultChecked label="Medium" />

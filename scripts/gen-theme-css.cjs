@@ -178,6 +178,73 @@ if (data.radio) {
   }
 }
 
+// listbox (панель опций; макеты 830:857, 830:683)
+if (data.listbox) {
+  lines.push('  /* listbox */');
+  const lb = data.listbox;
+  if (lb.borderRadius) lines.push(`  --listbox-border-radius: ${lb.borderRadius};`);
+  if (lb.transition) lines.push(`  --listbox-transition: ${lb.transition};`);
+  if (lb.defaultMenuMaxHeight != null) {
+    const v = lb.defaultMenuMaxHeight;
+    lines.push(`  --listbox-default-menu-max-height: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (lb.panelPadding != null) {
+    const v = lb.panelPadding;
+    lines.push(`  --listbox-panel-padding: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (lb.focusBorderWidth != null) {
+    const v = lb.focusBorderWidth;
+    lines.push(`  --listbox-focus-border-width: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (lb.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(lb.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --listbox-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
+// combobox (поле + панель подсказок)
+if (data.combobox) {
+  lines.push('  /* combobox */');
+  const cb = data.combobox;
+  if (cb.menuZIndex != null) {
+    const v = cb.menuZIndex;
+    lines.push(`  --combobox-menu-z-index: ${typeof v === 'number' ? String(v) : v};`);
+  }
+  if (cb.matchBackground) lines.push(`  --combobox-match-background: ${cb.matchBackground};`);
+  if (cb.matchColor) lines.push(`  --combobox-match-color: ${cb.matchColor};`);
+  if (cb.borderlessUnderlineColor) {
+    lines.push(`  --combobox-borderless-underline-color: ${cb.borderlessUnderlineColor};`);
+  }
+  lines.push('');
+}
+
+// select (триггер + меню; макет 830:590)
+if (data.select) {
+  lines.push('  /* select */');
+  const sel = data.select;
+  if (sel.menuZIndex != null) {
+    const v = sel.menuZIndex;
+    lines.push(`  --select-menu-z-index: ${typeof v === 'number' ? String(v) : v};`);
+  }
+  if (sel.chevronSize != null) {
+    const v = sel.chevronSize;
+    lines.push(`  --select-chevron-size: ${typeof v === 'number' ? `${v}px` : v};`);
+  }
+  if (sel.transition) lines.push(`  --select-transition: ${sel.transition};`);
+  if (sel.sizes) {
+    for (const [sizeName, sizeVal] of Object.entries(sel.sizes)) {
+      for (const [prop, val] of Object.entries(sizeVal)) {
+        const css = typeof val === 'number' ? `${val}px` : val;
+        lines.push(`  --select-${sizeName}-${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${css};`);
+      }
+    }
+  }
+}
+
 lines.push('}');
 lines.push('');
 

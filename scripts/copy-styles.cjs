@@ -62,6 +62,15 @@ if (fs.existsSync(path.join(dist, 'ui', 'icon-button', 'index.d.ts'))) {
   fs.writeFileSync(iconButtonDts, "export { IconButton } from './icon-button/index';\nexport type { IconButtonProps, IconButtonVariant } from './icon-button/index';\n");
   console.log('Written dist/ui/icon-button.d.ts');
 }
+const linkDts = path.join(dist, 'ui', 'link.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'link', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    linkDts,
+    "export { Link } from './link/index';\nexport type { LinkProps, LinkVariant } from './link/index';\n"
+  );
+  console.log('Written dist/ui/link.d.ts');
+}
 const inputDts = path.join(dist, 'ui', 'input.d.ts');
 if (fs.existsSync(path.join(dist, 'ui', 'input', 'index.d.ts'))) {
   fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
@@ -112,4 +121,76 @@ if (fs.existsSync(path.join(dist, 'ui', 'radio', 'index.d.ts'))) {
     "export { Radio } from './radio/index';\nexport type { RadioProps, RadioSize } from './radio/index';\n"
   );
   console.log('Written dist/ui/radio.d.ts');
+}
+const toggleDts = path.join(dist, 'ui', 'toggle.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'toggle', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    toggleDts,
+    "export { Toggle } from './toggle/index';\nexport type { ToggleProps, ToggleSize } from './toggle/index';\n"
+  );
+  console.log('Written dist/ui/toggle.d.ts');
+}
+const tabsDts = path.join(dist, 'ui', 'tabs.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'tabs', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    tabsDts,
+    "export { Tabs, TabsList, Tab, TabsPanel } from './tabs/index';\nexport type { TabsProps, TabsSize, TabsListProps, TabProps, TabsPanelProps } from './tabs/index';\n"
+  );
+  console.log('Written dist/ui/tabs.d.ts');
+}
+const listboxDts = path.join(dist, 'ui', 'listbox.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'listbox', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    listboxDts,
+    "export { Listbox } from './listbox/index';\nexport type { ListboxOption, ListboxProps, ListboxSize } from './listbox/index';\n"
+  );
+  console.log('Written dist/ui/listbox.d.ts');
+}
+const selectDts = path.join(dist, 'ui', 'select.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'select', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    selectDts,
+    "export { Select } from './select/index';\nexport type { SelectProps, SelectSize, SelectPosition } from './select/index';\n"
+  );
+  console.log('Written dist/ui/select.d.ts');
+}
+const comboboxDts = path.join(dist, 'ui', 'combobox.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'combobox', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    comboboxDts,
+    "export { ComboBox } from './combobox/index';\nexport type { ComboBoxProps, ComboBoxOption, ComboBoxSize, ComboBoxPosition, ComboBoxRenderContext } from './combobox/index';\n"
+  );
+  console.log('Written dist/ui/combobox.d.ts');
+}
+const selectFieldDts = path.join(dist, 'ui', 'select-field.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'select-field', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    selectFieldDts,
+    "export { SelectField } from './select-field/index';\nexport type { SelectFieldProps } from './select-field/index';\n"
+  );
+  console.log('Written dist/ui/select-field.d.ts');
+}
+const comboboxFieldDts = path.join(dist, 'ui', 'combobox-field.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'combobox-field', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    comboboxFieldDts,
+    "export { ComboBoxField } from './combobox-field/index';\nexport type { ComboBoxFieldProps } from './combobox-field/index';\n"
+  );
+  console.log('Written dist/ui/combobox-field.d.ts');
+}
+const textareaFieldDts = path.join(dist, 'ui', 'textarea-field.d.ts');
+if (fs.existsSync(path.join(dist, 'ui', 'textarea-field', 'index.d.ts'))) {
+  fs.mkdirSync(path.join(dist, 'ui'), { recursive: true });
+  fs.writeFileSync(
+    textareaFieldDts,
+    "export { TextAreaField } from './textarea-field/index';\nexport type { TextAreaFieldProps } from './textarea-field/index';\n"
+  );
+  console.log('Written dist/ui/textarea-field.d.ts');
 }

@@ -12,7 +12,26 @@ const preview = {
           'Foundations',
           ['Colors', 'Typography'],
           'Components',
-          ['Icons', 'Button', 'IconButton', 'Input', 'InputField', 'FloatingInputField', 'TextArea', 'Checkbox', 'Radio'],
+          [
+            'Icons',
+            'Button',
+            'IconButton',
+            'Link',
+            'Input',
+            'InputField',
+            'FloatingInputField',
+            'TextArea',
+            'TextAreaField',
+            'Select',
+            'SelectField',
+            'ComboBox',
+            'ComboBoxField',
+            'Listbox',
+            'Checkbox',
+            'Radio',
+            'Toggle',
+            'Tabs',
+          ],
         ],
       },
     },
@@ -132,40 +151,52 @@ if (typeof document !== 'undefined') {
       margin-bottom: calc(3 * var(--spacing-8)) !important;
     }
     
-    /* InputField helper — Caption/medium по макету Figma (696-412); цвет — семантика токенов (перебивает color у .sbdocs-content) */
-    p[data-turbo-input-field-helper] {
+    /* Helper/error под полями (*Field, legacy TextArea) — стиль caption по токенам; перебивает .sbdocs-content p и .turbo-ui-scope * */
+    p[data-turbo-input-field-helper],
+    p[data-turbo-textarea-helper],
+    p[data-turbo-select-field-helper],
+    p[data-turbo-combobox-field-helper],
+    p[data-turbo-textarea-field-helper] {
       font-family: var(--typescale-caption-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--typescale-caption-medium-size) !important;
       line-height: var(--typescale-caption-medium-height) !important;
       font-weight: var(--typescale-caption-medium-weight) !important;
       letter-spacing: var(--typescale-caption-medium-tracking) !important;
     }
-    p[data-turbo-input-field-helper][data-helper-tone="tertiary"] {
+    p[data-turbo-input-field-helper][data-helper-tone="tertiary"],
+    p[data-turbo-textarea-helper][data-helper-tone="tertiary"],
+    p[data-turbo-select-field-helper][data-helper-tone="tertiary"],
+    p[data-turbo-combobox-field-helper][data-helper-tone="tertiary"],
+    p[data-turbo-textarea-field-helper][data-helper-tone="tertiary"] {
       color: var(--content-tertiary) !important;
     }
-    p[data-turbo-input-field-helper][data-helper-tone="error"] {
+    p[data-turbo-input-field-helper][data-helper-tone="error"],
+    p[data-turbo-textarea-helper][data-helper-tone="error"],
+    p[data-turbo-select-field-helper][data-helper-tone="error"],
+    p[data-turbo-combobox-field-helper][data-helper-tone="error"],
+    p[data-turbo-textarea-field-helper][data-helper-tone="error"] {
       color: var(--content-error) !important;
     }
-    p[data-turbo-input-field-helper][data-helper-tone="disabled"] {
+    p[data-turbo-input-field-helper][data-helper-tone="disabled"],
+    p[data-turbo-textarea-helper][data-helper-tone="disabled"],
+    p[data-turbo-select-field-helper][data-helper-tone="disabled"],
+    p[data-turbo-combobox-field-helper][data-helper-tone="disabled"],
+    p[data-turbo-textarea-field-helper][data-helper-tone="disabled"] {
       color: var(--content-disabled) !important;
     }
 
-    /* TextArea helper/error под полем — Caption/medium; перебивает color у .sbdocs-content (как InputField) */
-    p[data-turbo-textarea-helper] {
-      font-family: var(--typescale-caption-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
-      font-size: var(--typescale-caption-medium-size) !important;
-      line-height: var(--typescale-caption-medium-height) !important;
-      font-weight: var(--typescale-caption-medium-weight) !important;
-      letter-spacing: var(--typescale-caption-medium-tracking) !important;
+    /* Превью Turbo UI в Docs: форсим ONY ONE на ВСЁ внутри scope/панели Listbox.
+       UA-дефолты у <button>/<input> и Storybook-хуки больше не уводят в системный шрифт.
+       Исключены svg/code/pre/monospace (для иконок и блоков кода). */
+    .turbo-ui-scope,
+    .turbo-ui-scope *:not(svg):not(svg *):not(code):not(pre):not(pre *):not(.monospace):not([class*="monospace"]):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]),
+    [data-no-sbdocs-typography],
+    [data-no-sbdocs-typography] *:not(svg):not(svg *):not(code):not(pre):not(pre *):not(.monospace):not([class*="monospace"]):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]) {
+      font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
     }
-    p[data-turbo-textarea-helper][data-helper-tone="tertiary"] {
-      color: var(--content-tertiary) !important;
-    }
-    p[data-turbo-textarea-helper][data-helper-tone="error"] {
-      color: var(--content-error) !important;
-    }
-    p[data-turbo-textarea-helper][data-helper-tone="disabled"] {
-      color: var(--content-disabled) !important;
+    .turbo-ui-scope input::placeholder,
+    [data-no-sbdocs-typography] input::placeholder {
+      font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
     }
 
     /* Плавающий лейбл FloatingInputField: исключён из глобального span — задаём только семейство; размеры из CSS Modules */
@@ -173,16 +204,12 @@ if (typeof document !== 'undefined') {
       font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
     }
 
-    /* Наборный текст в Docs — Label/medium (типографика из токенов) */
-    .sbdocs-p:not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
-    .sbdocs-p p:not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
-    .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
-    .sbdocs-content span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
-    .sbdocs-content div:not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label):not(.typography-sample-text):not(.colors-table-header):not(.colors-table-row),
-    .sbdocs-wrapper p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
-    .sbdocs-wrapper span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
-    .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]),
-    .docs-story span:not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]) {
+    /* Наборный текст в Docs — абзацы: стиль label по токенам + цвет */
+    .sbdocs-p:not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]),
+    .sbdocs-p p:not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]),
+    .sbdocs-content p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]),
+    .sbdocs-wrapper p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]),
+    .docs-story p:not(button p):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([data-turbo-input-field-helper]):not([data-turbo-textarea-helper]):not([data-turbo-select-field-helper]):not([data-turbo-combobox-field-helper]):not([data-turbo-textarea-field-helper]) {
       font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--typescale-lable-medium-size) !important;
       line-height: var(--typescale-lable-medium-height) !important;
@@ -191,8 +218,29 @@ if (typeof document !== 'undefined') {
       color: var(--content-primary) !important;
       margin-top: 0 !important;
     }
+
+    /* Стиль label в Docs для span/div без принудительного цвета — внутри data-no-sbdocs-typography не трогаем (размеры/цвета из CSS Modules, напр. Listbox) */
+    .sbdocs-content span:not(:is([data-no-sbdocs-typography] *)):not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
+    .sbdocs-content div:not([data-no-sbdocs-typography]):not(:is([data-no-sbdocs-typography] *)):not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label):not(.typography-sample-text):not(.colors-table-header):not(.colors-table-row),
+    .sbdocs-wrapper span:not(:is([data-no-sbdocs-typography] *)):not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
+    .docs-story span:not(:is([data-no-sbdocs-typography] *)):not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]) {
+      font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--typescale-lable-medium-size) !important;
+      line-height: var(--typescale-lable-medium-height) !important;
+      font-weight: var(--typescale-lable-medium-weight) !important;
+      letter-spacing: var(--typescale-lable-medium-tracking) !important;
+      margin-top: 0 !important;
+    }
+
+    /* Цвет набора в Docs — отдельно, чтобы не перебивать disabled/selected в превью (Listbox и др.) */
+    .sbdocs-content span:not(:is([data-no-sbdocs-typography] *)):not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
+    .sbdocs-content div:not([data-no-sbdocs-typography]):not(:is([data-no-sbdocs-typography] *)):not(.monospace):not([class*="monospace"]):not(button):not(pre):not([class*="prism"]):not(.syntax-highlighter-wrapper):not(.syntax-highlighter-wrapper *):not(.color-swatch-label):not(.typography-sample-text):not(.colors-table-header):not(.colors-table-row),
+    .sbdocs-wrapper span:not(:is([data-no-sbdocs-typography] *)):not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]),
+    .docs-story span:not(:is([data-no-sbdocs-typography] *)):not([class*="monospace"]):not(button span):not(.syntax-highlighter-wrapper *):not(pre *):not(code[class*="language-"] *):not([class*="token"]):not(.typography-pill):not(.colors-table-header-cell):not(.colors-table-row-cell):not([data-turbo-floating-input-field-label]) {
+      color: var(--content-primary) !important;
+    }
     
-    /* Списки в Docs — Label/medium */
+    /* Списки в Docs — стиль label по токенам */
     .sbdocs-content ul,
     .sbdocs-content ol,
     .sbdocs-content li,
@@ -210,7 +258,7 @@ if (typeof document !== 'undefined') {
       color: var(--content-primary) !important;
     }
     
-    /* Пилюли типографики: caption-medium, content-tertiary */
+    /* Пилюли типографики: токены caption, content-tertiary */
     .typography-pill {
       font-family: var(--family-brand) !important;
       font-size: var(--typescale-caption-medium-size) !important;
@@ -293,7 +341,7 @@ if (typeof document !== 'undefined') {
     
     /* Скрываем меню на мобильных устройствах */
     @media (max-width: 1200px) {
-      nav[style*="position: fixed"]:not(.button-docs-menu):not(.icon-button-docs-menu):not(.input-docs-menu):not(.input-field-docs-menu):not(.floating-input-field-docs-menu):not(.textarea-docs-menu):not(.checkbox-docs-menu):not(.radio-docs-menu) {
+      nav[style*="position: fixed"]:not(.button-docs-menu):not(.icon-button-docs-menu):not(.icons-docs-menu):not(.input-docs-menu):not(.input-field-docs-menu):not(.floating-input-field-docs-menu):not(.textarea-docs-menu):not(.textarea-field-docs-menu):not(.checkbox-docs-menu):not(.radio-docs-menu):not(.listbox-docs-menu):not(.select-docs-menu):not(.select-field-docs-menu):not(.combobox-docs-menu):not(.combobox-field-docs-menu):not(.link-docs-menu):not(.toggle-docs-menu):not(.tabs-docs-menu) {
         display: none !important;
       }
     }
@@ -301,12 +349,22 @@ if (typeof document !== 'undefined') {
     /* Показываем меню документации всегда (Button, IconButton, Input, InputField) */
     .button-docs-menu,
     .icon-button-docs-menu,
+    .icons-docs-menu,
     .input-docs-menu,
     .input-field-docs-menu,
     .floating-input-field-docs-menu,
     .textarea-docs-menu,
     .checkbox-docs-menu,
-    .radio-docs-menu {
+    .radio-docs-menu,
+    .listbox-docs-menu,
+    .select-docs-menu,
+    .combobox-docs-menu,
+    .select-field-docs-menu,
+    .combobox-field-docs-menu,
+    .textarea-field-docs-menu,
+    .link-docs-menu,
+    .toggle-docs-menu,
+    .tabs-docs-menu {
       display: block !important;
     }
     
@@ -317,6 +375,9 @@ if (typeof document !== 'undefined') {
     .icon-button-docs-menu,
     .icon-button-docs-menu a,
     .icon-button-docs-menu li,
+    .icons-docs-menu,
+    .icons-docs-menu a,
+    .icons-docs-menu li,
     .input-docs-menu,
     .input-docs-menu a,
     .input-docs-menu li,
@@ -334,13 +395,89 @@ if (typeof document !== 'undefined') {
     .checkbox-docs-menu li,
     .radio-docs-menu,
     .radio-docs-menu a,
-    .radio-docs-menu li {
+    .radio-docs-menu li,
+    .listbox-docs-menu,
+    .listbox-docs-menu a,
+    .listbox-docs-menu li,
+    .select-docs-menu,
+    .select-docs-menu a,
+    .select-docs-menu li,
+    .select-field-docs-menu,
+    .select-field-docs-menu a,
+    .select-field-docs-menu li,
+    .combobox-docs-menu,
+    .combobox-docs-menu a,
+    .combobox-docs-menu li,
+    .combobox-field-docs-menu,
+    .combobox-field-docs-menu a,
+    .combobox-field-docs-menu li,
+    .textarea-field-docs-menu,
+    .textarea-field-docs-menu a,
+    .textarea-field-docs-menu li,
+    .link-docs-menu,
+    .link-docs-menu a,
+    .link-docs-menu li,
+    .toggle-docs-menu,
+    .toggle-docs-menu a,
+    .toggle-docs-menu li,
+    .tabs-docs-menu,
+    .tabs-docs-menu a,
+    .tabs-docs-menu li {
       font-family: var(--typescale-lable-small-font), var(--family-brand), 'ONY ONE', sans-serif !important;
       font-size: var(--typescale-lable-small-size) !important;
       line-height: var(--typescale-lable-small-height) !important;
       font-weight: var(--typescale-lable-small-weight) !important;
       letter-spacing: var(--typescale-lable-small-tracking) !important;
       color: var(--content-primary) !important;
+    }
+
+    /* Link: span/иконка внутри <a>/<button> должны наследовать font/color/decoration
+       от корня Link, а не получать "label-medium" из глобальных sbdocs-правил.
+       data-turbo-link выставляется самим компонентом на корне. */
+    .sbdocs-content [data-turbo-link],
+    .sbdocs-wrapper [data-turbo-link],
+    .docs-story [data-turbo-link],
+    .sb-story [data-turbo-link] {
+      font: inherit !important;
+      letter-spacing: inherit !important;
+    }
+    .sbdocs-content [data-turbo-link] > span,
+    .sbdocs-wrapper [data-turbo-link] > span,
+    .docs-story [data-turbo-link] > span,
+    .sb-story [data-turbo-link] > span {
+      font: inherit !important;
+      color: inherit !important;
+      line-height: inherit !important;
+      letter-spacing: inherit !important;
+      margin-top: 0 !important;
+    }
+
+    /* Link docs: блок "Внутри типографики" — возвращаем нативные стили p/h2,
+       чтобы продемонстрировать наследование Link от контекста.
+       Перебиваем глобальные .sbdocs-content p/h2 правила. */
+    .link-typo-demo p,
+    .sbdocs-content .link-typo-demo p,
+    .sbdocs-wrapper .link-typo-demo p,
+    .docs-story .link-typo-demo p {
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--text-base) !important;
+      line-height: 1.5 !important;
+      font-weight: var(--weight-regular) !important;
+      letter-spacing: normal !important;
+      color: var(--content-primary) !important;
+      margin: 0 !important;
+    }
+    .link-typo-demo h2,
+    .sbdocs-content .link-typo-demo h2,
+    .sbdocs-wrapper .link-typo-demo h2,
+    .docs-story .link-typo-demo h2 {
+      font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+      font-size: var(--text-h2) !important;
+      line-height: var(--text-h2-height) !important;
+      font-weight: var(--weight-regular) !important;
+      letter-spacing: normal !important;
+      color: var(--content-primary) !important;
+      margin: 0 !important;
     }
   `;
   document.head.appendChild(style);

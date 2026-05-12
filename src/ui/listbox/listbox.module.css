@@ -1,0 +1,176 @@
+.panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+  background: var(--surface-primary-main);
+  border: none;
+  border-radius: var(--listbox-border-radius);
+  padding: var(--listbox-panel-padding);
+  box-shadow: 0 var(--spacing-8) var(--spacing-24) var(--surface-secondary-main);
+  transition: var(--listbox-transition);
+}
+
+.searchRow {
+  flex-shrink: 0;
+  padding-bottom: var(--spacing-4);
+}
+
+.listRegion {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: var(--listbox-max-height, var(--listbox-default-menu-max-height));
+  overflow-y: auto;
+  outline: none;
+}
+
+.listRegionWithSearch {
+  margin-top: var(--spacing-4);
+}
+
+.listRegion:focus-visible {
+  box-shadow: 0 0 0 var(--listbox-focus-border-width) var(--border-brand);
+}
+
+.empty {
+  padding: var(--listbox-item-padding-x);
+  font-family: var(--family-brand), 'ONY ONE', sans-serif;
+  font-size: var(--listbox-item-font-size);
+  line-height: var(--listbox-item-line-height);
+  color: var(--content-tertiary);
+  text-align: left;
+  user-select: none;
+}
+
+.option {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0 var(--listbox-item-padding-x);
+  min-height: var(--listbox-item-min-height);
+  gap: var(--listbox-item-gap);
+  /* !important — глобальные span/div в Storybook Docs с Label/medium */
+  font-family: var(--family-brand), 'ONY ONE', sans-serif !important;
+  font-size: var(--listbox-item-font-size) !important;
+  line-height: var(--listbox-item-line-height) !important;
+  font-weight: var(--weight-regular) !important;
+  color: var(--content-primary);
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--listbox-border-radius) - 2px);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--listbox-transition);
+}
+
+/* Подсветка строки только при наведении курсора; active с клавиатуры — тонкая рамка при :focus-visible у listbox */
+.option:hover:not(.optionDisabled) {
+  background: var(--surface-primary-hover);
+}
+
+.listRegion:focus-visible .optionActive:not(.optionDisabled) {
+  box-shadow: inset 0 0 0 1px var(--border-secondary);
+  border-radius: calc(var(--listbox-border-radius) - 2px);
+}
+
+.optionSelected:not(.optionDisabled) {
+  color: var(--content-primary);
+}
+
+.optionDisabled {
+  color: var(--content-disabled);
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.optionDisabled .label {
+  color: var(--content-disabled);
+}
+
+.optionDisabled.optionSelected {
+  color: var(--content-disabled);
+}
+
+.optionDisabled.optionSelected .label {
+  color: var(--content-disabled);
+}
+
+.optionDisabled .startSlot {
+  color: var(--content-disabled);
+}
+
+.startSlot {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--listbox-icon-slot);
+  height: var(--listbox-icon-slot);
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+}
+
+.endSlot {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--listbox-item-gap);
+  min-width: var(--listbox-check-slot);
+  min-height: var(--listbox-check-slot);
+}
+
+.selectionMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--listbox-check-slot);
+  height: var(--listbox-check-slot);
+}
+
+.sizeSmall {
+  --listbox-item-min-height: var(--listbox-small-item-min-height);
+  --listbox-item-padding-x: var(--listbox-small-item-padding-x);
+  --listbox-item-gap: var(--listbox-small-item-gap);
+  --listbox-icon-slot: var(--listbox-small-icon-size);
+  --listbox-check-slot: var(--listbox-small-check-icon-size);
+  --listbox-item-font-size: var(--listbox-small-font-size);
+  --listbox-item-line-height: var(--listbox-small-line-height);
+}
+
+.sizeMedium {
+  --listbox-item-min-height: var(--listbox-medium-item-min-height);
+  --listbox-item-padding-x: var(--listbox-medium-item-padding-x);
+  --listbox-item-gap: var(--listbox-medium-item-gap);
+  --listbox-icon-slot: var(--listbox-medium-icon-size);
+  --listbox-check-slot: var(--listbox-medium-check-icon-size);
+  --listbox-item-font-size: var(--listbox-medium-font-size);
+  --listbox-item-line-height: var(--listbox-medium-line-height);
+}
+
+.sizeLarge {
+  --listbox-item-min-height: var(--listbox-large-item-min-height);
+  --listbox-item-padding-x: var(--listbox-large-item-padding-x);
+  --listbox-item-gap: var(--listbox-large-item-gap);
+  --listbox-icon-slot: var(--listbox-large-icon-size);
+  --listbox-check-slot: var(--listbox-large-check-icon-size);
+  --listbox-item-font-size: var(--listbox-large-font-size);
+  --listbox-item-line-height: var(--listbox-large-line-height);
+}

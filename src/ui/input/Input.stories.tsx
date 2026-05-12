@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { docsPageFromModule } from '../../storybook/docsPageLoader';
 import { Input } from './Input';
 import { IconButton } from '../icon-button/IconButton';
 import { Icon } from '../../components/icons/Icon';
@@ -7,10 +8,6 @@ import { Icon } from '../../components/icons/Icon';
 const iconForEnd = <Icon name="delete-cross-circle" size="100%" />;
 const endAdornment = <IconButton icon={iconForEnd} aria-label="Очистить" size="small" />;
 const leftIcon = <Icon name="chart" size={20} />;
-
-const InputDocsPageLazy = React.lazy(() =>
-  import('./Input.docs').then((m) => ({ default: m.InputDocsPage }))
-);
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',
@@ -25,12 +22,7 @@ const meta: Meta<typeof Input> = {
   ],
   parameters: {
     docs: {
-      page: () =>
-        React.createElement(
-          React.Suspense,
-          { fallback: React.createElement('div', { style: { padding: '2rem' } }, 'Загрузка…') },
-          React.createElement(InputDocsPageLazy)
-        ),
+      page: docsPageFromModule(() => import('./Input.docs'), 'InputDocsPage'),
     },
   },
   argTypes: {

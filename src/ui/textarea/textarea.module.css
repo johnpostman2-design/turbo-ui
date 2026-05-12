@@ -12,8 +12,8 @@
 
 /* Ручка resize — только нативная, в правом нижнем углу textarea; обёртка не обрезает угол */
 .fieldWrap {
-  display: block;
-  position: relative;
+  display: flex;
+  align-items: stretch;
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
@@ -58,11 +58,64 @@
   min-height: var(--textarea-medium-min-height);
 }
 
+.sizeLarge {
+  min-height: var(--textarea-large-min-height);
+}
+
+.fieldBorderless {
+  border-color: transparent;
+  border-bottom: 2px solid var(--combobox-borderless-underline-color, var(--border-tertiary));
+  border-radius: 0;
+  background: transparent;
+}
+
+.fieldBorderless:hover:not(.fieldDisabled):not(.fieldError) {
+  border-bottom-color: var(--border-secondary);
+}
+
+.fieldBorderless:focus-within:not(.fieldDisabled):not(.fieldError) {
+  border-color: transparent;
+  border-bottom-color: var(--border-secondary);
+}
+
+.fieldError.fieldBorderless {
+  border-bottom-color: var(--border-error);
+}
+
+.leftIcon {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: var(--textarea-medium-padding-y);
+  padding-left: var(--textarea-medium-padding-x);
+  color: var(--content-secondary);
+}
+
+.sizeSmall .leftIcon {
+  padding-top: var(--textarea-small-padding-y);
+  padding-left: var(--textarea-small-padding-x);
+}
+
+.sizeLarge .leftIcon {
+  padding-top: var(--textarea-large-padding-y);
+  padding-left: var(--textarea-large-padding-x);
+}
+
+.endAdornment {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: var(--spacing-8);
+  padding-right: var(--spacing-12);
+}
+
 .textarea {
   display: block;
   box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
+  flex: 1 1 0;
+  min-width: 0;
   margin: 0;
   border: none;
   background: transparent;
@@ -93,14 +146,23 @@
   line-height: var(--textarea-medium-line-height);
 }
 
+.sizeLarge .textarea {
+  min-height: var(--textarea-large-min-height);
+  padding: var(--textarea-large-padding-y) var(--textarea-large-padding-x);
+  font-size: var(--textarea-large-font-size);
+  line-height: var(--textarea-large-line-height);
+}
+
 /* Высота по нативному `rows`; иначе min-height с токенов перебивает число строк */
 .fieldWrap.heightFromRows.sizeSmall,
-.fieldWrap.heightFromRows.sizeMedium {
+.fieldWrap.heightFromRows.sizeMedium,
+.fieldWrap.heightFromRows.sizeLarge {
   min-height: unset;
 }
 
 .fieldWrap.heightFromRows.sizeSmall .textarea,
-.fieldWrap.heightFromRows.sizeMedium .textarea {
+.fieldWrap.heightFromRows.sizeMedium .textarea,
+.fieldWrap.heightFromRows.sizeLarge .textarea {
   min-height: unset;
 }
 
@@ -125,50 +187,4 @@
 
 .fieldError .textarea::placeholder {
   color: var(--content-tertiary);
-}
-
-/* Одна строка под полем — фиксированная минимальная высота, без прыжков layout */
-.helperSlot {
-  min-height: var(--typescale-caption-medium-height);
-}
-
-/* Caption/medium — нейтральный helper под полем */
-.helper {
-  margin: 0;
-  font-family: var(--typescale-caption-medium-font), var(--family-brand), sans-serif;
-  font-size: var(--typescale-caption-medium-size);
-  font-weight: var(--typescale-caption-medium-weight);
-  line-height: var(--typescale-caption-medium-height);
-  letter-spacing: var(--typescale-caption-medium-tracking);
-  color: var(--content-tertiary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Figma 726:146 invalid — текст ошибки: Caption/medium + content-error */
-.helperError {
-  margin: 0;
-  font-family: var(--typescale-caption-medium-font), var(--family-brand), sans-serif;
-  font-size: var(--typescale-caption-medium-size);
-  font-weight: var(--typescale-caption-medium-weight);
-  line-height: var(--typescale-caption-medium-height);
-  letter-spacing: var(--typescale-caption-medium-tracking);
-  color: var(--content-error);
-  white-space: normal;
-  word-wrap: break-word;
-  overflow: visible;
-}
-
-.helperSlot > p {
-  margin: 0;
-}
-
-.root.rootDisabled .helper,
-.root.rootDisabled .helperError {
-  color: var(--content-disabled);
-}
-
-.helperInvisible {
-  visibility: hidden;
 }

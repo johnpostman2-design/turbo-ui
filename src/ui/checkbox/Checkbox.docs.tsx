@@ -75,7 +75,7 @@ const CollapsiblePropsList = () => {
                     textAlign: 'left',
                     fontFamily: 'var(--family-brand)',
                     fontSize: '0.875rem',
-                    fontWeight: 'bold',
+                    fontWeight: 'var(--weight-regular)',
                     color: '#999',
                     border: 'none',
                   }}
@@ -88,7 +88,7 @@ const CollapsiblePropsList = () => {
                     textAlign: 'left',
                     fontFamily: 'var(--family-brand)',
                     fontSize: '0.875rem',
-                    fontWeight: 'bold',
+                    fontWeight: 'var(--weight-regular)',
                     color: '#999',
                     border: 'none',
                   }}
@@ -101,7 +101,7 @@ const CollapsiblePropsList = () => {
                     textAlign: 'left',
                     fontFamily: 'var(--family-brand)',
                     fontSize: '0.875rem',
-                    fontWeight: 'bold',
+                    fontWeight: 'var(--weight-regular)',
                     color: '#999',
                     width: '22.5%',
                     border: 'none',
@@ -127,7 +127,7 @@ const CollapsiblePropsList = () => {
                       fontSize: '0.875rem',
                       color: 'var(--foreground)',
                       verticalAlign: 'top',
-                      fontWeight: 'bold',
+                      fontWeight: 'var(--weight-regular)',
                       borderLeft: 'none',
                       borderRight: 'none',
                     }}
@@ -289,8 +289,7 @@ export function CheckboxDocsPage() {
               color: '#000000',
             }}
           >
-            Флажок да/нет и режим «частично выбрано». Три размера, состояния hover, focus, disabled, error. Без
-            текста рядом передайте <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>aria-label</code>.
+            Флажок для выбора одного или нескольких значений из набора.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -388,9 +387,11 @@ import { Checkbox } from 'turbo-ui/checkbox';
             >
               Размеры
             </h2>
-            <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <strong>small</strong>, <strong>medium</strong> (по умолчанию), <strong>large</strong> — стороны квадрата из токенов.
-            </p>
+            <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>small</code> — компактный квадрат, сторона 24px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> — базовый размер по умолчанию, сторона 32px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>large</code> — крупный квадрат, сторона 40px</li>
+            </ul>
             <ExampleBlock
               code={`<Checkbox size="small" label="Small" defaultChecked />
 <Checkbox size="medium" label="Medium" defaultChecked />
@@ -426,7 +427,7 @@ import { Checkbox } from 'turbo-ui/checkbox';
               <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px', fontFamily: 'monospace' }}>blur()</code>
               ). В компоненте рамка только при <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>:focus-visible</code> на
               input (Tab). Для кнопок в примере — состояние <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>demoFocusRing</code>{' '}
-              (только доки/Storybook). Рамка <strong>2px</strong>:{' '}
+              (только доки/Storybook). Рамка 2px:{' '}
               <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>--border-primary</code> /{' '}
               <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>--border-error</code>.
             </p>

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { docsPageFromModule } from '../../storybook/docsPageLoader';
 import { FloatingInputField } from './FloatingInputField';
 import { IconButton } from '../icon-button/IconButton';
 import { Icon } from '../../components/icons/Icon';
@@ -10,10 +11,6 @@ const endAdornment = <IconButton icon={iconForEnd} aria-label="Очистить"
 const leftIconSmall = <Icon name="chart" size={16} />;
 const leftIconMedium = <Icon name="chart" size={24} />;
 const leftIconLarge = <Icon name="chart" size={32} />;
-
-const FloatingInputFieldDocsPageLazy = React.lazy(() =>
-  import('./FloatingInputField.docs').then((m) => ({ default: m.FloatingInputFieldDocsPage }))
-);
 
 const meta: Meta<typeof FloatingInputField> = {
   title: 'Components/FloatingInputField',
@@ -28,12 +25,7 @@ const meta: Meta<typeof FloatingInputField> = {
   ],
   parameters: {
     docs: {
-      page: () =>
-        React.createElement(
-          React.Suspense,
-          { fallback: React.createElement('div', { style: { padding: '2rem' } }, 'Загрузка…') },
-          React.createElement(FloatingInputFieldDocsPageLazy)
-        ),
+      page: docsPageFromModule(() => import('./FloatingInputField.docs'), 'FloatingInputFieldDocsPage'),
     },
   },
   argTypes: {

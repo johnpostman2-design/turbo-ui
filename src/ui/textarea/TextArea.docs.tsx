@@ -16,9 +16,7 @@ const CollapsiblePropsList = () => {
   const props = [
     { name: 'size', type: '"small" | "medium"', description: 'Минимальная высота и типографика.', default: '"medium"' },
     { name: 'disabled', type: 'boolean', description: 'Блокирует ввод и resize.', default: 'false' },
-    { name: 'error', type: 'boolean', description: 'Ошибка: рамка + aria-invalid.', default: 'false' },
-    { name: 'errorText', type: 'string', description: 'Текст под полем; приоритет над helperText.', default: '—' },
-    { name: 'helperText', type: 'string', description: 'Подсказка под полем.', default: '—' },
+    { name: 'error', type: 'boolean', description: 'Ошибка: рамка + aria-invalid. Текст ошибки рисуется внешней обёрткой (TextAreaField).', default: 'false' },
     { name: 'value', type: 'string', description: 'Controlled.', default: '—' },
     { name: 'defaultValue', type: 'string', description: 'Uncontrolled, начальное.', default: '—' },
     { name: 'onChange', type: 'ChangeEventHandler<HTMLTextAreaElement>', description: 'Смена значения.', default: '—' },
@@ -60,15 +58,15 @@ const CollapsiblePropsList = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', margin: '0' }}>
             <thead>
               <tr style={{ background: '#ffffff', borderTop: 'none' }}>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Имя</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Описание</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Имя</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Описание</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
               </tr>
             </thead>
             <tbody>
               {props.map((prop, index) => (
                 <tr key={prop.name} style={{ background: '#ffffff', borderBottom: index < props.length - 1 ? '1px solid #b0b0b0' : 'none' }}>
-                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'bold', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
+                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'var(--weight-regular)', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
                   <td style={{ padding: '1rem', verticalAlign: 'top', borderLeft: 'none', borderRight: 'none' }}>
                     <p style={{ marginBottom: '0.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base)', lineHeight: '1.5', color: 'var(--foreground)' }}>{prop.description}</p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
@@ -136,7 +134,7 @@ export function TextAreaDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Многострочное поле: рамка, placeholder, small и medium, ошибка и подсказка снизу. Подпись сверху — отдельный <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>&lt;label&gt;</code>.
+            Многострочное поле ввода.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -152,7 +150,7 @@ export function TextAreaDocsPage() {
 import { TextArea } from 'turbo-ui/textarea';
 
 <TextArea placeholder="Описание" />
-<TextArea error errorText="Обязательное поле" />`}
+<TextArea error defaultValue="Value" />`}
               </SyntaxHighlighter>
             </div>
             <p style={{ fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
@@ -219,13 +217,11 @@ import { TextArea } from 'src/ui/textarea';`}
               Варианты
             </h2>
             <ExampleBlock code={`<TextArea placeholder="Placeholder" />
-<TextArea error errorText="Error name" defaultValue="Value" />
-<TextArea helperText="Подсказка" />
+<TextArea error defaultValue="Value" />
 <TextArea disabled defaultValue="Value" />`}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '320px', maxWidth: '100%', flexShrink: 0, alignItems: 'stretch', boxSizing: 'border-box' }}>
                 <TextArea placeholder="Placeholder" />
-                <TextArea error errorText="Error name" defaultValue="Value" />
-                <TextArea helperText="Подсказка" />
+                <TextArea error defaultValue="Value" />
                 <TextArea disabled defaultValue="Value" />
               </div>
             </ExampleBlock>
@@ -235,9 +231,10 @@ import { TextArea } from 'src/ui/textarea';`}
             <h2 id="size-variants" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>
               Размеры
             </h2>
-            <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <strong>small</strong> — минимум 64px по высоте. <strong>medium</strong> — 100px, стоит по умолчанию.
-            </p>
+            <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>small</code> — компактное поле, минимальная высота ~64px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> — базовый размер по умолчанию, минимальная высота ~100px</li>
+            </ul>
             <ExampleBlock code={`<TextArea size="small" placeholder="Small" />
 <TextArea size="medium" placeholder="Medium" />`}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '320px', maxWidth: '100%', flexShrink: 0, alignItems: 'stretch', boxSizing: 'border-box' }}>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { docsPageFromModule } from '../../storybook/docsPageLoader';
 import { Button } from '../button/Button';
 import { Checkbox } from './Checkbox';
 
@@ -51,10 +52,6 @@ function CheckboxFocusStoryDemo() {
   );
 }
 
-const CheckboxDocsPageLazy = React.lazy(() =>
-  import('./Checkbox.docs').then((m) => ({ default: m.CheckboxDocsPage }))
-);
-
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
@@ -68,12 +65,7 @@ const meta: Meta<typeof Checkbox> = {
   ],
   parameters: {
     docs: {
-      page: () =>
-        React.createElement(
-          React.Suspense,
-          { fallback: React.createElement('div', { style: { padding: '2rem' } }, 'Загрузка…') },
-          React.createElement(CheckboxDocsPageLazy)
-        ),
+      page: docsPageFromModule(() => import('./Checkbox.docs'), 'CheckboxDocsPage'),
     },
   },
   argTypes: {

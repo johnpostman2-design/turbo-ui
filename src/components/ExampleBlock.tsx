@@ -58,38 +58,57 @@ export const ExampleBlock: React.FC<ExampleBlockProps> = ({
         </h4>
       )}
       
-      {/* Контейнер с примером */}
-      <div style={{
-        border: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))',
-        borderRadius: 'calc(var(--radius, 4px) + 2px)',
-        overflow: previewOverflow
-      }}>
+      {/* Карточка: снаружи overflow hidden — панель и скругления не вылезают; превью может быть visible для порталов */}
+      <div
+        style={{
+          border: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))',
+          borderRadius: 'calc(var(--radius, 4px) + 2px)',
+          overflow: 'hidden',
+          boxSizing: 'border-box',
+          width: '100%',
+          maxWidth: '100%',
+        }}
+      >
         {/* Превью компонента */}
-        <div style={{
-          paddingTop: '60px',
-          paddingBottom: '60px',
-          paddingLeft: '2rem',
-          paddingRight: '2rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'var(--background, white)'
-        }}>
-          <div style={{ maxWidth: '100%', minWidth: 0 }}>
+        <div
+          style={{
+            paddingTop: '60px',
+            paddingBottom: '60px',
+            paddingLeft: '2rem',
+            paddingRight: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'var(--background, white)',
+            overflow: previewOverflow,
+            boxSizing: 'border-box',
+            minWidth: 0,
+          }}
+        >
+          <div
+            className="turbo-ui-scope"
+            data-no-sbdocs-typography=""
+            style={{ maxWidth: '100%', minWidth: 0, width: '100%' }}
+          >
             {children}
           </div>
         </div>
-        
+
         {/* Панель управления кодом */}
-        <div style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          padding: '0.75rem 1rem',
-          background: 'rgba(0, 0, 0, 0.02)',
-          borderTop: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))'
-        }}>
+        <div
+          style={{
+            boxSizing: 'border-box',
+            width: '100%',
+            maxWidth: '100%',
+            minWidth: 0,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.75rem 1rem',
+            background: 'rgba(0, 0, 0, 0.02)',
+            borderTop: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))',
+          }}
+        >
           <button
             onClick={() => setIsCodeOpen(!isCodeOpen)}
             style={{
@@ -152,13 +171,16 @@ export const ExampleBlock: React.FC<ExampleBlockProps> = ({
         
         {/* Секция с кодом */}
         {isCodeOpen && (
-          <div style={{
-            borderTop: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))'
-          }}>
-            <div 
-              style={{ position: 'relative' }}
-              className="syntax-highlighter-wrapper"
-            >
+          <div
+            style={{
+              borderTop: '1px solid var(--border-tertiary, rgba(0, 0, 0, 0.10))',
+              boxSizing: 'border-box',
+              minWidth: 0,
+              maxWidth: '100%',
+              overflow: 'auto',
+            }}
+          >
+            <div style={{ position: 'relative', minWidth: 0 }} className="syntax-highlighter-wrapper">
               <SyntaxHighlighter
                 language="tsx"
                 style={customOneLight}

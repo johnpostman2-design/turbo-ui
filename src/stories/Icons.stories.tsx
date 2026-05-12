@@ -1,11 +1,17 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { docsPageFromModule } from '../storybook/docsPageLoader';
 import { Icon, iconNames } from '../components/icons';
 
 const meta: Meta<typeof Icon> = {
   title: 'Components/Icons',
   component: Icon,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: docsPageFromModule(() => import('../components/icons/Icons.docs'), 'IconsDocsPage'),
+    },
+  },
   argTypes: {
     name: {
       control: 'select',

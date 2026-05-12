@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { docsPageFromModule } from '../../storybook/docsPageLoader';
 import { Button } from '../button/Button';
 import { Radio } from './Radio';
 
@@ -67,8 +68,6 @@ function RadioGroupStoryDemo() {
   );
 }
 
-const RadioDocsPageLazy = React.lazy(() => import('./Radio.docs').then((m) => ({ default: m.RadioDocsPage })));
-
 const meta: Meta<typeof Radio> = {
   title: 'Components/Radio',
   component: Radio,
@@ -82,12 +81,7 @@ const meta: Meta<typeof Radio> = {
   ],
   parameters: {
     docs: {
-      page: () =>
-        React.createElement(
-          React.Suspense,
-          { fallback: React.createElement('div', { style: { padding: '2rem' } }, 'Загрузка…') },
-          React.createElement(RadioDocsPageLazy)
-        ),
+      page: docsPageFromModule(() => import('./Radio.docs'), 'RadioDocsPage'),
     },
   },
   argTypes: {

@@ -1,0 +1,118 @@
+/* ComboBox: только токены проекта */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 120px;
+  box-sizing: border-box;
+}
+
+.anchor {
+  width: 100%;
+  min-width: 0;
+}
+
+.reference {
+  width: 100%;
+}
+
+.field {
+  width: 100%;
+}
+
+/* Слот иконки слева в триггере: фиксированный размер по токенам listbox. */
+.startIconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--content-primary);
+}
+
+.startIconSlotSmall {
+  width: var(--listbox-small-icon-size);
+  height: var(--listbox-small-icon-size);
+}
+
+.startIconSlotMedium {
+  width: var(--listbox-medium-icon-size);
+  height: var(--listbox-medium-icon-size);
+}
+
+.startIconSlotLarge {
+  width: var(--listbox-large-icon-size);
+  height: var(--listbox-large-icon-size);
+}
+
+/* Правый блок триггера: clear (опционально) + chevron */
+.endSlot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--content-primary);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.chevron:disabled {
+  color: var(--content-disabled);
+  cursor: default;
+}
+
+.chevronSmall {
+  width: var(--listbox-small-icon-size);
+  height: var(--listbox-small-icon-size);
+}
+
+.chevronMedium {
+  width: var(--listbox-medium-icon-size);
+  height: var(--listbox-medium-icon-size);
+}
+
+.chevronLarge {
+  width: var(--listbox-large-icon-size);
+  height: var(--listbox-large-icon-size);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Подсветка совпадений: совпадающая часть — content-primary, остальное — content-secondary. */
+.mark {
+  background: transparent;
+  color: var(--content-primary);
+  font-weight: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+.dim {
+  color: var(--content-secondary);
+}
+
+.menu {
+  box-sizing: border-box;
+}
+
+.menuInner {
+  box-sizing: border-box;
+}
+
+.empty {
+  padding: var(--spacing-12);
+  font-family: var(--typescale-lable-medium-font), var(--family-brand), 'ONY ONE', sans-serif;
+  font-size: var(--typescale-lable-medium-size);
+  color: var(--content-tertiary);
+}

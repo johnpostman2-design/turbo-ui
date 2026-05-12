@@ -8,7 +8,7 @@ import { ChevronDown } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-const figmaUrl = 'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=602-3016';
+const figmaUrl = 'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=559-3794';
 const githubUrl = 'https://github.com/johnpostman2-design/turbo-ui/tree/main/src/ui/input';
 
 const iconForEnd = <Icon name="delete-cross-circle" size="100%" />;
@@ -67,15 +67,15 @@ const CollapsiblePropsList = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', margin: '0' }}>
             <thead>
               <tr style={{ background: '#ffffff', borderTop: 'none' }}>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Имя</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Описание</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Имя</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Описание</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
               </tr>
             </thead>
             <tbody>
               {props.map((prop, index) => (
                 <tr key={prop.name} style={{ background: '#ffffff', borderBottom: index < props.length - 1 ? '1px solid #b0b0b0' : 'none' }}>
-                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'bold', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
+                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'var(--weight-regular)', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
                   <td style={{ padding: '1rem', verticalAlign: 'top', borderLeft: 'none', borderRight: 'none' }}>
                     <p style={{ marginBottom: '0.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base)', lineHeight: '1.5', color: 'var(--foreground)' }}>{prop.description}</p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
@@ -128,7 +128,7 @@ export function InputDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Однострочный ввод: рамка, placeholder, три высоты. Иконка слева, справа — IconButton. Нужны подпись над полем или плавающий label — бери InputField или FloatingInputField.
+            Однострочное поле ввода.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -221,9 +221,9 @@ import { Input } from 'src/ui/input';`}
           <div style={{ marginBottom: '3rem' }}>
             <h2 id="size-variants" style={{ marginBottom: '0.25rem', textDecoration: 'none', borderBottom: 'none', fontFamily: 'var(--family-brand)', color: '#000000' }}>Размеры</h2>
             <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
-              <li style={{ marginBottom: '0.5rem' }}><strong>small</strong> — высота 32px</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>medium</strong> — высота 40px (по умолчанию)</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>large</strong> — высота 48px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>small</code> — компактное поле, высота 32px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> — базовый размер по умолчанию, высота 40px</li>
+              <li style={{ marginBottom: '0.5rem' }}><code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>large</code> — крупное поле, высота 48px</li>
             </ul>
             <ExampleBlock code={`<Input size="small" placeholder="Small" />
 <Input size="medium" placeholder="Medium" />
@@ -242,9 +242,9 @@ import { Input } from 'src/ui/input';`}
               <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>type</code> — как в HTML: поведение и подсказки браузера на стороне клиента.
             </p>
             <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
-              <li style={{ marginBottom: '0.5rem' }}><strong>text</strong>, <strong>email</strong>, <strong>password</strong> — строки</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>number</strong>, <strong>time</strong>, <strong>date</strong> — спец. ввод</li>
-              <li style={{ marginBottom: '0.5rem' }}><strong>search</strong> — поиск; очистку удобно вешать на <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code></li>
+              <li style={{ marginBottom: '0.5rem' }}>text, email, password — строки</li>
+              <li style={{ marginBottom: '0.5rem' }}>number, time, date — спец. ввод</li>
+              <li style={{ marginBottom: '0.5rem' }}>search — поиск; очистку удобно вешать на <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code></li>
             </ul>
             <ExampleBlock code={`<Input type="search" placeholder="Поиск..." endAdornment={...} />`}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '320px', maxWidth: '100%', flexShrink: 0, alignItems: 'stretch', boxSizing: 'border-box' }}>

@@ -17,6 +17,10 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   error?: boolean;
   /** Нативный type input */
   type?: InputType;
+  /** Поле без обводки */
+  borderless?: boolean;
+  /** Многострочный режим: рендерится `<textarea>` с auto-grow по содержимому. */
+  multiline?: boolean;
 }
 
 const sizeToClass: Record<NonNullable<InputProps['size']>, string> = {
@@ -40,20 +44,46 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     size = 'medium',
     disabled = false,
     error = false,
+    borderless = false,
+    multiline = false,
     type = 'text',
     className,
     onFocus,
     onBlur,
+    onInput,
     ...rest
   },
   ref
 ) {
+  const innerRef = React.useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
+
   const mergedRef = React.useCallback(
-    (el: HTMLInputElement | null) => {
-      setRef(ref, el);
+    (el: HTMLInputElement | HTMLTextAreaElement | null) => {
+      innerRef.current = el;
+      setRef(ref as React.Ref<HTMLInputElement | HTMLTextAreaElement> | undefined, el);
     },
     [ref]
   );
+
+  const adjustHeight = React.useCallback(() => {
+    if (!multiline) return;
+    const el = innerRef.current as HTMLTextAreaElement | null;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [multiline]);
+
+  const value = (rest as { value?: unknown }).value;
+  const defaultValue = (rest as { defaultValue?: unknown }).defaultValue;
+
+  React.useLayoutEffect(() => {
+    if (multiline) adjustHeight();
+  }, [multiline, adjustHeight, value, defaultValue]);
+
+  const handleInput: React.FormEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+    if (multiline) adjustHeight();
+    (onInput as React.FormEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined)?.(e);
+  };
 
   return (
     <div className={clsx(styles.root, className)}>
@@ -61,21 +91,38 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
         className={clsx(
           styles.fieldWrap,
           sizeToClass[size],
+          multiline && styles.multiline,
+          borderless && !disabled && styles.fieldBorderless,
           error && styles.fieldError,
           disabled && styles.fieldDisabled
         )}
       >
         {leftIcon != null && <span className={styles.leftIcon}>{leftIcon}</span>}
-        <input
-          {...rest}
-          ref={mergedRef}
-          type={type}
-          disabled={disabled}
-          aria-invalid={error ? true : undefined}
-          className={styles.input}
-          onFocus={onFocus}
-          onBlur={onBlur}
-        />
+        {multiline ? (
+          <textarea
+            {...(rest as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            ref={mergedRef as React.RefCallback<HTMLTextAreaElement>}
+            disabled={disabled}
+            aria-invalid={error ? true : undefined}
+            className={clsx(styles.input, styles.multilineInput)}
+            onFocus={onFocus as unknown as React.FocusEventHandler<HTMLTextAreaElement> | undefined}
+            onBlur={onBlur as unknown as React.FocusEventHandler<HTMLTextAreaElement> | undefined}
+            onInput={handleInput as React.FormEventHandler<HTMLTextAreaElement>}
+            rows={1}
+          />
+        ) : (
+          <input
+            {...rest}
+            ref={mergedRef as React.RefCallback<HTMLInputElement>}
+            type={type}
+            disabled={disabled}
+            aria-invalid={error ? true : undefined}
+            className={styles.input}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onInput={handleInput as React.FormEventHandler<HTMLInputElement>}
+          />
+        )}
         {endAdornment != null && (
           <span className={styles.endAdornment}>
             {React.isValidElement(endAdornment) && typeof endAdornment.type !== 'string'

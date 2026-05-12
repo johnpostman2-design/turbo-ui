@@ -23,7 +23,7 @@ const CollapsiblePropsList = () => {
       name: 'label',
       type: 'string',
       description:
-        'Обязателен: непустая строка после trim(). Без него компонент не рендерится. Пустое поле: как placeholder; фокус/ввод: лейбл на границе (Caption/medium).',
+        'Обязателен: непустая строка после trim(). Без него компонент не рендерится. Пустое поле: как placeholder; при фокусе и вводе подпись на границе поля (стиль caption по макету).',
       default: '—',
     },
     { name: 'helperText', type: 'string', description: 'Строка под полем; скрывается, если задан errorText.', default: '—' },
@@ -72,15 +72,15 @@ const CollapsiblePropsList = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', margin: '0' }}>
             <thead>
               <tr style={{ background: '#ffffff', borderTop: 'none' }}>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Имя</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', border: 'none' }}>Описание</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'bold', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Имя</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', border: 'none' }}>Описание</th>
+                <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontFamily: 'var(--family-brand)', fontSize: '0.875rem', fontWeight: 'var(--weight-regular)', color: '#999', width: '22.5%', border: 'none' }}>По умолчанию</th>
               </tr>
             </thead>
             <tbody>
               {props.map((prop, index) => (
                 <tr key={prop.name} style={{ background: '#ffffff', borderBottom: index < props.length - 1 ? '1px solid #b0b0b0' : 'none' }}>
-                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'bold', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
+                  <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem', color: 'var(--foreground)', verticalAlign: 'top', fontWeight: 'var(--weight-regular)', borderLeft: 'none', borderRight: 'none' }}>{prop.name}</td>
                   <td style={{ padding: '1rem', verticalAlign: 'top', borderLeft: 'none', borderRight: 'none' }}>
                     <p style={{ marginBottom: '0.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base)', lineHeight: '1.5', color: 'var(--foreground)' }}>{prop.description}</p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
@@ -143,7 +143,7 @@ export function FloatingInputFieldDocsPage() {
           </div>
 
           <p style={{ marginBottom: '2rem', fontFamily: 'var(--family-brand, "ONY ONE", sans-serif)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-            Поле ввода с названием и хелпером внутри. Собрано на основе <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>.
+            Однострочное поле ввода с плавающей подписью внутри.
           </p>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -243,13 +243,13 @@ import { FloatingInputField } from 'src/ui/floating-input-field';`}
             </h2>
             <ul style={{ marginBottom: '1.5rem', marginTop: 0, paddingLeft: '1.5rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000', listStyleType: 'disc' }}>
               <li style={{ marginBottom: '0.5rem' }}>
-                <strong>small</strong> — высота поля 32px
+                <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>small</code> — компактное поле, высота 32px
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <strong>medium</strong> — 40px (по умолчанию)
+                <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> — базовый размер по умолчанию, высота 40px
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <strong>large</strong> — 48px
+                <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>large</code> — крупное поле, высота 48px
               </li>
             </ul>
             <ExampleBlock
@@ -288,7 +288,7 @@ import { FloatingInputField } from 'src/ui/floating-input-field';`}
               Иконки
             </h2>
             <p style={{ marginBottom: '1rem', fontFamily: 'var(--family-brand)', fontSize: 'var(--text-base, 15px)', lineHeight: '1.5', color: '#000000' }}>
-              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>leftIcon</code> и <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code> — те же, что у <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>. Размер иконки слева по макету: 16 / 24 / 32 px для <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> small / medium / large.
+              <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>leftIcon</code> и <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>endAdornment</code> — те же, что у <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>Input</code>. Размер иконки слева по макету: 16 / 24 / 32 px в зависимости от пропа <code style={{ background: '#f0f0f0', padding: '0.125rem 0.25rem', borderRadius: '4px' }}>size</code> (см. тип и пример ниже).
             </p>
             <ExampleBlock
               code={`<FloatingInputField label="Поиск" helperText="Подсказка" leftIcon={leftIcon} endAdornment={endAdornment} />`}

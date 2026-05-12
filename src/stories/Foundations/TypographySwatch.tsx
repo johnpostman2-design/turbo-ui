@@ -40,7 +40,7 @@ const StyleBlock: React.FC<StyleBlockProps> = ({ styleKey, displayName, sampleTe
   return (
     <div
       style={{
-        backgroundColor: getVar('surface-secondary-main'),
+        backgroundColor: getVar('surface-tertiary-disabled'),
         borderRadius: getVar('round-l'),
         padding: getVar('spacing-24'),
         display: 'flex',

@@ -1,0 +1,112 @@
+/* Tabs: только токены проекта; линия — ::after (research R1). */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-20);
+  box-sizing: border-box;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0;
+  box-sizing: border-box;
+}
+
+.tab {
+  position: relative;
+  margin: 0;
+  padding: var(--spacing-12);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--content-primary);
+  text-align: center;
+}
+
+.tab:disabled {
+  cursor: not-allowed;
+  color: var(--content-disabled);
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--border-tertiary);
+  transition:
+    height 0.15s ease,
+    background-color 0.15s ease;
+  pointer-events: none;
+}
+
+.tab:not(:disabled):not(.tabSelected):hover::after {
+  background-color: var(--border-secondary);
+}
+
+.tab.tabSelected:not(:disabled)::after {
+  height: 2px;
+  background-color: var(--border-primary);
+}
+
+.tab:disabled::after {
+  height: 1px;
+  background-color: var(--border-disabled);
+}
+
+.tab:focus {
+  outline: none;
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--content-primary);
+  outline-offset: 2px;
+}
+
+.tabLabel {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sizeSmall .tabLabel {
+  font-family: var(--typescale-lable-small-font), var(--family-brand), sans-serif;
+  font-weight: var(--typescale-lable-small-weight);
+  font-size: var(--typescale-lable-small-size);
+  line-height: var(--typescale-lable-small-height);
+  letter-spacing: var(--typescale-lable-small-tracking);
+}
+
+.sizeMedium .tabLabel {
+  font-family: var(--typescale-lable-medium-font), var(--family-brand), sans-serif;
+  font-weight: var(--typescale-lable-medium-weight);
+  font-size: var(--typescale-lable-medium-size);
+  line-height: var(--typescale-lable-medium-height);
+  letter-spacing: var(--typescale-lable-medium-tracking);
+}
+
+.sizeLarge .tabLabel {
+  font-family: var(--typescale-lable-large-font), var(--family-brand), sans-serif;
+  font-weight: var(--typescale-lable-large-weight);
+  font-size: var(--typescale-lable-large-size);
+  line-height: var(--typescale-lable-large-height);
+  letter-spacing: var(--typescale-lable-large-tracking);
+}
+
+.panel {
+  box-sizing: border-box;
+}
+
+.panel[hidden] {
+  display: none !important;
+}

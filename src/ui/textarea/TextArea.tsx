@@ -2,17 +2,17 @@ import React from 'react';
 import { clsx } from 'clsx';
 import styles from './textarea.module.css';
 
-export type TextAreaSize = 'small' | 'medium';
+export type TextAreaSize = 'small' | 'medium' | 'large';
 
 export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
-  /** Размер поля (small / medium) */
+  /** Размер поля */
   size?: TextAreaSize;
+  /** Иконка слева внутри поля */
+  leftIcon?: React.ReactNode;
+  /** Кнопка или слот справа (например IconButton очистки); tabIndex=-1 для фокус-кругозора внутри поля */
+  endAdornment?: React.ReactNode;
   /** Визуал ошибки и aria-invalid */
   error?: boolean;
-  /** Текст ошибки под полем; приоритет над helperText */
-  errorText?: string;
-  /** Подсказка под полем; при непустом errorText не показывается */
-  helperText?: string;
   /**
    * Число видимых строк; при большем тексте — вертикальный скролл (`overflow: auto`).
    * Без `rows` минимальная высота задаётся токенами `size`.
@@ -25,11 +25,14 @@ export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
   width?: React.CSSProperties['width'];
   /** Максимальная ширина блока с рамкой (корень). Перекрывает `style.maxWidth` при одновременной передаче. */
   maxWidth?: React.CSSProperties['maxWidth'];
+  /** Поле без полной обводки (нижняя линия по токенам combobox) */
+  borderless?: boolean;
 }
 
 const sizeToClass: Record<NonNullable<TextAreaProps['size']>, string> = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
+  large: styles.sizeLarge,
 };
 
 /** Часть style на корне — рамка и поле одной ширины, ручка resize в углу. Остальное — на нативном textarea. */
@@ -73,11 +76,11 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(fun
     size = 'medium',
     disabled = false,
     error: errorProp = false,
-    errorText,
-    helperText,
+    borderless = false,
+    leftIcon,
+    endAdornment,
     className,
     id: idProp,
-    'aria-describedby': ariaDescribedByUser,
     rows,
     width: widthProp,
     maxWidth: maxWidthProp,
@@ -88,15 +91,8 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(fun
 ) {
   const reactId = React.useId();
   const inputId = idProp ?? `turbo-textarea-${reactId.replace(/:/g, '')}`;
-  const helperId = `${inputId}-helper`;
-  const errorId = `${inputId}-error`;
 
-  const hasErrorText = Boolean(errorText);
-  const showError = Boolean(errorProp || hasErrorText);
-  const activeDescId = hasErrorText ? errorId : helperText ? helperId : undefined;
-
-  const ariaDescribedBy =
-    [activeDescId, ariaDescribedByUser].filter(Boolean).join(' ') || undefined;
+  const showError = Boolean(errorProp);
 
   const { root, textarea } = splitStyle(style);
 
@@ -116,10 +112,12 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(fun
           styles.fieldWrap,
           sizeToClass[size],
           heightFromRows && styles.heightFromRows,
+          borderless && !disabled && styles.fieldBorderless,
           showError && styles.fieldError,
           disabled && styles.fieldDisabled
         )}
       >
+        {leftIcon != null && <span className={styles.leftIcon}>{leftIcon}</span>}
         <textarea
           {...rest}
           ref={ref}
@@ -127,40 +125,18 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(fun
           rows={heightFromRows ? rows : undefined}
           disabled={disabled}
           aria-invalid={showError ? true : undefined}
-          aria-describedby={ariaDescribedBy}
           className={styles.textarea}
           style={textarea}
         />
-      </div>
-      <div className={styles.helperSlot}>
-        {hasErrorText ? (
-          <p
-            id={errorId}
-            className={styles.helperError}
-            role="alert"
-            data-turbo-textarea-helper=""
-            data-helper-tone={disabled ? 'disabled' : 'error'}
-          >
-            {errorText}
-          </p>
-        ) : helperText ? (
-          <p
-            id={helperId}
-            className={styles.helper}
-            data-turbo-textarea-helper=""
-            data-helper-tone={disabled ? 'disabled' : 'tertiary'}
-          >
-            {helperText}
-          </p>
-        ) : (
-          <p
-            className={clsx(styles.helper, styles.helperInvisible)}
-            aria-hidden
-            data-turbo-textarea-helper=""
-            data-helper-tone={disabled ? 'disabled' : 'tertiary'}
-          >
-            {'\u00a0'}
-          </p>
+        {endAdornment != null && (
+          <span className={styles.endAdornment}>
+            {React.isValidElement(endAdornment) && typeof endAdornment.type !== 'string'
+              ? React.cloneElement(endAdornment as React.ReactElement<{ tabIndex?: number; disabled?: boolean }>, {
+                  tabIndex: -1,
+                  disabled: disabled ? true : (endAdornment as React.ReactElement<{ disabled?: boolean }>).props?.disabled,
+                })
+              : endAdornment}
+          </span>
         )}
       </div>
     </div>
