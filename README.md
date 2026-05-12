@@ -8,6 +8,46 @@
 npm i turbo-ui
 ```
 
+## Быстрый старт
+
+1. Подключите стили один раз (см. раздел [«Подключение»](#подключение) ниже, п. 1 про стили).
+2. Оберните приложение (или кусок экрана) в `TurboUIProvider`, если нужны переопределения токенов.
+3. Импортируйте компоненты **по подпутям** — так дружелюбнее к tree-shaking.
+
+Полный перечень пропов, примеры и состояния — в **Storybook**: `npm run storybook` (локально) или собранная статика `npm run build-storybook`.
+
+### Подпути экспорта (`package.json` → `exports`)
+
+| Подпуть | Компоненты / назначение |
+|---------|-------------------------|
+| `turbo-ui` | Корневой реэкспорт всех публичных компонентов и типов |
+| `turbo-ui/provider` | `TurboUIProvider`, типы темы |
+| `turbo-ui/styles/theme` | Полная тема (CSS) |
+| `turbo-ui/styles/theme-vars` | Только переменные из токенов |
+| `turbo-ui/styles/fonts` | `@font-face` для ONY ONE (opt-in) |
+| `turbo-ui/icons` | `Icon`, `iconNames`, `getIconContent` |
+| `turbo-ui/button` | `Button` |
+| `turbo-ui/icon-button` | `IconButton` |
+| `turbo-ui/link` | `Link` |
+| `turbo-ui/input` | `Input` |
+| `turbo-ui/input-field` | `InputField` |
+| `turbo-ui/floating-input-field` | `FloatingInputField` |
+| `turbo-ui/textarea` | `TextArea` |
+| `turbo-ui/textarea-field` | `TextAreaField` |
+| `turbo-ui/checkbox` | `Checkbox` |
+| `turbo-ui/radio` | `Radio` |
+| `turbo-ui/toggle` | `Toggle` |
+| `turbo-ui/tabs` | `Tabs`, `TabsList`, `Tab`, `TabsPanel` |
+| `turbo-ui/listbox` | `Listbox` |
+| `turbo-ui/select` | `Select` |
+| `turbo-ui/select-field` | `SelectField` |
+| `turbo-ui/combobox` | `ComboBox` |
+| `turbo-ui/combobox-field` | `ComboBoxField` |
+
+## Версии и миграции
+
+Версия пакета следует [SemVer](https://semver.org/). Пока **major = 0**, допускаются обратно несовместимые изменения в minor — смотрите [CHANGELOG.md](CHANGELOG.md) перед обновлением.
+
 ## Подключение
 
 ### 1. Стили (один раз в приложении, например в `main.tsx`)
@@ -54,7 +94,17 @@ function App() {
 
 Импортируйте по подпутям для tree-shaking: `turbo-ui/button`, `turbo-ui/provider`.
 
-### 3. Button: варианты и deprecated prop
+### 3. Иконки
+
+```jsx
+import { Icon, iconNames } from 'turbo-ui/icons';
+
+<Icon name="plus" size={24} color="var(--content-primary)" />
+```
+
+Имя иконки совпадает с именем файла в наборе SVG библиотеки (kebab-case). Список имён — `iconNames` или Storybook → **Components → Icons → AllFromRegistry**.
+
+### 4. Button: варианты и deprecated prop
 
 Визуальный вариант задаётся пропом **`variant`**:
 

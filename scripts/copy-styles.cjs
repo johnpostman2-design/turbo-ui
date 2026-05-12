@@ -194,3 +194,12 @@ if (fs.existsSync(path.join(dist, 'ui', 'textarea-field', 'index.d.ts'))) {
   );
   console.log('Written dist/ui/textarea-field.d.ts');
 }
+const iconsRootDts = path.join(dist, 'icons.d.ts');
+const iconsNestedIndex = path.join(dist, 'components', 'icons', 'index.d.ts');
+if (fs.existsSync(iconsNestedIndex)) {
+  fs.writeFileSync(
+    iconsRootDts,
+    "export { Icon, iconNames, getIconContent } from './components/icons/index';\nexport type { IconProps, IconState } from './components/icons/Icon';\nexport type { IconContent } from './components/icons/iconRegistry';\n"
+  );
+  console.log('Written dist/icons.d.ts');
+}

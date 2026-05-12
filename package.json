@@ -91,6 +91,10 @@
       "types": "./dist/ui/textarea-field.d.ts",
       "import": "./dist/ui/textarea-field.js"
     },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.js"
+    },
     "./provider": {
       "types": "./dist/provider.d.ts",
       "import": "./dist/provider.js"

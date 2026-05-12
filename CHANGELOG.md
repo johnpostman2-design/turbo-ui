@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Публичный подпуть **`turbo-ui/icons`**: `Icon`, `iconNames`, `getIconContent` в npm-сборке (рядом с остальными entry).
+- Storybook **Foundations → Tokens**: таблица CSS-переменных из актуального `theme-vars.css` и краткий текст про `tokens.json` / `gen:theme` / `TurboUIProvider`.
+- README: быстрый старт, таблица всех `exports`, раздел про иконки, блок **«Версии и миграции»** со ссылкой на CHANGELOG.
+- Юнит-тесты: **`IconButton`**, **`TurboUIProvider`** (без обёртки / тема / `scopeClassName` / комбинация).
 - `Tabs` — горизонтальные вкладки для навигации и группировки контента. Составной API: `Tabs`, `TabsList`, `Tab`, `TabsPanel`. Три размера (`small` / `medium` / `large`), визуальные состояния по макету Figma (946:19): default / hover / active / disabled через токены `--border-*` и `--typescale-lable-*`. Controlled (`value` + `onValueChange`) и uncontrolled (`defaultValue`). Клавиатура: стрелки и Home/End внутри `tablist`. Подпуть экспорта: `turbo-ui/tabs`.
 - `Toggle` — переключатель «вкл/выкл» (switch) на базе нативного `<input type="checkbox" role="switch">` внутри `<label>`. Три размера (`small` 24×16, `medium` 40×24, `large` 44×28), состояние `disabled`, опциональные подписи `startText` / `endText`. Без отдельных hover-стилей; фокус-ринг только при клавиатурной навигации (`:focus-visible`). Анимация перехода — CSS `transition` `0.15s ease` (knob `translateX`, цвет трека). Цвета — только токены: трек off → `--content-tertiary`, on → `--content-primary`, knob → `--surface-primary-main`, disabled → `--content-disabled`. Поддержка controlled (`checked` + `onChange`) и uncontrolled (`defaultChecked`); `ref` ведёт на нативный `<input>`. Подпуть экспорта: `turbo-ui/toggle`.
 - `Link` — typography-компонент: inline ссылка/inline-действие с тремя цветовыми вариантами (`default` → `--content-brand`, `secondary` → `--content-primary`, `danger` → `--content-error`), состояниями `hover`/`active`/`focus-visible`/`disabled`/`loading`, опциональными `startIcon`/`endIcon`. Корневой тег — `<a>` при наличии `href`, `<button type="button">` без него. Автоматический `rel="noopener noreferrer"` при любом внешнем URL (`http(s)://…`, `//host`); атрибут `target` компонент не модифицирует. Проп `loading` блокирует клик, ставит `aria-busy="true"` и заменяет `startIcon`/`endIcon` на вращающийся спиннер. Шрифт и размер наследуются из контекста (`font: inherit`). Подчёркивание — фиксированная толщина `1px`, `text-underline-offset: 2px`. Только токены проекта и шрифт ONY One.
@@ -19,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Документация **Icons** в Storybook: примеры импорта через `turbo-ui/icons`; ссылка на сторис **AllFromRegistry** строится от URL менеджера Storybook (корректнее при нестандартном `base`).
 - `ComboBox` теперь корректно прокидывает `aria-describedby` пользователя на сам `<input>`/`<textarea>` (раньше уходило на корень).
 
 ### Removed (BREAKING)

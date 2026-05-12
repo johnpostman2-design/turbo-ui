@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon, iconNames } from './index';
 import { Button } from '../../ui/button/Button';
 import { ExampleBlock } from '../ExampleBlock';
@@ -10,8 +10,6 @@ const figmaUrl =
   'https://www.figma.com/design/pj5aiXE1X40rEoVbtyVQ2F/Turbo-UI?node-id=558-1439';
 const githubUrl =
   'https://github.com/johnpostman2-design/turbo-ui/tree/main/src/components/icons';
-/** Сторис со всеми иконками: тот же хост, путь от корня Storybook. */
-const storybookAllFromRegistryHref = '/?path=/story/components-icons--all-from-registry';
 
 const codeBadge = {
   background: '#f0f0f0',
@@ -211,6 +209,22 @@ const CollapsiblePropsList = () => {
 };
 
 export function IconsDocsPage() {
+  const [allFromRegistryHref, setAllFromRegistryHref] = useState(
+    '/?path=/story/components-icons--all-from-registry'
+  );
+
+  useEffect(() => {
+    try {
+      const top = window.top ?? window;
+      const url = new URL(top.location.href);
+      url.searchParams.set('path', '/story/components-icons--all-from-registry');
+      url.hash = '';
+      setAllFromRegistryHref(url.toString());
+    } catch {
+      /* cross-origin top — оставляем относительный fallback */
+    }
+  }, []);
+
   const handleMenuClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     id: string
@@ -326,8 +340,9 @@ export function IconsDocsPage() {
               Подключение
             </h2>
             <p style={pSection}>
-              <code style={codeBadge}>Icon</code> в собранный npm-пакет не входит: берите импорт из{' '}
-              <code style={codeBadge}>src/components/icons</code> внутри репозитория. Путь в импорте поправьте под свой файл.
+              В приложении из npm:{' '}
+              <code style={codeBadge}>{`import { Icon, iconNames } from 'turbo-ui/icons'`}</code>. Внутри
+              монорепозитория путь к модулю будет другим. Путь в импорте поправьте под свой файл.
             </p>
             <div
               style={{
@@ -353,7 +368,7 @@ export function IconsDocsPage() {
                 PreTag="div"
                 useInlineStyles={true}
               >
-                {`import { Icon, iconNames } from '../components/icons';
+                {`import { Icon, iconNames } from 'turbo-ui/icons';
 
 <Icon name="plus" size={24} color="var(--content-primary)" />`}
               </SyntaxHighlighter>
@@ -420,7 +435,7 @@ export function IconsDocsPage() {
               В реестре сейчас <code style={codeBadge}>{iconNames.length}</code> имён. Все плиткой — во вкладке{' '}
               <a
                 className="icons-docs-inline-link"
-                href={storybookAllFromRegistryHref}
+                href={allFromRegistryHref}
                 target="_top"
                 rel="noopener noreferrer"
               >
@@ -452,7 +467,7 @@ export function IconsDocsPage() {
                 PreTag="div"
                 useInlineStyles={true}
               >
-                {`import { iconNames } from '../components/icons';
+                {`import { iconNames } from 'turbo-ui/icons';
 // ${iconNames.length} иконок: ${iconNames.slice(0, 5).join(', ')}…`}
               </SyntaxHighlighter>
             </div>

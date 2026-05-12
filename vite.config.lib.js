@@ -13,7 +13,7 @@ export default defineConfig({
     dts({
       tsconfigPath: path.resolve(dirname, 'tsconfig.build.json'),
       outDir: 'dist',
-      include: ['src/index.ts', 'src/ui/button/**/*.ts', 'src/ui/button/**/*.tsx', 'src/ui/icon-button/**/*.ts', 'src/ui/icon-button/**/*.tsx', 'src/ui/link/**/*.ts', 'src/ui/link/**/*.tsx', 'src/ui/input/**/*.ts', 'src/ui/input/**/*.tsx', 'src/ui/input-field/**/*.ts', 'src/ui/input-field/**/*.tsx', 'src/ui/floating-input-field/**/*.ts', 'src/ui/floating-input-field/**/*.tsx', 'src/ui/textarea/**/*.ts', 'src/ui/textarea/**/*.tsx', 'src/ui/textarea-field/**/*.ts', 'src/ui/textarea-field/**/*.tsx', 'src/ui/checkbox/**/*.ts', 'src/ui/checkbox/**/*.tsx', 'src/ui/radio/**/*.ts', 'src/ui/radio/**/*.tsx', 'src/ui/toggle/**/*.ts', 'src/ui/toggle/**/*.tsx', 'src/ui/tabs/**/*.ts', 'src/ui/tabs/**/*.tsx', 'src/ui/listbox/**/*.ts', 'src/ui/listbox/**/*.tsx', 'src/ui/select/**/*.ts', 'src/ui/select/**/*.tsx', 'src/ui/select-field/**/*.ts', 'src/ui/select-field/**/*.tsx', 'src/ui/combobox/**/*.ts', 'src/ui/combobox/**/*.tsx', 'src/ui/combobox-field/**/*.ts', 'src/ui/combobox-field/**/*.tsx', 'src/provider/**/*.tsx', 'src/tokens/**/*.ts'],
+      include: ['src/index.ts', 'src/components/icons/**/*.ts', 'src/components/icons/**/*.tsx', 'src/components/icons/**/*.css', 'src/ui/button/**/*.ts', 'src/ui/button/**/*.tsx', 'src/ui/icon-button/**/*.ts', 'src/ui/icon-button/**/*.tsx', 'src/ui/link/**/*.ts', 'src/ui/link/**/*.tsx', 'src/ui/input/**/*.ts', 'src/ui/input/**/*.tsx', 'src/ui/input-field/**/*.ts', 'src/ui/input-field/**/*.tsx', 'src/ui/floating-input-field/**/*.ts', 'src/ui/floating-input-field/**/*.tsx', 'src/ui/textarea/**/*.ts', 'src/ui/textarea/**/*.tsx', 'src/ui/textarea-field/**/*.ts', 'src/ui/textarea-field/**/*.tsx', 'src/ui/checkbox/**/*.ts', 'src/ui/checkbox/**/*.tsx', 'src/ui/radio/**/*.ts', 'src/ui/radio/**/*.tsx', 'src/ui/toggle/**/*.ts', 'src/ui/toggle/**/*.tsx', 'src/ui/tabs/**/*.ts', 'src/ui/tabs/**/*.tsx', 'src/ui/listbox/**/*.ts', 'src/ui/listbox/**/*.tsx', 'src/ui/select/**/*.ts', 'src/ui/select/**/*.tsx', 'src/ui/select-field/**/*.ts', 'src/ui/select-field/**/*.tsx', 'src/ui/combobox/**/*.ts', 'src/ui/combobox/**/*.tsx', 'src/ui/combobox-field/**/*.ts', 'src/ui/combobox-field/**/*.tsx', 'src/provider/**/*.tsx', 'src/tokens/**/*.ts'],
       exclude: ['**/*.test.*', '**/*.stories.*', '**/*.docs.tsx'],
     }),
   ],
@@ -21,6 +21,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(dirname, 'src/index.ts'),
+        icons: path.resolve(dirname, 'src/components/icons/index.ts'),
         'ui/button': path.resolve(dirname, 'src/ui/button/index.ts'),
         'ui/icon-button': path.resolve(dirname, 'src/ui/icon-button/index.ts'),
         'ui/link': path.resolve(dirname, 'src/ui/link/index.ts'),

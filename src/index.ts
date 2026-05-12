@@ -1,6 +1,6 @@
 /**
  * Turbo UI — точка входа библиотеки.
- * Для tree-shaking предпочтительно импортировать по подпути: turbo-ui/button, turbo-ui/provider.
+ * Для tree-shaking предпочтительно импортировать по подпути: turbo-ui/button, turbo-ui/provider, turbo-ui/icons.
  */
 export { Button } from './ui/button';
 export type { ButtonProps } from './ui/button';
